@@ -150,22 +150,15 @@
           <label class="form-label small fw-semibold text-dark">Username / Email / Mobile</label>
           <div class="input-group">
             <span class="input-group-text bg-light text-muted"><i class="bi bi-person-fill"></i></span>
-            <input type="text" class="form-control" id="loginUsername" placeholder="e.g. admin or 7044416516" required autofocus />
+            <input type="text" class="form-control" id="loginUsername" placeholder="Enter your login ID" required autofocus />
           </div>
         </div>
-        <div class="mb-3">
+        <div class="mb-4">
           <label class="form-label small fw-semibold text-dark">Password</label>
           <div class="input-group">
             <span class="input-group-text bg-light text-muted"><i class="bi bi-key-fill"></i></span>
             <input type="password" class="form-control" id="loginPassword" placeholder="••••••••" required />
           </div>
-        </div>
-
-        <div class="p-2 mb-3 bg-light rounded border text-muted" style="font-size: 0.76rem;">
-          <div class="fw-bold text-dark mb-1">Quick Login:</div>
-          <div>• <strong>Super Admin:</strong> <code>admin</code> (or <code>7044416516</code>) | pass: <code>123</code></div>
-          <div>• <strong>Operator:</strong> <code>operator</code> | pass: <code>123</code></div>
-          <div>• <strong>User:</strong> <code>user</code> | pass: <code>123</code></div>
         </div>
 
         <button type="submit" class="btn btn-accent w-100 py-2 fw-semibold">
@@ -611,13 +604,13 @@
       );
 
       if (!account) {
-        toastr.error("ভুল ইউজার আইডি অথবা পাসওয়ার্ড!", "Access Denied");
+        toastr.error("Invalid Username/ID or Password!", "Access Denied");
         return;
       }
 
       currentUser = account;
       sessionStorage.setItem('auth_user_session', JSON.stringify(currentUser));
-      toastr.success(`স্বাগতম, ${currentUser.name}! (${currentUser.role.replace('_', ' ')})`, "Login Successful");
+      toastr.success(`Welcome, ${currentUser.name}! (${currentUser.role.replace('_', ' ')})`, "Login Successful");
       initializeSession();
     });
 
@@ -688,7 +681,7 @@
 
       const users = getUsersDB();
       if (users.some(u => u.id.toLowerCase() === identifier.toLowerCase())) {
-        toastr.warning(`এই আইডিটি ইতিমধ্যে বিদ্যমান আছে!`);
+        toastr.warning(`This Login ID already exists!`);
         return;
       }
 
