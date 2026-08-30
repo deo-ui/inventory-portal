@@ -1,1252 +1,2160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Material Inward & Executive Suite (Cloud App)</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ECCEL — Genuine Used Auto Parts</title>
+
+<!-- Fonts & Libraries -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+  :root {
+    --ink: #070d12;
+    --charcoal: #0c151c;
+    --slate-card: #111d26;
+    --slate-border: rgba(255, 255, 255, 0.08);
+    --gold-1: #00e5a3;
+    --gold-2: #00b884;
+    --gold-gradient: linear-gradient(135deg, #00f2ad 0%, #00a877 100%);
+    --gold-glow: 0 0 24px rgba(0, 229, 163, 0.25);
+    --primary-blue: #2563eb;
+    --primary-blue-hover: #1d4ed8;
+    
+    --paper: #f8fafc;
+    --paper-dim: #f1f5f9;
+    --line: #e2e8f0;
+    
+    --card-shadow: 0 12px 30px -8px rgba(7, 13, 18, 0.07), 0 4px 12px -4px rgba(7, 13, 18, 0.04);
+    --hover-shadow: 0 20px 40px -10px rgba(7, 13, 18, 0.14);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6, .display-font {
+    font-family: 'Space Grotesk', sans-serif;
+    letter-spacing: -0.02em;
+  }
+
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  a { text-decoration: none; }
+
+  @keyframes fadeInUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes scaleIn { 0% { opacity: 0; transform: scale(0.96) translateY(6px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
+  @keyframes phaseSlideIn { 0% { opacity: 0; transform: translateY(16px); } 100% { opacity: 1; transform: translateY(0); } }
+  @keyframes pulseGlow { 0%, 100% { box-shadow: 0 0 15px rgba(0, 229, 163, 0.2); } 50% { box-shadow: 0 0 28px rgba(0, 229, 163, 0.5); } }
+
+  .tab-pane.active { animation: phaseSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+  .tab-pane.active .stat-card, .tab-pane.active .card { animation: fadeInUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) both; }
+  .tab-pane.active .row > div:nth-child(1) .card { animation-delay: 0.05s; }
+  .tab-pane.active .row > div:nth-child(2) .card { animation-delay: 0.10s; }
+  .tab-pane.active .row > div:nth-child(3) .card { animation-delay: 0.15s; }
+  .tab-pane.active .row > div:nth-child(4) .card { animation-delay: 0.20s; }
+
+  .site-nav {
+    background: rgba(7, 13, 18, 0.96);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--slate-border);
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+  }
+
+  .brand-mark {
+    width: 42px; height: 42px; border-radius: 10px;
+    background: var(--gold-gradient);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink); font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 1.15rem;
+    box-shadow: 0 4px 15px rgba(0, 229, 163, 0.35);
+  }
+
+  .nav-pill-toggle {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 999px;
+    padding: 4px;
+    display: inline-flex;
+    gap: 3px;
+  }
+
+  .nav-pill-toggle button {
+    border: none;
+    background: transparent;
+    color: rgba(255,255,255,0.65);
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 8px 18px;
+    border-radius: 999px;
+    transition: all 0.25s ease;
+  }
+
+  .nav-pill-toggle button.active {
+    background: var(--gold-gradient);
+    color: var(--ink);
+  }
+
+  .cart-btn {
+    position: relative;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: #fff;
+    border-radius: 10px;
+    padding: 8px 16px;
+    font-weight: 600;
+  }
+  .cart-count {
+    position: absolute; top: -7px; right: -7px;
+    background: var(--gold-gradient); color: var(--ink);
+    font-size: 0.7rem; font-weight: 800;
+    width: 20px; height: 20px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .hero {
+    background:
+      radial-gradient(circle at 80% 20%, rgba(0, 229, 163, 0.12), transparent 48%),
+      radial-gradient(circle at 10% 80%, rgba(37, 99, 235, 0.08), transparent 45%),
+      linear-gradient(180deg, var(--ink) 0%, #0c161d 100%);
+    color: #fff;
+    padding: 85px 0 65px;
+    position: relative;
+  }
+
+  .eyebrow-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(0, 229, 163, 0.1);
+    border: 1px solid rgba(0, 229, 163, 0.3);
+    color: var(--gold-1);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em;
+    padding: 6px 14px; border-radius: 8px;
+    text-transform: uppercase;
+    animation: pulseGlow 4s infinite ease-in-out;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    font-weight: 800;
+    line-height: 1.1;
+    max-width: 780px;
+    background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero p.lead { color: #94a3b8; max-width: 580px; font-size: 1.1rem; }
+
+  .hero-search {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    padding: 8px;
+    box-shadow: 0 20px 45px -12px rgba(0,0,0,0.5);
+    max-width: 650px;
+  }
+  .hero-search input { border: none; background: transparent; font-size: 0.98rem; padding: 10px 14px; color: #fff; }
+  .hero-search input::placeholder { color: #64748b; }
+  .hero-search input:focus { outline: none; box-shadow: none; color: #fff; }
+
+  .hero-stats { display: flex; gap: 36px; margin-top: 40px; flex-wrap: wrap; }
+  .hero-stats .stat-num { font-family: 'Space Grotesk'; font-weight: 800; font-size: 1.8rem; color: #fff; }
+  .hero-stats .stat-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: #64748b; }
+
+  .category-strip {
+    background: #ffffff;
+    border-bottom: 1px solid var(--line);
+    padding: 14px 0;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .cat-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    border: 1px solid var(--line);
+    background: #fff;
+    color: #475569;
+    font-weight: 600; font-size: 0.84rem;
+    padding: 8px 18px; border-radius: 999px;
+    margin-right: 8px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+  .cat-chip.active { background: var(--ink); border-color: var(--ink); color: var(--gold-1); }
+
+  .parts-tag {
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 0 16px 18px;
+    position: relative;
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--card-shadow);
+  }
+  .parts-tag:hover { transform: translateY(-6px); box-shadow: var(--hover-shadow); border-color: var(--gold-2); }
+
+  .tag-image-wrap {
+    margin: 0 -16px 14px;
+    aspect-ratio: 4 / 3;
+    background: var(--paper-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    border-bottom: 1px solid var(--line);
+  }
+  .tag-image-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .tag-image-wrap .tag-image-fallback { color: #94a3b8; font-size: 2.2rem; }
+
+  .tag-body { padding-top: 8px; display: flex; flex-direction: column; flex-grow: 1; }
+  .parts-tag .tag-id { align-self: flex-end; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: #64748b; background: var(--paper-dim); padding: 3px 8px; border-radius: 6px; margin-bottom: 10px; font-weight: 600; }
+  .parts-tag .tag-part-name { font-family: 'Space Grotesk'; font-weight: 700; font-size: 1.05rem; color: var(--ink); margin-bottom: 2px; }
+  .parts-tag .tag-vehicle { font-size: 0.82rem; color: #64748b; margin-bottom: 14px; }
+  .parts-tag .tag-divider { border-top: 1px dashed var(--line); margin: 12px 0 14px; }
+  .parts-tag .tag-price { font-family: 'Space Grotesk'; font-weight: 800; font-size: 1.25rem; color: var(--ink); }
+
+  .status-pill { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.04em; padding: 4px 10px; border-radius: 999px; text-transform: uppercase; }
+  .status-available { background: #ecfdf5; color: #059669; }
+
+  .btn-amber {
+    background: var(--gold-gradient);
+    border: none;
+    color: var(--ink);
+    font-weight: 700;
+    border-radius: 10px;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 14px rgba(0, 229, 163, 0.2);
+  }
+  .btn-amber:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 229, 163, 0.35); color: var(--ink); }
+  .btn-amber:disabled { background: #e2e8f0; color: #94a3b8; box-shadow: none; transform: none; }
+
+  .btn-outline-ink { border: 1.5px solid var(--ink); color: var(--ink); font-weight: 600; border-radius: 10px; background: transparent; }
+  .btn-outline-ink:hover { background: var(--ink); color: #fff; }
+
+  #cartOffcanvas {
+    position: fixed; top: 0; right: 0; height: 100%; width: 100%; max-width: 420px;
+    background: #ffffff; z-index: 2000; box-shadow: -20px 0 50px rgba(0,0,0,0.18);
+    transform: translateX(100%); transition: transform 0.35s ease; display: flex; flex-direction: column;
+  }
+  #cartOffcanvas.open { transform: translateX(0); }
+  #cartOverlay { position: fixed; inset: 0; background: rgba(7, 13, 18, 0.6); backdrop-filter: blur(4px); z-index: 1999; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+  #cartOverlay.open { opacity: 1; pointer-events: auto; }
+
+  .card { border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--card-shadow); background: #ffffff; }
+  .stat-card { border-radius: 16px; transition: all 0.3s ease; }
+  .stat-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; }
+
+  .table-container { max-height: 540px; overflow-y: auto; }
+  .table thead th { background-color: var(--ink); color: #f8fafc; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; padding: 14px; position: sticky; top: 0; z-index: 10; }
   
-  <!-- Fonts & Libraries -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  .form-control, .form-select { border-radius: 10px; border: 1px solid #cbd5e1; padding: 9px 14px; font-size: 0.9rem; }
+  .form-control:focus, .form-select:focus { border-color: var(--gold-2); box-shadow: 0 0 0 3px rgba(0, 229, 163, 0.15); }
+  
+  .search-filter-panel { background: var(--paper-dim); border: 1px solid var(--line); border-radius: 14px; padding: 16px; }
+  .staff-subbar { background: #0c161d; color: #fff; padding: 14px 0; border-bottom: 1px solid var(--slate-border); }
+  .nav-tabs .nav-link { color: #64748b; font-weight: 600; border: none; padding: 10px 22px; border-radius: 10px; }
+  .nav-tabs .nav-link.active { background: var(--ink); color: var(--gold-1); }
 
-  <style>
-    :root {
-      --primary-navy: #0f172a;
-      --accent-blue: #2563eb;
-      --bg-color: #f8fafc;
-      --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.04), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
-    }
+  /* Modals */
+  #editModal, #checkoutModal, #ghConfigModal {
+    position: fixed; inset: 0; background: rgba(7, 13, 18, 0.85);
+    backdrop-filter: blur(8px); z-index: 9999; display: none; align-items: center; justify-content: center; padding: 16px;
+  }
+  .modal-box-card {
+    width: 100%; max-width: 500px; border-radius: 20px; background: #fff;
+    box-shadow: 0 30px 60px -12px rgba(0,0,0,0.5); padding: 32px;
+    animation: scaleIn 0.3s ease forwards; position: relative; max-height: 92vh; overflow-y: auto;
+  }
+  .modal-close-btn { position: absolute; top: 16px; right: 18px; background: none; border: none; color: #94a3b8; font-size: 1.3rem; }
 
-    body {
-      background-color: var(--bg-color);
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      color: #334155;
-      overflow-x: hidden;
-    }
+  /* ECCEL TEAL DASHBOARD SPLIT LOGIN */
+  #authOverlay {
+    position: fixed; inset: 0; z-index: 99999; display: none; align-items: center; justify-content: center; padding: 24px;
+    background: radial-gradient(circle at 10% 20%, #063935 0%, #05161b 50%, #030a0d 100%);
+    overflow-y: auto;
+  }
 
-    /* ================= KEYFRAME ANIMATIONS ================= */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(18px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+  .eccel-login-wrapper {
+    position: relative; width: 100%; max-width: 1060px; background: #091319; border-radius: 24px;
+    border: 1px solid rgba(0, 229, 163, 0.14); box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 40px rgba(0, 229, 163, 0.08);
+    overflow: hidden; animation: scaleIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
 
-    @keyframes scaleIn {
-      0% {
-        opacity: 0;
-        transform: scale(0.95);
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
+  .eccel-top-bar { padding: 20px 32px 0; display: flex; align-items: center; justify-content: space-between; }
+  .eccel-brand-logo { display: inline-flex; align-items: center; gap: 8px; color: #ffffff; font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 1.3rem; }
+  .eccel-brand-logo i { color: #00e5a3; font-size: 1.4rem; }
+  .eccel-close-btn { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
+  .eccel-close-btn:hover { background: rgba(255,255,255,0.15); color: #fff; }
 
-    @keyframes phaseSlideIn {
-      0% {
-        opacity: 0;
-        transform: translateY(14px) scale(0.99);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
+  .eccel-grid { display: grid; grid-template-columns: 1.05fr 1.35fr; gap: 40px; padding: 30px 48px 48px; align-items: center; }
+  @media (max-width: 900px) { .eccel-grid { grid-template-columns: 1fr; padding: 24px; } .eccel-preview-side { display: none; } }
 
-    @keyframes pulseGlow {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.04); }
-    }
+  .eccel-form-side h2 { font-size: 2.2rem; font-weight: 700; color: #ffffff; margin-bottom: 6px; }
+  .eccel-form-side h2 span { color: #00e5a3; }
+  .eccel-form-side .sub-lead { color: #64748b; font-size: 0.92rem; margin-bottom: 34px; }
 
-    /* ================= TAB PANE PHASE TRANSITIONS ================= */
-    .tab-pane.active {
-      animation: phaseSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
+  .notched-input-group { position: relative; margin-bottom: 22px; }
+  .notched-input-group fieldset { border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 12px; padding: 0 16px 8px; margin: 0; background: rgba(255, 255, 255, 0.02); }
+  .notched-input-group fieldset:focus-within { border-color: #00e5a3; box-shadow: 0 0 18px rgba(0, 229, 163, 0.15); }
+  .notched-input-group legend { float: none; width: auto; font-size: 0.76rem; color: #94a3b8; padding: 0 6px; margin: 0; font-weight: 600; }
+  .notched-input-group input { width: 100%; background: transparent; border: none; color: #ffffff; font-size: 0.95rem; padding: 4px 0 6px; outline: none; }
+  .notched-input-group input::placeholder { color: #475569; }
 
-    /* Staggered load animation for sub-elements in phases */
-    .tab-pane.active .stat-card,
-    .tab-pane.active .card {
-      animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
-    }
+  .eccel-form-footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem; color: #94a3b8; margin-bottom: 24px; }
+  .eccel-form-footer a { color: #94a3b8; font-weight: 500; }
+  .eccel-form-footer a:hover { color: #00e5a3; }
 
-    .tab-pane.active .row > div:nth-child(1) .card { animation-delay: 0.05s; }
-    .tab-pane.active .row > div:nth-child(2) .card { animation-delay: 0.10s; }
-    .tab-pane.active .row > div:nth-child(3) .card { animation-delay: 0.15s; }
-    .tab-pane.active .row > div:nth-child(4) .card { animation-delay: 0.20s; }
+  .eccel-btn-primary { width: 100%; background: var(--primary-blue); color: #ffffff; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1rem; padding: 14px; border-radius: 12px; border: none; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35); transition: all 0.25s ease; }
+  .eccel-btn-primary:hover { background: var(--primary-blue-hover); transform: translateY(-2px); box-shadow: 0 14px 30px rgba(37, 99, 235, 0.5); color: #fff; }
 
-    /* ================= COMPONENT STYLING & HOVERS ================= */
-    .navbar {
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.15);
-      transition: all 0.3s ease;
-    }
+  .eccel-preview-side { background: #060e13; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 18px; padding: 22px; box-shadow: inset 0 0 30px rgba(0,0,0,0.5); }
+  .preview-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .preview-top .brand { font-size: 0.95rem; font-weight: 700; color: #fff; }
+  .preview-top .brand i { color: #00e5a3; }
+  .preview-heading { font-size: 1.1rem; font-weight: 700; color: #ffffff; margin-bottom: 16px; }
+  .preview-heading span { color: #00e5a3; }
 
-    .nav-tabs .nav-link {
-      color: #64748b;
-      font-weight: 600;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+  .preview-stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 18px; }
+  .preview-stat-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; padding: 10px; }
+  .preview-stat-card .label { font-size: 0.64rem; color: #64748b; font-weight: 600; text-transform: uppercase; }
+  .preview-stat-card .val { font-size: 1.15rem; font-weight: 800; color: #ffffff; margin-top: 2px; }
 
-    .nav-tabs .nav-link:hover {
-      background-color: #f1f5f9;
-      color: #0f172a;
-    }
+  .preview-charts-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 12px; }
+  .preview-chart-box { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 12px; }
+  .preview-chart-box .title { font-size: 0.72rem; color: #94a3b8; font-weight: 600; margin-bottom: 8px; }
+  .wave-chart-svg { width: 100%; height: 60px; }
+  .ring-chart-wrap { display: flex; align-items: center; justify-content: center; height: 70px; position: relative; }
+  .ring-chart-wrap .center-text { position: absolute; font-size: 0.75rem; font-weight: 800; color: #fff; }
 
-    .nav-tabs .nav-link.active {
-      background: #2563eb;
-      color: #ffffff;
-      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
-      transform: translateY(-1px);
-    }
-
-    .card {
-      border: 1px solid #e2e8f0;
-      border-radius: 14px;
-      box-shadow: var(--card-shadow);
-      background: #ffffff;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-    }
-
-    .stat-card {
-      border-radius: 14px;
-      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
-    }
-
-    .stat-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 14px 24px -5px rgba(0,0,0,0.08);
-    }
-
-    .stat-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-      transition: transform 0.25s ease;
-    }
-
-    .stat-card:hover .stat-icon {
-      transform: scale(1.1);
-    }
-
-    .table-container {
-      max-height: 540px;
-      overflow-y: auto;
-    }
-
-    .table thead th {
-      background-color: #0f172a;
-      color: #f8fafc;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      padding: 12px 14px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    tbody tr {
-      transition: background-color 0.2s ease, transform 0.15s ease;
-    }
-
-    tbody tr:hover {
-      background-color: rgba(37, 99, 235, 0.035) !important;
-    }
-
-    .form-control, .form-select {
-      border-radius: 8px;
-      border: 1px solid #cbd5e1;
-      padding: 8px 12px;
-      font-size: 0.88rem;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .form-control:focus, .form-select:focus {
-      border-color: #2563eb;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-      transform: translateY(-1px);
-    }
-
-    .search-filter-panel {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 10px;
-      padding: 14px;
-      transition: border-color 0.2s ease;
-    }
-
-    .btn-accent {
-      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-      color: white;
-      border: none;
-      font-weight: 600;
-      border-radius: 8px;
-      transition: all 0.2s ease;
-    }
-
-    .btn-accent:hover {
-      opacity: 0.94;
-      color: #fff;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.28);
-    }
-
-    .btn-accent:active {
-      transform: translateY(0);
-    }
-
-    .batch-item {
-      background: #f1f5f9;
-      border-left: 3px solid #2563eb;
-      border-radius: 6px;
-      padding: 6px 12px;
-      margin-bottom: 6px;
-      font-size: 0.85rem;
-      animation: scaleIn 0.25s ease forwards;
-    }
-
-    /* ================= AUTH MODAL ================= */
-    #authOverlay {
-      position: fixed;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(15, 23, 42, 0.92), rgba(30, 41, 59, 0.95));
-      backdrop-filter: blur(8px);
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: opacity 0.4s ease;
-    }
-
-    .auth-card {
-      width: 100%;
-      max-width: 420px;
-      border-radius: 16px;
-      background: #ffffff;
-      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.4);
-      padding: 32px;
-      animation: scaleIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-  </style>
+  footer.site-footer { background: var(--ink); color: #64748b; padding: 40px 0; font-size: 0.88rem; border-top: 1px solid var(--slate-border); }
+</style>
 </head>
 <body>
 
-  <!-- ================= AUTHENTICATION OVERLAY ================= -->
-  <div id="authOverlay">
-    <div class="auth-card">
-      <div class="text-center mb-4">
-        <div class="stat-icon bg-primary-subtle text-primary mx-auto mb-2" style="width: 56px; height: 56px; font-size: 1.8rem;">
-          <i class="bi bi-shield-lock-fill"></i>
-        </div>
-        <h4 class="fw-bold mb-1 text-dark">Portal Sign In</h4>
-        <p class="text-muted small mb-0">AutoParts Retail Inventory Portal</p>
+<!-- GLOBAL SITE NAV -->
+<nav class="site-nav">
+  <div class="container-fluid px-4 py-3 d-flex align-items-center justify-content-between flex-wrap gap-2">
+    <a href="#" class="d-flex align-items-center gap-3 text-decoration-none" onclick="showStorefront(); return false;">
+      <div class="brand-mark">EC</div>
+      <div>
+        <div class="text-white fw-bold" style="font-family:'Space Grotesk'; line-height:1; font-size:1.15rem;">ECCEL</div>
+        <div class="mono" style="font-size:0.64rem; color:#94a3b8; letter-spacing:0.1em;">GENUINE AUTO PARTS EXCHANGE</div>
+      </div>
+    </a>
+
+    <div class="nav-pill-toggle">
+      <button id="navStorefrontBtn" class="active" onclick="showStorefront()"><i class="bi bi-shop me-1"></i>Storefront</button>
+      <button id="navStaffBtn" onclick="showStaffArea()"><i class="bi bi-shield-lock me-1"></i>Staff Portal</button>
+    </div>
+
+    <div class="d-flex align-items-center gap-2">
+      <span class="text-white-50 small d-none d-lg-inline" id="staffGreeting"></span>
+      <button class="cart-btn" onclick="openCart()">
+        <i class="bi bi-bag-fill me-1"></i>Cart
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- STOREFRONT -->
+<div id="storefrontView">
+  <section class="hero">
+    <div class="container-fluid px-4">
+      <span class="eyebrow-tag"><i class="bi bi-shield-check"></i> 100% Inspected &amp; Tested Parts</span>
+      <h1 class="mt-3 mb-3">Genuine used parts, pulled, tested and ready to ship.</h1>
+      <p class="lead mb-4">Search our live salvage inventory by vehicle, part name or ID tag[cite: 1].</p>
+
+      <div class="hero-search d-flex align-items-center gap-2">
+        <i class="bi bi-search text-secondary ms-2"></i>
+        <input type="text" id="storeSearch" class="form-control" placeholder="Search e.g. HYUNDAI EON headlight, or tag ID..." oninput="applyStoreFilter()" />
+        <button class="btn-amber px-4 py-2" onclick="applyStoreFilter()">Search</button>
       </div>
 
-      <form id="loginForm">
-        <div class="mb-3">
-          <label class="form-label small fw-semibold text-dark">Username / Email / Mobile</label>
-          <div class="input-group">
-            <span class="input-group-text bg-light text-muted"><i class="bi bi-person-fill"></i></span>
-            <input type="text" class="form-control" id="loginUsername" placeholder="Enter your login ID" required autofocus />
-          </div>
-        </div>
-        <div class="mb-4">
-          <label class="form-label small fw-semibold text-dark">Password</label>
-          <div class="input-group">
-            <span class="input-group-text bg-light text-muted"><i class="bi bi-key-fill"></i></span>
-            <input type="password" class="form-control" id="loginPassword" placeholder="••••••••" required />
-          </div>
-        </div>
+      <div class="hero-stats">
+        <div><div class="stat-num" id="heroAvailable">0</div><div class="stat-label">Parts In Stock</div></div>
+        <div><div class="stat-num" id="heroVehicles">0</div><div class="stat-label">Vehicles Dismantled</div></div>
+        <div><div class="stat-num" id="heroMakes">0</div><div class="stat-label">Makes Covered</div></div>
+      </div>
+    </div>
+  </section>
 
-        <button type="submit" class="btn btn-accent w-100 py-2 fw-semibold">
-          <i class="bi bi-box-arrow-in-right me-1"></i> Sign In to Portal
-        </button>
-      </form>
+  <div class="category-strip px-4" id="categoryStrip">
+    <span class="cat-chip active" data-make="ALL" onclick="filterByMake('ALL', this)">All Makes</span>
+  </div>
+  <div class="category-strip px-4 d-none" id="modelStrip" style="background:var(--paper-dim); border-bottom:1px solid var(--line);">
+    <span class="mono" style="font-size:0.75rem; color:#64748b; margin-right:10px; font-weight:600;">MODEL:</span>
+    <span class="cat-chip active" data-model="ALL" onclick="filterByModel('ALL', this)">All Models</span>
+  </div>
+
+  <div class="container-fluid px-4 py-5">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+      <div>
+        <h4 class="fw-bold mb-0">Available Parts</h4>
+        <small class="text-muted"><span id="storeResultCount">0</span> listings match your search</small>
+      </div>
+      <select class="form-select form-select-sm" style="max-width:210px;" id="storeSort" onchange="applyStoreFilter()">
+        <option value="recent">Sort: Most Recent</option>
+        <option value="price_asc">Sort: Price (Low to High)</option>
+        <option value="price_desc">Sort: Price (High to Low)</option>
+        <option value="name_asc">Sort: Part Name (A–Z)</option>
+      </select>
+    </div>
+
+    <div class="row g-4" id="storeGrid">
+      <div class="col-12 text-center py-5 text-muted"><div class="spinner-border spinner-border-sm text-warning me-2"></div>Loading live inventory…</div>
     </div>
   </div>
 
-  <!-- ================= APPLICATION INTERFACE ================= -->
-  <div id="appContainer" style="display: none;">
-    
-    <!-- Top Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark py-3 mb-4">
-      <div class="container-fluid px-4">
-        <a class="navbar-brand d-flex align-items-center fw-bold fs-5" href="#">
-          <i class="bi bi-shield-shaded fs-4 me-2 text-primary"></i>
-          <span>MATERIAL'S RECEIVED FOR RETAIL SALES</span>
-        </a>
-        <div class="d-flex align-items-center gap-3">
-          <div class="text-end text-white d-none d-md-block">
-            <div class="small fw-bold" id="userDisplayName">User</div>
-            <span class="badge bg-warning text-dark fw-bold px-2 py-0" id="userRoleBadge">SUPER ADMIN</span>
-          </div>
-          <button class="btn btn-sm btn-outline-light fw-semibold" onclick="fetchRecords()">
-            <i class="bi bi-arrow-clockwise me-1"></i> Sync
-          </button>
-          <button class="btn btn-sm btn-danger fw-semibold" onclick="logout()">
-            <i class="bi bi-box-arrow-right me-1"></i> Logout
-          </button>
-        </div>
+  <footer class="site-footer">
+    <div class="container-fluid px-4 d-flex flex-wrap justify-content-between gap-2">
+      <span>© <span id="yearNow"></span> ECCEL Used Auto Parts Exchange</span>
+      <span>Every part is tagged with a unique ID at the point of dismantling[cite: 1].</span>
+    </div>
+  </footer>
+</div>
+
+<!-- STAFF: LOGIN PROMPT -->
+<div id="staffLoginPrompt" class="d-none">
+  <div class="container-fluid px-4 py-5 text-center">
+    <div class="stat-icon bg-dark text-white mx-auto mb-3" style="width:68px;height:68px;font-size:2rem;border-radius:18px; box-shadow: 0 10px 30px rgba(0, 229, 163, 0.2);">
+      <i class="bi bi-shield-lock-fill" style="color: #00e5a3;"></i>
+    </div>
+    <h3 class="fw-bold">ECCEL Staff Portal</h3>
+    <p class="text-muted mb-4">Sign in to manage inventory, inward entries and customer orders[cite: 1].</p>
+    <button class="btn btn-amber px-5 py-3 fw-bold" onclick="openAuthModal()">Sign In to Dashboard</button>
+  </div>
+</div>
+
+<!-- STAFF: APPLICATION INTERFACE -->
+<div id="appContainer" class="d-none">
+  <div class="staff-subbar">
+    <div class="container-fluid px-4 d-flex align-items-center justify-content-between">
+      <div>
+        <span class="fw-bold" id="userDisplayName">User</span>
+        <span class="badge bg-warning text-dark fw-bold px-2 py-1 ms-2" id="userRoleBadge">SUPER ADMIN</span>
       </div>
-    </nav>
-
-    <div class="container-fluid px-4 pb-5">
-      
-      <!-- Phase Navigation Tabs -->
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <ul class="nav nav-tabs border-0 bg-white p-2 rounded-3 shadow-sm" id="phaseTab" role="tablist">
-          <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="dashboard-tab" data-bs-toggle="tab" data-bs-target="#phase1-dashboard" type="button" role="tab">
-              <i class="bi bi-speedometer2 me-2"></i>Phase 1: Executive Dashboard
-            </button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" id="operations-tab" data-bs-toggle="tab" data-bs-target="#phase2-operations" type="button" role="tab">
-              <i class="bi bi-box-arrow-in-down me-2"></i>Phase 2: Operations & Inward Entry
-            </button>
-          </li>
-          <li class="nav-item d-none" id="userMgmtTabItem" role="presentation">
-            <button class="nav-link text-danger fw-bold" id="usermgmt-tab" data-bs-toggle="tab" data-bs-target="#phase3-usermgmt" type="button" role="tab">
-              <i class="bi bi-people-fill me-2"></i>User Management (Super Admin)
-            </button>
-          </li>
-        </ul>
-        <span class="text-muted small fw-semibold d-none d-md-inline" id="lastSyncTime">Syncing...</span>
+      <div class="d-flex align-items-center gap-2">
+        <button class="btn btn-sm btn-outline-warning fw-semibold" onclick="openGhConfigModal()"><i class="bi bi-github me-1"></i> GitHub API</button>
+        <span class="text-white-50 small d-none d-md-inline mono" id="lastSyncTime">Syncing...</span>
+        <button class="btn btn-sm btn-outline-light fw-semibold" onclick="fetchRecords()"><i class="bi bi-arrow-clockwise me-1"></i> Sync</button>
+        <button class="btn btn-sm btn-danger fw-semibold" onclick="logout()"><i class="bi bi-box-arrow-right me-1"></i> Logout</button>
       </div>
+    </div>
+  </div>
 
-      <!-- Tab Contents -->
-      <div class="tab-content" id="phaseTabContent">
-        
-        <!-- ================= PHASE 1: DASHBOARD ================= -->
-        <div class="tab-pane fade show active" id="phase1-dashboard" role="tabpanel">
-          <div class="row g-3 mb-4">
-            <div class="col-xl-3 col-md-6">
-              <div class="card stat-card p-3 border-start border-primary border-4">
-                <div class="d-flex justify-content-between align-items-center">
-                  <div>
-                    <p class="text-muted small fw-bold mb-1">TOTAL INWARD UNITS</p>
-                    <h3 class="fw-bold mb-0 text-dark" id="dashTotalParts">0</h3>
-                  </div>
-                  <div class="stat-icon bg-primary-subtle text-primary"><i class="bi bi-boxes"></i></div>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-md-6">
-              <div class="card stat-card p-3 border-start border-success border-4">
-                <div class="d-flex justify-content-between align-items-center">
-                  <div>
-                    <p class="text-muted small fw-bold mb-1">AVAILABLE STOCK</p>
-                    <h3 class="fw-bold mb-0 text-success" id="dashAvailable">0</h3>
-                  </div>
-                  <div class="stat-icon bg-success-subtle text-success"><i class="bi bi-check2-circle"></i></div>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-md-6">
-              <div class="card stat-card p-3 border-start border-warning border-4">
-                <div class="d-flex justify-content-between align-items-center">
-                  <div>
-                    <p class="text-muted small fw-bold mb-1">TOTAL SOLD</p>
-                    <h3 class="fw-bold mb-0 text-warning" id="dashSold">0</h3>
-                  </div>
-                  <div class="stat-icon bg-warning-subtle text-warning"><i class="bi bi-bag-check-fill"></i></div>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-md-6">
-              <div class="card stat-card p-3 border-start border-info border-4">
-                <div class="d-flex justify-content-between align-items-center">
-                  <div>
-                    <p class="text-muted small fw-bold mb-1">TOTAL VEHICLES</p>
-                    <h3 class="fw-bold mb-0 text-info" id="dashVehicles">0</h3>
-                  </div>
-                  <div class="stat-icon bg-info-subtle text-info"><i class="bi bi-car-front-fill"></i></div>
-                </div>
+  <div class="container-fluid px-4 pb-5 pt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+      <ul class="nav nav-tabs border-0 bg-white p-2 rounded-3 shadow-sm" id="phaseTab" role="tablist">
+        <li class="nav-item"><button class="nav-link active" id="dashboard-tab" data-bs-toggle="tab" data-bs-target="#phase1-dashboard" type="button"><i class="bi bi-speedometer2 me-2"></i>Dashboard</button></li>
+        <li class="nav-item"><button class="nav-link" id="operations-tab" data-bs-toggle="tab" data-bs-target="#phase2-operations" type="button"><i class="bi bi-box-arrow-in-down me-2"></i>Inventory &amp; Inward Entry</button></li>
+        <li class="nav-item"><button class="nav-link" id="orders-tab" data-bs-toggle="tab" data-bs-target="#phase4-orders" type="button"><i class="bi bi-receipt me-2"></i>Customer Orders</button></li>
+        <li class="nav-item d-none" id="userMgmtTabItem"><button class="nav-link text-danger fw-bold" id="usermgmt-tab" data-bs-toggle="tab" data-bs-target="#phase3-usermgmt" type="button"><i class="bi bi-people-fill me-2"></i>User Management</button></li>
+      </ul>
+    </div>
+
+    <div class="tab-content" id="phaseTabContent">
+      <!-- DASHBOARD -->
+      <div class="tab-pane fade show active" id="phase1-dashboard" role="tabpanel">
+        <div class="row g-3 mb-4">
+          <div class="col-xl-3 col-md-6">
+            <div class="card stat-card p-3 border-start border-dark border-4">
+              <div class="d-flex justify-content-between align-items-center">
+                <div><p class="text-muted small fw-bold mb-1">TOTAL INWARD UNITS</p><h3 class="fw-bold mb-0 text-dark" id="dashTotalParts">0</h3></div>
+                <div class="stat-icon bg-dark text-white"><i class="bi bi-boxes"></i></div>
               </div>
             </div>
           </div>
-
-          <div class="row g-4 mb-4">
-            <div class="col-lg-4">
-              <div class="card p-4 h-100">
-                <h6 class="fw-bold text-dark mb-3"><i class="bi bi-pie-chart-fill text-primary me-2"></i>Stock Status</h6>
-                <div class="d-flex justify-content-center align-items-center" style="height: 240px;">
-                  <canvas id="statusChart"></canvas>
+          <div class="col-xl-3 col-md-6">
+            <div class="card stat-card p-3 border-start border-success border-4">
+              <div class="d-flex justify-content-between align-items-center">
+                <div><p class="text-muted small fw-bold mb-1">AVAILABLE STOCK</p><h3 class="fw-bold mb-0 text-success" id="dashAvailable">0</h3>
+                  <small class="text-muted" id="dashStockValue">≈ ₹0 value</small>
                 </div>
-              </div>
-            </div>
-            <div class="col-lg-8">
-              <div class="card p-4 h-100">
-                <h6 class="fw-bold text-dark mb-3"><i class="bi bi-bar-chart-fill text-primary me-2"></i>Top Dismantled Vehicles</h6>
-                <div style="height: 240px;">
-                  <canvas id="vehicleChart"></canvas>
-                </div>
+                <div class="stat-icon bg-success-subtle text-success"><i class="bi bi-check2-circle"></i></div>
               </div>
             </div>
           </div>
-
-          <div class="card p-4">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-              <h6 class="fw-bold text-dark mb-0"><i class="bi bi-clock-history text-primary me-2"></i>Latest Inward Activity</h6>
-              <button class="btn btn-sm btn-outline-primary fw-semibold" onclick="document.getElementById('operations-tab').click()">
-                Go to Inventory Management <i class="bi bi-arrow-right ms-1"></i>
-              </button>
+          <div class="col-xl-3 col-md-6">
+            <div class="card stat-card p-3 border-start border-4" style="border-color:var(--gold-2) !important;">
+              <div class="d-flex justify-content-between align-items-center">
+                <div><p class="text-muted small fw-bold mb-1">TOTAL SOLD</p><h3 class="fw-bold mb-0" style="color:var(--gold-2);" id="dashSold">0</h3></div>
+                <div class="stat-icon" style="background:rgba(0, 229, 163, 0.15); color:var(--gold-2);"><i class="bi bi-bag-check-fill"></i></div>
+              </div>
             </div>
-            <div class="table-responsive">
-              <table class="table table-hover align-middle mb-0" style="font-size: 0.85rem;">
-                <thead class="table-light">
-                  <tr>
-                    <th>Date</th>
-                    <th>Vehicle No</th>
-                    <th>Make / Model</th>
-                    <th>Part's Name</th>
-                    <th>Qty</th>
-                    <th>ID Number</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody id="dashTableBody">
-                  <tr><td colspan="7" class="text-center py-4 text-muted">Loading records...</td></tr>
-                </tbody>
-              </table>
+          </div>
+          <div class="col-xl-3 col-md-6">
+            <div class="card stat-card p-3 border-start border-info border-4">
+              <div class="d-flex justify-content-between align-items-center">
+                <div><p class="text-muted small fw-bold mb-1">TOTAL VEHICLES</p><h3 class="fw-bold mb-0 text-info" id="dashVehicles">0</h3></div>
+                <div class="stat-icon bg-info-subtle text-info"><i class="bi bi-car-front-fill"></i></div>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- ================= PHASE 2: OPERATIONS ================= -->
-        <div class="tab-pane fade" id="phase2-operations" role="tabpanel">
-          <div class="row g-4">
-            
-            <div class="col-xl-4 col-lg-5" id="entryPanelCol">
-              <div class="card p-4">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                  <h5 class="fw-bold mb-0 text-dark"><i class="bi bi-plus-circle-dotted text-primary me-2"></i>New Inward Entry</h5>
-                  <span class="badge bg-light text-secondary border">Batch Mode</span>
-                </div>
+        <div class="row g-4 mb-4">
+          <div class="col-lg-4">
+            <div class="card p-4 h-100">
+              <h6 class="fw-bold text-dark mb-3"><i class="bi bi-pie-chart-fill me-2" style="color:var(--gold-2);"></i>Stock Status</h6>
+              <div class="d-flex justify-content-center align-items-center" style="height: 240px;"><canvas id="statusChart"></canvas></div>
+            </div>
+          </div>
+          <div class="col-lg-8">
+            <div class="card p-4 h-100">
+              <h6 class="fw-bold text-dark mb-3"><i class="bi bi-bar-chart-fill me-2" style="color:var(--gold-2);"></i>Top Dismantled Vehicles</h6>
+              <div style="height: 240px;"><canvas id="vehicleChart"></canvas></div>
+            </div>
+          </div>
+        </div>
 
-                <div class="p-3 bg-light rounded-3 mb-3 border">
-                  <span class="text-dark small fw-bold d-block mb-2"><i class="bi bi-car-front me-1"></i> VEHICLE SPECS</span>
-                  <div class="mb-2">
-                    <label class="form-label small fw-semibold">Dismantle Date</label>
-                    <input type="date" class="form-control" id="dismentleDate" required />
-                  </div>
-                  <div class="row g-2 mb-2">
-                    <div class="col-6">
-                      <label class="form-label small fw-semibold">Vehicle No</label>
-                      <input type="text" class="form-control text-uppercase" id="vehicleNo" placeholder="DL3CBP7023" required />
-                    </div>
-                    <div class="col-6">
-                      <label class="form-label small fw-semibold">Make</label>
-                      <input type="text" class="form-control text-uppercase" id="make" placeholder="HYUNDAI" required />
-                    </div>
-                  </div>
-                  <div class="row g-2">
-                    <div class="col-7">
-                      <label class="form-label small fw-semibold">Model</label>
-                      <input type="text" class="form-control text-uppercase" id="model" placeholder="EON MAGNA" required />
-                    </div>
-                    <div class="col-5">
-                      <label class="form-label small fw-semibold">Year</label>
-                      <input type="number" class="form-control" id="year" placeholder="2011" required />
-                    </div>
-                  </div>
-                </div>
+        <div class="card p-4">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="fw-bold text-dark mb-0"><i class="bi bi-clock-history me-2" style="color:var(--gold-2);"></i>Latest Inward Activity</h6>
+            <button class="btn btn-sm btn-outline-ink fw-semibold" onclick="document.getElementById('operations-tab').click()">Go to Inventory <i class="bi bi-arrow-right ms-1"></i></button>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0" style="font-size: 0.88rem;">
+              <thead><tr><th>Date</th><th>Vehicle No</th><th>Make / Model</th><th>Part's Name</th><th>Qty</th><th>ID Number</th><th>Status</th></tr></thead>
+              <tbody id="dashTableBody"><tr><td colspan="7" class="text-center py-4 text-muted">Loading records...</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
 
-                <div class="p-3 rounded-3 mb-3 border border-dashed bg-white">
-                  <span class="text-dark small fw-bold d-block mb-2"><i class="bi bi-wrench-adjustable me-1"></i> ADD PART TO BATCH</span>
-                  <div class="mb-2">
-                    <label class="form-label small fw-semibold">Part's Name</label>
-                    <input type="text" class="form-control text-uppercase" id="partName" placeholder="HEAD LIGHT LH" />
-                  </div>
-                  <div class="row g-2 mb-2">
-                    <div class="col-4">
-                      <label class="form-label small fw-semibold">Qty</label>
-                      <input type="number" class="form-control" id="quantity" value="1" min="1" />
-                    </div>
-                    <div class="col-8">
-                      <label class="form-label small fw-semibold">Identification Code</label>
-                      <input type="text" class="form-control text-uppercase" id="identNo" placeholder="HY-EON" />
-                    </div>
-                  </div>
-                  <div class="mb-3">
-                    <label class="form-label small fw-semibold">Remarks</label>
+      <!-- OPERATIONS -->
+      <div class="tab-pane fade" id="phase2-operations" role="tabpanel">
+        <div class="row g-4">
+          <div class="col-xl-4 col-lg-5" id="entryPanelCol">
+            <div class="card p-4">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="fw-bold mb-0 text-dark"><i class="bi bi-plus-circle-dotted me-2" style="color:var(--gold-2);"></i>New Inward Entry</h5>
+                <span class="badge bg-light text-secondary border">Batch Mode</span>
+              </div>
+
+              <div class="p-3 bg-light rounded-3 mb-3 border">
+                <span class="text-dark small fw-bold d-block mb-2"><i class="bi bi-car-front me-1"></i> VEHICLE SPECS</span>
+                <div class="mb-2"><label class="form-label small fw-semibold">Dismantle Date</label><input type="date" class="form-control" id="dismentleDate" required /></div>
+                <div class="row g-2 mb-2">
+                  <div class="col-6"><label class="form-label small fw-semibold">Vehicle No</label><input type="text" class="form-control text-uppercase" id="vehicleNo" placeholder="DL3CBP7023" required /></div>
+                  <div class="col-6"><label class="form-label small fw-semibold">Make</label><input type="text" class="form-control text-uppercase" id="make" placeholder="HYUNDAI" required /></div>
+                </div>
+                <div class="row g-2">
+                  <div class="col-7"><label class="form-label small fw-semibold">Model</label><input type="text" class="form-control text-uppercase" id="model" placeholder="EON MAGNA" required /></div>
+                  <div class="col-5"><label class="form-label small fw-semibold">Year</label><input type="number" class="form-control" id="year" placeholder="2011" required /></div>
+                </div>
+              </div>
+
+              <div class="p-3 rounded-3 mb-3 border bg-white">
+                <span class="text-dark small fw-bold d-block mb-2"><i class="bi bi-wrench-adjustable me-1"></i> ADD PART TO BATCH</span>
+                <div class="mb-2"><label class="form-label small fw-semibold">Part's Name</label><input type="text" class="form-control text-uppercase" id="partName" placeholder="HEAD LIGHT LH" /></div>
+                <div class="row g-2 mb-2">
+                  <div class="col-4"><label class="form-label small fw-semibold">Qty</label><input type="number" class="form-control" id="quantity" value="1" min="1" /></div>
+                  <div class="col-8"><label class="form-label small fw-semibold">Identification Code</label><input type="text" class="form-control text-uppercase" id="identNo" placeholder="HY-EON" /></div>
+                </div>
+                <div class="row g-2 mb-2">
+                  <div class="col-6"><label class="form-label small fw-semibold">Price (₹)</label><input type="number" class="form-control" id="partPrice" placeholder="1500" min="0" /></div>
+                  <div class="col-6"><label class="form-label small fw-semibold">Remarks</label>
                     <select class="form-select" id="remarks">
                       <option value="AVAILABLE" selected>AVAILABLE</option>
                       <option value="SOLD">SOLD</option>
                       <option value="SCRAP / DAMAGED">SCRAP / DAMAGED</option>
                     </select>
                   </div>
-                  <button type="button" class="btn btn-outline-primary btn-sm w-100 fw-bold" onclick="addPartToQueue()">
-                    <i class="bi bi-plus-lg me-1"></i> Add Part to Queue
-                  </button>
+                </div>
+                
+                <div class="mb-3">
+                  <label class="form-label small fw-semibold">Part Photo (Uploads to GitHub)</label>
+                  <input type="file" class="form-control" id="partFileInput" accept="image/*" />
+                  <input type="hidden" id="partImageUrl" />
+                  <small class="text-muted d-block mt-1" id="fileUploadStatus">Choose from phone/desktop storage</small>
                 </div>
 
-                <div class="mb-3" id="batchSection" style="display: none;">
-                  <div class="d-flex justify-content-between align-items-center mb-2">
-                    <span class="small fw-bold text-muted">STAGED PARTS (<span id="queueCount">0</span>)</span>
-                    <button class="btn btn-link btn-sm text-danger p-0 text-decoration-none small" onclick="clearBatch()">Clear All</button>
-                  </div>
-                  <div id="batchList" class="p-2 border rounded bg-light" style="max-height: 160px; overflow-y: auto;"></div>
-                </div>
-
-                <button type="button" class="btn btn-accent w-100 py-2 d-flex align-items-center justify-content-center gap-2" id="submitBtn" onclick="submitBatchToSheet()">
-                  <i class="bi bi-cloud-arrow-up-fill"></i> Save Entries to Google Sheet
-                </button>
+                <button type="button" class="btn btn-outline-ink btn-sm w-100 fw-bold" onclick="addPartToQueue()"><i class="bi bi-plus-lg me-1"></i> Add Part to Queue</button>
               </div>
-            </div>
 
-            <div class="col-12 d-none" id="userNoticeCol">
-              <div class="alert alert-info d-flex align-items-center gap-2 mb-0">
-                <i class="bi bi-info-circle-fill fs-5"></i>
-                <div><strong>Standard User Access:</strong> View-only permissions enabled.</div>
+              <div class="mb-3" id="batchSection" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="small fw-bold text-muted">STAGED PARTS (<span id="queueCount">0</span>)</span>
+                  <button class="btn btn-link btn-sm text-danger p-0 text-decoration-none small" onclick="clearBatch()">Clear All</button>
+                </div>
+                <div id="batchList" class="p-2 border rounded bg-light" style="max-height: 160px; overflow-y: auto;"></div>
               </div>
+
+              <button type="button" class="btn btn-amber w-100 py-3 d-flex align-items-center justify-content-center gap-2" id="submitBtn" onclick="submitBatchToSheet()">
+                <i class="bi bi-cloud-arrow-up-fill"></i> Save Entries to Google Sheet
+              </button>
             </div>
-
-            <div class="col-xl-8 col-lg-7" id="tableCol">
-              <div class="card p-4">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                  <div>
-                    <h5 class="fw-bold mb-0">Inventory Records</h5>
-                    <small class="text-muted">Showing <span id="filteredCount">0</span> matches</small>
-                  </div>
-                  <button class="btn btn-dark btn-sm fw-semibold" onclick="exportToCSV()">
-                    <i class="bi bi-file-earmark-spreadsheet me-1"></i> Export CSV
-                  </button>
-                </div>
-
-                <div class="search-filter-panel mb-3">
-                  <div class="d-flex justify-content-between align-items-center mb-2">
-                    <span class="small fw-bold text-dark"><i class="bi bi-funnel-fill text-primary me-1"></i> Field-Specific Filter</span>
-                    <button class="btn btn-link btn-sm text-secondary p-0 text-decoration-none small" onclick="resetFilters()">
-                      <i class="bi bi-x-circle me-1"></i> Reset
-                    </button>
-                  </div>
-                  <div class="row g-2">
-                    <div class="col-md-3 col-6">
-                      <label class="form-label text-muted small fw-semibold mb-1">Make</label>
-                      <input type="text" id="searchMake" class="form-control form-control-sm text-uppercase" placeholder="e.g. HYUNDAI" oninput="applyFilter()">
-                    </div>
-                    <div class="col-md-3 col-6">
-                      <label class="form-label text-muted small fw-semibold mb-1">Model</label>
-                      <input type="text" id="searchModel" class="form-control form-control-sm text-uppercase" placeholder="e.g. EON" oninput="applyFilter()">
-                    </div>
-                    <div class="col-md-2 col-4">
-                      <label class="form-label text-muted small fw-semibold mb-1">Year</label>
-                      <input type="number" id="searchYear" class="form-control form-control-sm" placeholder="2011" oninput="applyFilter()">
-                    </div>
-                    <div class="col-md-4 col-8">
-                      <label class="form-label text-muted small fw-semibold mb-1">Part's Name</label>
-                      <input type="text" id="searchPart" class="form-control form-control-sm text-uppercase" placeholder="e.g. HEAD LIGHT" oninput="applyFilter()">
-                    </div>
-                  </div>
-                  <div class="row g-2 mt-1">
-                    <div class="col-md-6">
-                      <input type="text" id="searchGeneral" class="form-control form-control-sm" placeholder="Search Plate or ID..." oninput="applyFilter()">
-                    </div>
-                    <div class="col-md-6">
-                      <select class="form-select form-select-sm" id="statusFilter" onchange="applyFilter()">
-                        <option value="ALL">All Statuses</option>
-                        <option value="AVAILABLE">🟢 Available Stock Only</option>
-                        <option value="SOLD">🔵 Sold Items Only</option>
-                        <option value="SCRAP">🔴 Scrap / Damaged Only</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="table-container border rounded">
-                  <table class="table align-middle table-hover mb-0" style="font-size: 0.85rem;">
-                    <thead>
-                      <tr>
-                        <th>Date</th>
-                        <th>Vehicle No</th>
-                        <th>Vehicle</th>
-                        <th>Part's Name</th>
-                        <th class="text-center">Qty</th>
-                        <th>ID Number</th>
-                        <th>Status</th>
-                        <th class="text-center" id="actionHeader">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody id="tableBody">
-                      <tr><td colspan="8" class="text-center py-5 text-muted"><div class="spinner-border spinner-border-sm text-primary me-2"></div>Loading live data...</td></tr>
-                    </tbody>
-                  </table>
-                </div>
-
-              </div>
-            </div>
-
           </div>
-        </div>
 
-        <!-- ================= PHASE 3: SUPER ADMIN USER MANAGEMENT ================= -->
-        <div class="tab-pane fade" id="phase3-usermgmt" role="tabpanel">
-          <div class="row g-4">
-            
-            <div class="col-lg-5">
-              <div class="card p-4">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                  <h5 class="fw-bold mb-0 text-dark"><i class="bi bi-person-plus-fill text-danger me-2"></i>Create Team Account</h5>
-                  <span class="badge bg-danger-subtle text-danger border border-danger">Super Admin Only</span>
+          <div class="col-12 d-none" id="userNoticeCol">
+            <div class="alert alert-info d-flex align-items-center gap-2 mb-0"><i class="bi bi-info-circle-fill fs-5"></i><div><strong>Standard User Access:</strong> View-only permissions enabled.</div></div>
+          </div>
+
+          <div class="col-xl-8 col-lg-7" id="tableCol">
+            <div class="card p-4">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <div><h5 class="fw-bold mb-0">Inventory Records</h5><small class="text-muted">Showing <span id="filteredCount">0</span> matches</small></div>
+                <button class="btn btn-dark btn-sm fw-semibold" onclick="exportToCSV()"><i class="bi bi-file-earmark-spreadsheet me-1"></i> Export CSV</button>
+              </div>
+
+              <div class="search-filter-panel mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="small fw-bold text-dark"><i class="bi bi-funnel-fill me-1" style="color:var(--gold-2);"></i> Field-Specific Filter</span>
+                  <button class="btn btn-link btn-sm text-secondary p-0 text-decoration-none small" onclick="resetFilters()"><i class="bi bi-x-circle me-1"></i> Reset</button>
                 </div>
-                <form id="createUserForm">
-                  <div class="mb-3">
-                    <label class="form-label small fw-semibold">Full Name</label>
-                    <input type="text" class="form-control" id="newUserName" placeholder="e.g. Rahul Sharma" required />
-                  </div>
-                  <div class="mb-3">
-                    <label class="form-label small fw-semibold">Login ID (Username / Email / Mobile)</label>
-                    <input type="text" class="form-control" id="newUserIdentifier" placeholder="e.g. rahul or 9876543210" required />
-                  </div>
-                  <div class="mb-3">
-                    <label class="form-label small fw-semibold">Password</label>
-                    <input type="text" class="form-control" id="newUserPassword" placeholder="Set user password" required />
-                  </div>
-                  <div class="mb-4">
-                    <label class="form-label small fw-semibold">Assigned Role</label>
-                    <select class="form-select" id="newUserRole" required>
-                      <option value="USER" selected>USER (Read-Only Viewer & Export)</option>
-                      <option value="ADMIN">ADMIN (Operations & Inward Entry)</option>
-                      <option value="SUPER_ADMIN">SUPER ADMIN (Full Access)</option>
+                <div class="row g-2">
+                  <div class="col-md-3 col-6"><label class="form-label text-muted small fw-semibold mb-1">Make</label><input type="text" id="searchMake" class="form-control form-control-sm text-uppercase" placeholder="e.g. HYUNDAI" oninput="applyFilter()"></div>
+                  <div class="col-md-3 col-6"><label class="form-label text-muted small fw-semibold mb-1">Model</label><input type="text" id="searchModel" class="form-control form-control-sm text-uppercase" placeholder="e.g. EON" oninput="applyFilter()"></div>
+                  <div class="col-md-2 col-4"><label class="form-label text-muted small fw-semibold mb-1">Year</label><input type="number" id="searchYear" class="form-control form-control-sm" placeholder="2011" oninput="applyFilter()"></div>
+                  <div class="col-md-4 col-8"><label class="form-label text-muted small fw-semibold mb-1">Part's Name</label><input type="text" id="searchPart" class="form-control form-control-sm text-uppercase" placeholder="e.g. HEAD LIGHT" oninput="applyFilter()"></div>
+                </div>
+                <div class="row g-2 mt-1">
+                  <div class="col-md-6"><input type="text" id="searchGeneral" class="form-control form-control-sm" placeholder="Search Plate or ID..." oninput="applyFilter()"></div>
+                  <div class="col-md-6">
+                    <select class="form-select form-select-sm" id="statusFilter" onchange="applyFilter()">
+                      <option value="ALL">All Statuses</option>
+                      <option value="AVAILABLE">🟢 Available Stock Only</option>
+                      <option value="RESERVED">🟠 Reserved (Ordered) Only</option>
+                      <option value="SOLD">🔵 Sold Items Only</option>
+                      <option value="SCRAP">🔴 Scrap / Damaged Only</option>
                     </select>
                   </div>
-                  <button type="submit" class="btn btn-danger w-100 py-2 fw-semibold">
-                    <i class="bi bi-check-circle-fill me-1"></i> Register Account
-                  </button>
-                </form>
-              </div>
-            </div>
-
-            <div class="col-lg-7">
-              <div class="card p-4">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                  <div>
-                    <h5 class="fw-bold mb-0">Authorized Team Members</h5>
-                    <small class="text-muted">Total Registered: <span id="userCount">0</span></small>
-                  </div>
-                </div>
-                <div class="table-responsive border rounded">
-                  <table class="table table-hover align-middle mb-0" style="font-size: 0.88rem;">
-                    <thead class="table-dark">
-                      <tr>
-                        <th>User Name</th>
-                        <th>Login ID</th>
-                        <th>Password</th>
-                        <th>Role</th>
-                        <th class="text-center">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody id="userTableBody"></tbody>
-                  </table>
                 </div>
               </div>
-            </div>
 
+              <div class="table-container border rounded">
+                <table class="table align-middle table-hover mb-0" style="font-size: 0.88rem;">
+                  <thead>
+                    <tr><th>Photo</th><th>Date</th><th>Vehicle No</th><th>Vehicle</th><th>Part's Name</th><th class="text-center">Qty</th><th>Price</th><th>ID Number</th><th>Status</th><th class="text-center" id="actionHeader">Action</th></tr>
+                  </thead>
+                  <tbody id="tableBody"><tr><td colspan="10" class="text-center py-5 text-muted"><div class="spinner-border spinner-border-sm text-warning me-2"></div>Loading live data...</td></tr></tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
+      </div>
 
+      <!-- CUSTOMER ORDERS -->
+      <div class="tab-pane fade" id="phase4-orders" role="tabpanel">
+        <div class="card p-4">
+          <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+            <div>
+              <h5 class="fw-bold mb-0">Customer Orders &amp; Delivery Management</h5>
+              <small class="text-muted"><span id="orderCount">0</span> orders placed from storefront — synced to <span class="mono">Orders</span> tab</small>
+            </div>
+            <button class="btn btn-sm btn-outline-ink fw-semibold" onclick="fetchOrders()"><i class="bi bi-arrow-clockwise me-1"></i> Refresh Orders</button>
+          </div>
+          <div class="table-responsive border rounded">
+            <table class="table table-hover align-middle mb-0" style="font-size: 0.88rem;">
+              <thead class="table-dark">
+                <tr>
+                  <th>Ref #</th>
+                  <th>Placed At</th>
+                  <th>Customer Info</th>
+                  <th>Delivery Address &amp; Notes</th>
+                  <th>Items Ordered</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                  <th class="text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody id="ordersTableBody"><tr><td colspan="8" class="text-center py-4 text-muted">No orders yet.</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- USER MANAGEMENT -->
+      <div class="tab-pane fade" id="phase3-usermgmt" role="tabpanel">
+        <div class="row g-4">
+          <div class="col-lg-5">
+            <div class="card p-4">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="fw-bold mb-0 text-dark"><i class="bi bi-person-plus-fill text-danger me-2"></i>Create Team Account</h5>
+                <span class="badge bg-danger-subtle text-danger border border-danger">Super Admin Only</span>
+              </div>
+              <p class="text-muted small mb-3"><i class="bi bi-cloud-check-fill text-success me-1"></i>Saved in Google Sheet (<span class="mono">?sheet=Users</span>)[cite: 1].</p>
+              <form id="createUserForm">
+                <div class="mb-3"><label class="form-label small fw-semibold">Full Name</label><input type="text" class="form-control" id="newUserName" placeholder="e.g. Rahul Sharma" required /></div>
+                <div class="mb-3"><label class="form-label small fw-semibold">Login ID (Username / Email / Mobile)</label><input type="text" class="form-control" id="newUserIdentifier" placeholder="e.g. rahul or 9876543210" required /></div>
+                <div class="mb-3"><label class="form-label small fw-semibold">Password</label><input type="text" class="form-control" id="newUserPassword" placeholder="Set user password" required /></div>
+                <div class="mb-4">
+                  <label class="form-label small fw-semibold">Assigned Role</label>
+                  <select class="form-select" id="newUserRole" required>
+                    <option value="USER" selected>USER (Read-Only Viewer &amp; Export)</option>
+                    <option value="ADMIN">ADMIN (Operations &amp; Inward Entry)</option>
+                    <option value="SUPER_ADMIN">SUPER ADMIN (Full Access)</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn btn-danger w-100 py-2 fw-semibold" id="createAccountBtn"><i class="bi bi-check-circle-fill me-1"></i> Register Account</button>
+              </form>
+            </div>
+          </div>
+          <div class="col-lg-7">
+            <div class="card p-4">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <div><h5 class="fw-bold mb-0">Authorized Team Members</h5><small class="text-muted">Total Registered: <span id="userCount">0</span></small></div>
+                <button class="btn btn-sm btn-outline-dark fw-semibold" onclick="fetchUsers()"><i class="bi bi-arrow-clockwise me-1"></i> Refresh</button>
+              </div>
+              <div class="table-responsive border rounded">
+                <table class="table table-hover align-middle mb-0" style="font-size: 0.88rem;">
+                  <thead class="table-dark"><tr><th>User Name</th><th>Login ID</th><th>Password</th><th>Role</th><th class="text-center">Action</th></tr></thead>
+                  <tbody id="userTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Scripts -->
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<!-- GITHUB CONFIG MODAL -->
+<div id="ghConfigModal">
+  <div class="modal-box-card">
+    <button class="modal-close-btn" onclick="closeGhConfigModal()"><i class="bi bi-x-lg"></i></button>
+    <div class="d-flex align-items-center gap-2 mb-3">
+      <div class="stat-icon bg-dark text-white" style="width:40px;height:40px;font-size:1.2rem;border-radius:10px;"><i class="bi bi-github"></i></div>
+      <h5 class="fw-bold mb-0">GitHub Storage Settings</h5>
+    </div>
+    <p class="text-muted small mb-3">Connect your repository so photos automatically upload when you select files on your phone/PC.</p>
+    <form id="ghConfigForm">
+      <div class="mb-2">
+        <label class="form-label small fw-semibold">GitHub Personal Access Token (PAT)</label>
+        <input type="password" class="form-control mono" id="ghToken" placeholder="ghp_xxxxxxxxxxxx" required />
+      </div>
+      <div class="mb-2">
+        <label class="form-label small fw-semibold">GitHub Username / Owner</label>
+        <input type="text" class="form-control" id="ghOwner" placeholder="e.g. your-github-username" required />
+      </div>
+      <div class="mb-2">
+        <label class="form-label small fw-semibold">Repository Name</label>
+        <input type="text" class="form-control" id="ghRepo" placeholder="e.g. ECCEL-Used-Auto-Parts" required />
+      </div>
+      <div class="mb-3">
+        <label class="form-label small fw-semibold">Branch</label>
+        <input type="text" class="form-control" id="ghBranch" value="main" required />
+      </div>
+      <button type="submit" class="btn btn-amber w-100 py-2 fw-bold"><i class="bi bi-save me-1"></i> Save Configuration</button>
+    </form>
+  </div>
+</div>
 
-  <script>
-    const API_URL = 'https://sheetdb.io/api/v1/44fh043d8a3ki';
-    
-    const DEFAULT_USERS = [
-      { id: 'admin', mobile: '7044416516', email: 'rg9319808@gmail.com', name: 'Super Admin', pass: '123', role: 'SUPER_ADMIN' },
-      { id: 'operator', mobile: '9876543211', email: 'operator@gmail.com', name: 'Operations Lead', pass: '123', role: 'ADMIN' },
-      { id: 'user', mobile: '9876543212', email: 'user@gmail.com', name: 'Staff Viewer', pass: '123', role: 'USER' }
-    ];
-
-    function getUsersDB() {
-      const stored = localStorage.getItem('app_users_simple_db');
-      if (stored) {
-        try { return JSON.parse(stored); } catch (e) { }
-      }
-      localStorage.setItem('app_users_simple_db', JSON.stringify(DEFAULT_USERS));
-      return DEFAULT_USERS;
-    }
-
-    function saveUsersDB(users) {
-      localStorage.setItem('app_users_simple_db', JSON.stringify(users));
-    }
-
-    let currentUser = null;
-    let rawRecords = [];
-    let partQueue = [];
-    let statusChartInstance = null;
-    let vehicleChartInstance = null;
-
-    // Login Form Handler
-    document.getElementById('loginForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const loginId = document.getElementById('loginUsername').value.trim().toLowerCase();
-      const pass = document.getElementById('loginPassword').value.trim();
-
-      const users = getUsersDB();
-      const account = users.find(u => 
-        (u.id.toLowerCase() === loginId || 
-         (u.mobile && u.mobile === loginId) || 
-         (u.email && u.email.toLowerCase() === loginId)) && 
-        u.pass === pass
-      );
-
-      if (!account) {
-        toastr.error("Invalid Username/ID or Password!", "Access Denied");
-        return;
-      }
-
-      currentUser = account;
-      sessionStorage.setItem('auth_user_session', JSON.stringify(currentUser));
-      toastr.success(`Welcome, ${currentUser.name}! (${currentUser.role.replace('_', ' ')})`, "Login Successful");
-      initializeSession();
-    });
-
-    function logout() {
-      sessionStorage.removeItem('auth_user_session');
-      currentUser = null;
-      document.getElementById('appContainer').style.display = 'none';
-      document.getElementById('authOverlay').style.display = 'flex';
-      document.getElementById('loginPassword').value = '';
-      toastr.info("Logged out safely.");
-    }
-
-    function checkSession() {
-      const stored = sessionStorage.getItem('auth_user_session');
-      if (stored) {
-        try {
-          currentUser = JSON.parse(stored);
-          initializeSession();
-        } catch(e) {}
-      }
-    }
-
-    function initializeSession() {
-      document.getElementById('authOverlay').style.display = 'none';
-      document.getElementById('appContainer').style.display = 'block';
-      document.getElementById('userDisplayName').innerText = currentUser.name;
+<!-- EDIT PART MODAL -->
+<div id="editModal">
+  <div class="modal-box-card">
+    <button class="modal-close-btn" onclick="closeEditModal()"><i class="bi bi-x-lg"></i></button>
+    <div class="d-flex align-items-center gap-2 mb-3">
+      <div class="stat-icon bg-warning-subtle text-dark" style="width:40px;height:40px;font-size:1.2rem;border-radius:10px;"><i class="bi bi-pencil-square"></i></div>
+      <h5 class="fw-bold mb-0">Edit Part Details</h5>
+    </div>
+    <form id="editPartForm">
+      <input type="hidden" id="editOriginalIndex" />
+      <div class="mb-2">
+        <label class="form-label small fw-semibold">Part Name</label>
+        <input type="text" class="form-control text-uppercase" id="editPartName" required />
+      </div>
       
-      const badge = document.getElementById('userRoleBadge');
-      badge.innerText = currentUser.role.replace('_', ' ');
+      <div class="mb-3">
+        <label class="form-label small fw-semibold">Replace Photo (Uploads to GitHub)</label>
+        <input type="file" class="form-control mb-2" id="editFileInput" accept="image/*" />
+        <input type="url" class="form-control" id="editImageUrl" placeholder="Or paste direct image URL" />
+        <div id="editImagePreview" class="mt-2 text-center" style="display:none;">
+          <img id="editPreviewImg" src="" alt="Preview" style="max-height: 120px; border-radius: 8px; border: 1px solid var(--line);" />
+        </div>
+      </div>
 
-      if (currentUser.role === 'SUPER_ADMIN') {
-        badge.className = 'badge bg-danger text-white fw-bold px-2 py-0';
-        document.getElementById('userMgmtTabItem').classList.remove('d-none');
-        document.getElementById('entryPanelCol').style.display = 'block';
-        document.getElementById('userNoticeCol').classList.add('d-none');
-        document.getElementById('tableCol').className = 'col-xl-8 col-lg-7';
-        document.getElementById('actionHeader').style.display = '';
-        renderUserTable();
-      } else if (currentUser.role === 'ADMIN') {
-        badge.className = 'badge bg-primary text-white fw-bold px-2 py-0';
-        document.getElementById('userMgmtTabItem').classList.add('d-none');
-        document.getElementById('entryPanelCol').style.display = 'block';
-        document.getElementById('userNoticeCol').classList.add('d-none');
-        document.getElementById('tableCol').className = 'col-xl-8 col-lg-7';
-        document.getElementById('actionHeader').style.display = 'none';
-      } else {
-        badge.className = 'badge bg-secondary text-white fw-bold px-2 py-0';
-        document.getElementById('userMgmtTabItem').classList.add('d-none');
-        document.getElementById('entryPanelCol').style.display = 'none';
-        document.getElementById('userNoticeCol').classList.remove('d-none');
-        document.getElementById('tableCol').className = 'col-12';
-        document.getElementById('actionHeader').style.display = 'none';
-      }
+      <div class="row g-2 mb-2">
+        <div class="col-6">
+          <label class="form-label small fw-semibold">Identification Code</label>
+          <input type="text" class="form-control text-uppercase" id="editIdentNo" />
+        </div>
+        <div class="col-6">
+          <label class="form-label small fw-semibold">Quantity</label>
+          <input type="number" class="form-control" id="editQuantity" min="1" required />
+        </div>
+      </div>
+      <div class="row g-2 mb-3">
+        <div class="col-6">
+          <label class="form-label small fw-semibold">Price (₹)</label>
+          <input type="number" class="form-control" id="editPrice" min="0" />
+        </div>
+        <div class="col-6">
+          <label class="form-label small fw-semibold">Status / Remarks</label>
+          <select class="form-select" id="editRemarks">
+            <option value="AVAILABLE">AVAILABLE</option>
+            <option value="RESERVED">RESERVED</option>
+            <option value="SOLD">SOLD</option>
+            <option value="SCRAP / DAMAGED">SCRAP / DAMAGED</option>
+          </select>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-amber w-100 py-3 fw-bold" id="editSaveBtn"><i class="bi bi-check2-circle me-1"></i> Update &amp; Save Changes</button>
+    </form>
+  </div>
+</div>
 
-      document.getElementById('dismentleDate').valueAsDate = new Date();
-      fetchRecords();
+<!-- ECCEL TEAL DASHBOARD SPLIT LOGIN -->
+<div id="authOverlay">
+  <div class="eccel-login-wrapper">
+    <div class="eccel-top-bar">
+      <div class="eccel-brand-logo">
+        <i class="bi bi-activity"></i>
+        <span>ECCEL</span>
+      </div>
+      <button class="eccel-close-btn" onclick="closeAuthModal()"><i class="bi bi-x-lg"></i></button>
+    </div>
+
+    <div class="eccel-grid">
+      <!-- Left: Form -->
+      <div class="eccel-form-side">
+        <h2><span>Admin</span> Login</h2>
+        <p class="sub-lead">Please enter your credentials to proceed.</p>
+
+        <form id="loginForm">
+          <div class="notched-input-group">
+            <fieldset>
+              <legend>Email Address / Username</legend>
+              <input type="text" id="loginUsername" placeholder="Enter your email or ID" required autocomplete="username" />
+            </fieldset>
+          </div>
+
+          <div class="notched-input-group">
+            <fieldset>
+              <legend>Password</legend>
+              <input type="password" id="loginPassword" placeholder="Enter password" required autocomplete="current-password" />
+            </fieldset>
+          </div>
+
+          <div class="eccel-form-footer">
+            <div class="d-flex align-items-center gap-2">
+              <input type="checkbox" id="rememberMe" style="accent-color: #00e5a3; cursor: pointer;" checked />
+              <label for="rememberMe" style="cursor: pointer; margin: 0;">Remember me</label>
+            </div>
+            <a href="#" onclick="toastr.info('Contact Super Admin to reset password.'); return false;">Forgot your password?</a>
+          </div>
+
+          <button type="submit" class="eccel-btn-primary" id="loginSubmitBtn">Sign in</button>
+        </form>
+      </div>
+
+      <!-- Right: Live Dashboard Preview -->
+      <div class="eccel-preview-side">
+        <div class="preview-top">
+          <span class="brand"><i class="bi bi-activity me-1"></i>ECCEL Live</span>
+          <div class="d-flex align-items-center gap-2">
+            <span class="badge bg-dark-subtle text-white-50 border border-secondary border-opacity-25" style="font-size:0.65rem;">Live Inventory</span>
+            <div class="rounded-circle bg-success" style="width:8px;height:8px;box-shadow:0 0 8px #10b981;"></div>
+          </div>
+        </div>
+
+        <div class="preview-heading"><span>Admin</span> Dashboard</div>
+
+        <div class="preview-stats-grid">
+          <div class="preview-stat-card">
+            <div class="label">Total Orders</div>
+            <div class="val" id="loginLiveOrders">0</div>
+          </div>
+          <div class="preview-stat-card">
+            <div class="label">Fulfilled</div>
+            <div class="val text-success" id="loginLiveFulfilled">0</div>
+          </div>
+          <div class="preview-stat-card">
+            <div class="label">Total Units</div>
+            <div class="val" style="color:#00e5a3;" id="loginLiveTotalParts">0</div>
+          </div>
+          <div class="preview-stat-card">
+            <div class="label">In Stock</div>
+            <div class="val text-info" id="loginLiveAvailable">0</div>
+          </div>
+        </div>
+
+        <div class="preview-charts-grid">
+          <div class="preview-chart-box">
+            <div class="title d-flex justify-content-between">
+              <span>Inventory Inward Status</span>
+              <span class="text-success" style="font-size:0.65rem;" id="loginLiveInwardGrowth">Active</span>
+            </div>
+            <svg class="wave-chart-svg" viewBox="0 0 200 60" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="waveGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#00e5a3" stop-opacity="0.4"/>
+                  <stop offset="100%" stop-color="#00e5a3" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path d="M0,50 Q40,10 80,40 T160,20 T200,30 L200,60 L0,60 Z" fill="url(#waveGrad)"/>
+              <path d="M0,50 Q40,10 80,40 T160,20 T200,30" fill="none" stroke="#00e5a3" stroke-width="2.5"/>
+              <circle cx="160" cy="20" r="3.5" fill="#ffffff" stroke="#00e5a3" stroke-width="2"/>
+            </svg>
+          </div>
+
+          <div class="preview-chart-box text-center">
+            <div class="title text-start">Stock Ratio</div>
+            <div class="ring-chart-wrap">
+              <svg width="60" height="60" viewBox="0 0 36 36">
+                <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#162c36" stroke-width="3.8"/>
+                <path id="loginLiveRing" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831" fill="none" stroke="#00e5a3" stroke-width="3.8" stroke-dasharray="0, 100" stroke-linecap="round"/>
+              </svg>
+              <div class="center-text" id="loginLiveStockPct">0%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CART OFFCANVAS -->
+<div id="cartOverlay" onclick="closeCart()"></div>
+<div id="cartOffcanvas">
+  <div class="p-4 border-bottom d-flex justify-content-between align-items-center">
+    <h5 class="fw-bold mb-0"><i class="bi bi-bag-fill me-2" style="color:var(--gold-2);"></i>Your Order Ticket</h5>
+    <button class="btn btn-sm btn-light" onclick="closeCart()"><i class="bi bi-x-lg"></i></button>
+  </div>
+  <div class="p-3 flex-grow-1" style="overflow-y:auto;" id="cartItemsWrap">
+    <p class="text-muted text-center py-5">Your cart is empty.<br>Browse the storefront to add parts.</p>
+  </div>
+  <div class="p-3 border-top bg-white">
+    <div class="d-flex justify-content-between mb-2"><span class="text-muted small">Subtotal</span><span class="fw-bold fs-5" id="cartSubtotal">₹0</span></div>
+    <button class="btn btn-amber w-100 py-3 fw-bold" id="cartCheckoutBtn" onclick="openCheckout()" disabled>Proceed to Checkout <i class="bi bi-arrow-right ms-1"></i></button>
+  </div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div id="checkoutModal">
+  <div class="modal-box-card" id="checkoutCardInner"></div>
+</div>
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<script>
+  const API_URL = 'https://sheetdb.io/api/v1/44fh043d8a3ki';
+  const ORDERS_URL = API_URL + '?sheet=Orders';
+  const USERS_URL = API_URL + '?sheet=Users';
+
+  const DEFAULT_USERS = [
+    { id: 'admin', mobile: '7044416516', email: 'rg9319808@gmail.com', name: 'Super Admin', pass: '123', role: 'SUPER_ADMIN' },
+    { id: 'operator', mobile: '9876543211', email: 'operator@gmail.com', name: 'Operations Lead', pass: '123', role: 'ADMIN' },
+    { id: 'user', mobile: '9876543212', email: 'user@gmail.com', name: 'Staff Viewer', pass: '123', role: 'USER' }
+  ];
+
+  let cachedUsers = [];
+  let currentUser = null;
+  let rawRecords = [];
+  let partQueue = [];
+  let statusChartInstance = null;
+  let vehicleChartInstance = null;
+  let activeMakeFilter = 'ALL';
+  let activeModelFilter = 'ALL';
+  let cart = [];
+  let localOrders = [];
+
+  document.getElementById('yearNow').innerText = new Date().getFullYear();
+
+  // Bulletproof row indexing to prevent blank or duplicate key collisions
+  function getPartByIndex(index) {
+    const idx = parseInt(index);
+    return rawRecords[idx] || null;
+  }
+
+  function money(n) {
+    const v = parseFloat(n) || 0;
+    return '₹' + v.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+  }
+
+  /* GITHUB API HELPERS */
+  function getGhConfig() {
+    return JSON.parse(localStorage.getItem('yb_gh_config') || '{"token":"","owner":"","repo":"","branch":"main"}');
+  }
+  function saveGhConfig(cfg) { localStorage.setItem('yb_gh_config', JSON.stringify(cfg)); }
+
+  function openGhConfigModal() {
+    const cfg = getGhConfig();
+    document.getElementById('ghToken').value = cfg.token || '';
+    document.getElementById('ghOwner').value = cfg.owner || '';
+    document.getElementById('ghRepo').value = cfg.repo || '';
+    document.getElementById('ghBranch').value = cfg.branch || 'main';
+    document.getElementById('ghConfigModal').style.display = 'flex';
+  }
+  function closeGhConfigModal() { document.getElementById('ghConfigModal').style.display = 'none'; }
+
+  document.getElementById('ghConfigForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    saveGhConfig({
+      token: document.getElementById('ghToken').value.trim(),
+      owner: document.getElementById('ghOwner').value.trim(),
+      repo: document.getElementById('ghRepo').value.trim(),
+      branch: document.getElementById('ghBranch').value.trim() || 'main'
+    });
+    toastr.success("GitHub API settings saved!");
+    closeGhConfigModal();
+  });
+
+  async function uploadImageToGitHub(file, customPrefix = 'part') {
+    const cfg = getGhConfig();
+    if (!cfg.token || !cfg.owner || !cfg.repo) {
+      toastr.warning("Please configure your GitHub API Token under Staff Portal top bar!");
+      openGhConfigModal();
+      throw new Error("Missing GitHub Configuration");
     }
 
-    // ================= USER MANAGEMENT (SUPER ADMIN) =================
-    document.getElementById('createUserForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      if (!currentUser || currentUser.role !== 'SUPER_ADMIN') return;
+    const ext = file.name.split('.').pop();
+    const cleanPrefix = customPrefix.toLowerCase().replace(/[^a-z0-9]/g, '-');
+    const fileName = `${cleanPrefix}-${Date.now()}.${ext}`;
+    const path = `images/${fileName}`;
 
-      const name = document.getElementById('newUserName').value.trim();
-      const identifier = document.getElementById('newUserIdentifier').value.trim();
-      const pass = document.getElementById('newUserPassword').value.trim();
-      const role = document.getElementById('newUserRole').value;
-
-      const users = getUsersDB();
-      if (users.some(u => u.id.toLowerCase() === identifier.toLowerCase())) {
-        toastr.warning(`This Login ID already exists!`);
-        return;
-      }
-
-      users.push({ id: identifier, name, pass, role });
-      saveUsersDB(users);
-      toastr.success(`User "${name}" (${role}) created!`, "Account Created");
-
-      document.getElementById('newUserName').value = '';
-      document.getElementById('newUserIdentifier').value = '';
-      document.getElementById('newUserPassword').value = '';
-      renderUserTable();
+    const base64Content = await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result.split(',')[1]);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
     });
 
-    function renderUserTable() {
-      const users = getUsersDB();
-      const tbody = document.getElementById('userTableBody');
-      document.getElementById('userCount').innerText = users.length;
+    const apiUrl = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}`;
+    const response = await fetch(apiUrl, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${cfg.token}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/vnd.github.v3+json'
+      },
+      body: JSON.stringify({
+        message: `Upload image: ${fileName}`,
+        content: base64Content,
+        branch: cfg.branch || 'main'
+      })
+    });
 
-      tbody.innerHTML = users.map((u) => {
-        let roleBadge = 'bg-secondary';
-        if (u.role === 'SUPER_ADMIN') roleBadge = 'bg-danger';
-        else if (u.role === 'ADMIN') roleBadge = 'bg-primary';
-
-        const isSelf = currentUser && (currentUser.id === u.id);
-
-        return `
-          <tr>
-            <td class="fw-bold">${u.name} ${isSelf ? '<span class="badge bg-light text-dark border ms-1">You</span>' : ''}</td>
-            <td class="font-monospace text-primary">${u.id}</td>
-            <td class="font-monospace fw-bold text-dark">${u.pass}</td>
-            <td><span class="badge ${roleBadge}">${u.role.replace('_', ' ')}</span></td>
-            <td class="text-center">
-              <button class="btn btn-outline-primary btn-sm py-0 px-2 me-1" title="Edit Password" onclick="editPassword('${u.id}')">
-                <i class="bi bi-key"></i>
-              </button>
-              ${isSelf ? '' : `
-                <button class="btn btn-outline-danger btn-sm py-0 px-2" title="Delete User" onclick="deleteUser('${u.id}', '${u.name}')">
-                  <i class="bi bi-trash3"></i>
-                </button>
-              `}
-            </td>
-          </tr>
-        `;
-      }).join('');
+    if (!response.ok) {
+      const err = await response.json();
+      throw new Error(err.message || 'GitHub Upload Failed');
     }
 
-    function editPassword(userId) {
-      const users = getUsersDB();
-      const user = users.find(u => u.id === userId);
-      if (!user) return;
+    return `https://raw.githubusercontent.com/${cfg.owner}/${cfg.repo}/${cfg.branch || 'main'}/${path}`;
+  }
 
-      const newPass = prompt(`Enter new password for ${user.name} (${user.id}):`, user.pass);
-      if (newPass && newPass.trim() !== "") {
-        user.pass = newPass.trim();
-        saveUsersDB(users);
-        toastr.success(`Password updated for ${user.name}`);
-        renderUserTable();
-      }
-    }
+  async function deleteImageFromGitHub(imageUrl) {
+    if (!imageUrl || !imageUrl.includes('githubusercontent.com')) return;
+    const cfg = getGhConfig();
+    if (!cfg.token || !cfg.owner || !cfg.repo) return;
 
-    function deleteUser(userId, name) {
-      if (!confirm(`Are you sure you want to remove ${name} (${userId})?`)) return;
-      let users = getUsersDB();
-      users = users.filter(u => u.id !== userId);
-      saveUsersDB(users);
-      toastr.success(`User ${name} removed.`);
-      renderUserTable();
-    }
+    try {
+      const parts = imageUrl.split('/');
+      const fileName = parts.pop();
+      const path = `images/${fileName}`;
 
-    // ================= SHEETDB SYNC & DATA RENDERING =================
-    async function fetchRecords() {
-      try {
-        const res = await fetch(API_URL);
-        rawRecords = await res.json();
-        document.getElementById('lastSyncTime').innerText = `Last Synced: ${new Date().toLocaleTimeString()}`;
-        updateDashboardKPIs(rawRecords);
-        updateDashboardCharts(rawRecords);
-        renderRecentDashboardTable(rawRecords);
-        applyFilter();
-      } catch (err) {
-        toastr.error('Failed to sync with SheetDB.', 'Network Error');
-      }
-    }
-
-    function updateDashboardKPIs(data) {
-      let totalParts = 0, availableCount = 0, soldCount = 0;
-      const uniqueVehicles = new Set();
-
-      data.forEach(item => {
-        const qty = parseInt(item['QUANTITY']) || 1;
-        totalParts += qty;
-        const rem = (item['REMARKS'] || '').toUpperCase();
-        if (rem.includes('AVAILABLE')) availableCount += qty;
-        else if (rem.includes('SOLD')) soldCount += qty;
-        if (item['VEHICLE NO']) uniqueVehicles.add(item['VEHICLE NO'].trim().toUpperCase());
+      const getFileUrl = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}?ref=${cfg.branch || 'main'}`;
+      const getRes = await fetch(getFileUrl, {
+        headers: { 'Authorization': `Bearer ${cfg.token}`, 'Accept': 'application/vnd.github.v3+json' }
       });
+      if (!getRes.ok) return;
+      const fileData = await getRes.json();
 
-      document.getElementById('dashTotalParts').innerText = totalParts;
-      document.getElementById('dashAvailable').innerText = availableCount;
-      document.getElementById('dashSold').innerText = soldCount;
-      document.getElementById('dashVehicles').innerText = uniqueVehicles.size;
-    }
-
-    function updateDashboardCharts(data) {
-      let available = 0, sold = 0, scrap = 0;
-      const vehicleCounts = {};
-
-      data.forEach(item => {
-        const qty = parseInt(item['QUANTITY']) || 1;
-        const rem = (item['REMARKS'] || '').toUpperCase();
-        if (rem.includes('AVAILABLE')) available += qty;
-        else if (rem.includes('SOLD')) sold += qty;
-        else scrap += qty;
-
-        const vKey = item['MAKE'] && item['MODEL'] ? `${item['MAKE']} ${item['MODEL']}` : (item['VEHICLE NO'] || 'Unknown');
-        vehicleCounts[vKey] = (vehicleCounts[vKey] || 0) + qty;
+      const deleteUrl = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}`;
+      await fetch(deleteUrl, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${cfg.token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: `Delete image: ${fileName}`,
+          sha: fileData.sha,
+          branch: cfg.branch || 'main'
+        })
       });
+    } catch (e) { }
+  }
 
-      const ctxStatus = document.getElementById('statusChart').getContext('2d');
-      if (statusChartInstance) statusChartInstance.destroy();
-      statusChartInstance = new Chart(ctxStatus, {
-        type: 'doughnut',
-        data: {
-          labels: ['Available', 'Sold', 'Scrap'],
-          datasets: [{
-            data: [available, sold, scrap],
-            backgroundColor: ['#10b981', '#3b82f6', '#ef4444'],
-            borderWidth: 2
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          animation: {
-            duration: 800,
-            easing: 'easeOutQuart'
-          },
-          plugins: { legend: { position: 'bottom' } }
-        }
-      });
-
-      const topVehicles = Object.entries(vehicleCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
-      const ctxVehicle = document.getElementById('vehicleChart').getContext('2d');
-      if (vehicleChartInstance) vehicleChartInstance.destroy();
-      vehicleChartInstance = new Chart(ctxVehicle, {
-        type: 'bar',
-        data: {
-          labels: topVehicles.map(v => v[0]),
-          datasets: [{
-            label: 'Parts Dismantled',
-            data: topVehicles.map(v => v[1]),
-            backgroundColor: '#2563eb',
-            borderRadius: 6
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          animation: {
-            duration: 800,
-            easing: 'easeOutQuart'
-          },
-          plugins: { legend: { display: false } },
-          scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
-        }
-      });
+  /* FILE PICKER HANDLERS */
+  document.getElementById('partFileInput').addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const status = document.getElementById('fileUploadStatus');
+    const pName = document.getElementById('partName').value.trim() || 'part';
+    status.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Uploading to GitHub...';
+    try {
+      const url = await uploadImageToGitHub(file, pName);
+      document.getElementById('partImageUrl').value = url;
+      status.innerHTML = `<span class="text-success"><i class="bi bi-check-circle-fill me-1"></i>Uploaded to GitHub: ${file.name}</span>`;
+      toastr.success("Photo uploaded to GitHub images folder!");
+    } catch (err) {
+      status.innerHTML = `<span class="text-danger"><i class="bi bi-x-circle me-1"></i>Upload failed: ${err.message}</span>`;
     }
+  });
 
-    function renderRecentDashboardTable(data) {
-      const tbody = document.getElementById('dashTableBody');
-      const recent = data.slice(-5).reverse();
-      if (!recent.length) {
-        tbody.innerHTML = `<tr><td colspan="7" class="text-center py-3 text-muted">No records available</td></tr>`;
-        return;
-      }
-      tbody.innerHTML = recent.map(row => {
-        const remark = (row['REMARKS'] || 'AVAILABLE').toUpperCase();
-        const badgeClass = remark.includes('AVAILABLE') ? 'bg-success' : (remark.includes('SOLD') ? 'bg-primary' : 'bg-danger');
-        return `
-          <tr>
-            <td>${row['DISMENTLE DATE'] || '-'}</td>
-            <td class="fw-bold font-monospace">${row['VEHICLE NO'] || '-'}</td>
-            <td>${row['MAKE'] || ''} ${row['MODEL'] || ''}</td>
-            <td class="fw-semibold text-primary">${row["PART'S NAME"] || '-'}</td>
-            <td>${row['QUANTITY'] || '1'}</td>
-            <td><span class="badge bg-light text-dark border">${row['IDENTIFICATION NUMBER'] || '-'}</span></td>
-            <td><span class="badge ${badgeClass}">${remark}</span></td>
-          </tr>
-        `;
-      }).join('');
+  document.getElementById('editFileInput').addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const pName = document.getElementById('editPartName').value.trim() || 'part';
+    toastr.info("Uploading photo to GitHub...");
+    try {
+      const url = await uploadImageToGitHub(file, pName);
+      document.getElementById('editImageUrl').value = url;
+      previewEditImage();
+      toastr.success("Photo uploaded and attached to part!");
+    } catch (err) {
+      toastr.error("Failed to upload image: " + err.message);
     }
+  });
 
-    function applyFilter() {
-      const qMake = document.getElementById('searchMake').value.toLowerCase().trim();
-      const qModel = document.getElementById('searchModel').value.toLowerCase().trim();
-      const qYear = document.getElementById('searchYear').value.toLowerCase().trim();
-      const qPart = document.getElementById('searchPart').value.toLowerCase().trim();
-      const qGen = document.getElementById('searchGeneral').value.toLowerCase().trim();
-      const status = document.getElementById('statusFilter').value;
+  /* NAV SWITCHING */
+  function showStorefront() {
+    document.getElementById('storefrontView').classList.remove('d-none');
+    document.getElementById('staffLoginPrompt').classList.add('d-none');
+    document.getElementById('appContainer').classList.add('d-none');
+    document.getElementById('navStorefrontBtn').classList.add('active');
+    document.getElementById('navStaffBtn').classList.remove('active');
+  }
 
-      const filtered = rawRecords.filter(row => {
-        const rowMake = (row['MAKE'] || '').toLowerCase();
-        const rowModel = (row['MODEL'] || '').toLowerCase();
-        const rowYear = String(row['YEAR'] || '').toLowerCase();
-        const rowPart = (row["PART'S NAME"] || '').toLowerCase();
-        const rowVehNo = (row['VEHICLE NO'] || '').toLowerCase();
-        const rowIdent = (row['IDENTIFICATION NUMBER'] || '').toLowerCase();
-
-        const matchMake = !qMake || rowMake.includes(qMake);
-        const matchModel = !qModel || rowModel.includes(qModel);
-        const matchYear = !qYear || rowYear.includes(qYear);
-        const matchPart = !qPart || rowPart.includes(qPart);
-        const matchGen = !qGen || (rowVehNo.includes(qGen) || rowIdent.includes(qGen));
-
-        const remarkUpper = (row['REMARKS'] || '').toUpperCase();
-        let matchStatus = true;
-        if (status === 'AVAILABLE') matchStatus = remarkUpper.includes('AVAILABLE');
-        else if (status === 'SOLD') matchStatus = remarkUpper.includes('SOLD');
-        else if (status === 'SCRAP') matchStatus = remarkUpper.includes('SCRAP');
-
-        return matchMake && matchModel && matchYear && matchPart && matchGen && matchStatus;
-      });
-
-      renderTable(filtered);
+  function showStaffArea() {
+    document.getElementById('storefrontView').classList.add('d-none');
+    document.getElementById('navStorefrontBtn').classList.remove('active');
+    document.getElementById('navStaffBtn').classList.add('active');
+    if (currentUser) {
+      document.getElementById('appContainer').classList.remove('d-none');
+      document.getElementById('staffLoginPrompt').classList.add('d-none');
+    } else {
+      document.getElementById('staffLoginPrompt').classList.remove('d-none');
+      document.getElementById('appContainer').classList.add('d-none');
     }
+  }
 
-    function resetFilters() {
-      document.getElementById('searchMake').value = '';
-      document.getElementById('searchModel').value = '';
-      document.getElementById('searchYear').value = '';
-      document.getElementById('searchPart').value = '';
-      document.getElementById('searchGeneral').value = '';
-      document.getElementById('statusFilter').value = 'ALL';
-      applyFilter();
-    }
+  function openAuthModal() { document.getElementById('authOverlay').style.display = 'flex'; }
+  function closeAuthModal() { document.getElementById('authOverlay').style.display = 'none'; }
 
-    function renderTable(data) {
-      const tbody = document.getElementById('tableBody');
-      document.getElementById('filteredCount').innerText = data.length;
-
-      if (!data.length) {
-        tbody.innerHTML = `<tr><td colspan="8" class="text-center py-5 text-muted">No records matching search criteria.</td></tr>`;
-        return;
-      }
-
-      const isSuperAdmin = currentUser && currentUser.role === 'SUPER_ADMIN';
-      const isAdmin = currentUser && (currentUser.role === 'SUPER_ADMIN' || currentUser.role === 'ADMIN');
-
-      tbody.innerHTML = data.map(row => {
-        const currentRemark = (row['REMARKS'] || 'AVAILABLE').toUpperCase();
-        let statusControl = '';
-        if (isAdmin) {
-          statusControl = `
-            <select class="form-select form-select-sm py-0 px-2 fw-semibold ${currentRemark.includes('AVAILABLE') ? 'text-success' : (currentRemark.includes('SOLD') ? 'text-primary' : 'text-danger')}" 
-                    onchange="updateRowStatus('${row["PART'S NAME"]}', this.value)" style="font-size: 0.8rem; height: 28px;">
-              <option value="AVAILABLE" ${currentRemark.includes('AVAILABLE') ? 'selected' : ''}>🟢 AVAILABLE</option>
-              <option value="SOLD" ${currentRemark.includes('SOLD') ? 'selected' : ''}>🔵 SOLD</option>
-              <option value="SCRAP / DAMAGED" ${currentRemark.includes('SCRAP') ? 'selected' : ''}>🔴 SCRAP</option>
-            </select>
-          `;
+  /* AUTH */
+  async function fetchUsers() {
+    try {
+      const res = await fetch(USERS_URL);
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          const map = new Map();
+          DEFAULT_USERS.forEach(u => map.set(u.id.toLowerCase(), u));
+          data.forEach(u => {
+            if (u.id) map.set(u.id.toLowerCase(), {
+              id: u.id,
+              name: u.name || u.id,
+              pass: u.pass || '123',
+              role: u.role || 'USER',
+              mobile: u.mobile || '',
+              email: u.email || ''
+            });
+          });
+          cachedUsers = Array.from(map.values());
         } else {
-          const badgeClass = currentRemark.includes('AVAILABLE') ? 'bg-success' : (currentRemark.includes('SOLD') ? 'bg-primary' : 'bg-danger');
-          statusControl = `<span class="badge ${badgeClass}">${currentRemark}</span>`;
+          cachedUsers = DEFAULT_USERS;
         }
-
-        let actionCol = '';
-        if (isSuperAdmin) {
-          actionCol = `
-            <td class="text-center">
-              <button class="btn btn-outline-danger btn-sm py-0 px-2" title="Delete Part" onclick="deleteRow('${row["PART'S NAME"]}')">
-                <i class="bi bi-trash3"></i>
-              </button>
-            </td>
-          `;
-        } else if (isAdmin) {
-          actionCol = `<td class="text-center text-muted small">-</td>`;
-        }
-
-        return `
-          <tr>
-            <td class="text-nowrap text-secondary">${row['DISMENTLE DATE'] || '-'}</td>
-            <td class="fw-bold text-dark font-monospace">${row['VEHICLE NO'] || '-'}</td>
-            <td>
-              <div class="fw-semibold">${row['MAKE'] || ''} ${row['MODEL'] || ''}</div>
-              <small class="text-muted">${row['YEAR'] ? 'Yr: ' + row['YEAR'] : ''}</small>
-            </td>
-            <td class="fw-bold text-primary">${row["PART'S NAME"] || '-'}</td>
-            <td class="text-center fw-bold">${row['QUANTITY'] || '1'}</td>
-            <td><span class="badge bg-light text-dark border font-monospace">${row['IDENTIFICATION NUMBER'] || '-'}</span></td>
-            <td>${statusControl}</td>
-            ${actionCol}
-          </tr>
-        `;
-      }).join('');
-    }
-
-    function addPartToQueue() {
-      const partName = document.getElementById('partName').value.trim();
-      const qty = document.getElementById('quantity').value;
-      const identNo = document.getElementById('identNo').value.trim();
-      const remarks = document.getElementById('remarks').value;
-
-      if (!partName) return toastr.warning("Please enter Part's Name!");
-
-      partQueue.push({ partName: partName.toUpperCase(), qty, identNo: identNo.toUpperCase(), remarks });
-      renderBatchList();
-      document.getElementById('partName').value = '';
-      document.getElementById('partName').focus();
-    }
-
-    function renderBatchList() {
-      const container = document.getElementById('batchList');
-      const section = document.getElementById('batchSection');
-      document.getElementById('queueCount').innerText = partQueue.length;
-
-      if (partQueue.length === 0) {
-        section.style.display = 'none';
-        return;
+      } else {
+        cachedUsers = DEFAULT_USERS;
       }
+    } catch (e) {
+      cachedUsers = DEFAULT_USERS;
+    }
+    renderUserTable();
+    return cachedUsers;
+  }
 
-      section.style.display = 'block';
-      container.innerHTML = partQueue.map((p, idx) => `
-        <div class="batch-item d-flex justify-content-between align-items-center">
-          <div>
-            <strong>${p.partName}</strong> (Qty: ${p.qty}) 
-            <small class="text-muted ms-2">${p.identNo ? `[${p.identNo}]` : ''} - ${p.remarks}</small>
-          </div>
-          <button class="btn btn-link text-danger p-0 ms-2" onclick="removeBatchItem(${idx})"><i class="bi bi-x-circle"></i></button>
-        </div>
-      `).join('');
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('loginSubmitBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Signing in...';
+
+    const loginId = document.getElementById('loginUsername').value.trim().toLowerCase();
+    const pass = document.getElementById('loginPassword').value.trim();
+    
+    await fetchUsers();
+    btn.disabled = false;
+    btn.innerHTML = 'Sign in';
+
+    const account = cachedUsers.find(u =>
+      (u.id.toLowerCase() === loginId || (u.mobile && u.mobile === loginId) || (u.email && u.email.toLowerCase() === loginId)) &&
+      String(u.pass) === pass
+    );
+
+    if (!account) { 
+      toastr.error("Invalid Username/ID or Password!", "Access Denied"); 
+      return; 
     }
 
-    function removeBatchItem(index) {
-      partQueue.splice(index, 1);
-      renderBatchList();
+    currentUser = account;
+    sessionStorage.setItem('auth_user_session', JSON.stringify(currentUser));
+    toastr.success(`Welcome, ${currentUser.name}! (${currentUser.role.replace('_', ' ')})`, "Login Successful");
+    closeAuthModal();
+    initializeSession();
+  });
+
+  function logout() {
+    sessionStorage.removeItem('auth_user_session');
+    currentUser = null;
+    document.getElementById('staffGreeting').innerText = '';
+    document.getElementById('loginPassword').value = '';
+    toastr.info("Logged out safely.");
+    showStaffArea();
+  }
+
+  function checkSession() {
+    const stored = sessionStorage.getItem('auth_user_session');
+    if (stored) { try { currentUser = JSON.parse(stored); initializeSession(false); } catch(e) {} }
+  }
+
+  function initializeSession(switchToStaff = true) {
+    document.getElementById('userDisplayName').innerText = currentUser.name;
+    document.getElementById('staffGreeting').innerText = `Signed in as ${currentUser.name}`;
+    const badge = document.getElementById('userRoleBadge');
+    badge.innerText = currentUser.role.replace('_', ' ');
+
+    if (currentUser.role === 'SUPER_ADMIN') {
+      badge.className = 'badge bg-danger text-white fw-bold px-2 py-1';
+      document.getElementById('userMgmtTabItem').classList.remove('d-none');
+      document.getElementById('entryPanelCol').style.display = 'block';
+      document.getElementById('userNoticeCol').classList.add('d-none');
+      document.getElementById('tableCol').className = 'col-xl-8 col-lg-7';
+      document.getElementById('actionHeader').style.display = '';
+      fetchUsers();
+    } else if (currentUser.role === 'ADMIN') {
+      badge.className = 'badge fw-bold px-2 py-1 text-dark';
+      badge.style.background = 'var(--gold-2)';
+      document.getElementById('userMgmtTabItem').classList.add('d-none');
+      document.getElementById('entryPanelCol').style.display = 'block';
+      document.getElementById('userNoticeCol').classList.add('d-none');
+      document.getElementById('tableCol').className = 'col-xl-8 col-lg-7';
+      document.getElementById('actionHeader').style.display = '';
+    } else {
+      badge.className = 'badge bg-secondary text-white fw-bold px-2 py-1';
+      document.getElementById('userMgmtTabItem').classList.add('d-none');
+      document.getElementById('entryPanelCol').style.display = 'none';
+      document.getElementById('userNoticeCol').classList.remove('d-none');
+      document.getElementById('tableCol').className = 'col-12';
+      document.getElementById('actionHeader').style.display = 'none';
     }
 
-    function clearBatch() {
-      partQueue = [];
-      renderBatchList();
+    document.getElementById('dismentleDate').valueAsDate = new Date();
+    if (switchToStaff) showStaffArea(); else if (!document.getElementById('appContainer').classList.contains('d-none') || document.getElementById('navStaffBtn').classList.contains('active')) showStaffArea();
+    fetchRecords();
+    fetchOrders();
+  }
+
+  /* USER MANAGEMENT */
+  document.getElementById('createUserForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!currentUser || currentUser.role !== 'SUPER_ADMIN') return;
+    const name = document.getElementById('newUserName').value.trim();
+    const identifier = document.getElementById('newUserIdentifier').value.trim();
+    const pass = document.getElementById('newUserPassword').value.trim();
+    const role = document.getElementById('newUserRole').value;
+
+    if (cachedUsers.some(u => u.id.toLowerCase() === identifier.toLowerCase())) { 
+      toastr.warning(`This Login ID already exists!`); 
+      return; 
     }
 
-    async function submitBatchToSheet() {
-      const vehicleNo = document.getElementById('vehicleNo').value.trim();
-      const make = document.getElementById('make').value.trim();
-      const model = document.getElementById('model').value.trim();
-      const year = document.getElementById('year').value.trim();
+    const newUserObj = {
+      id: identifier,
+      name: name,
+      pass: pass,
+      role: role,
+      mobile: identifier.match(/^\d{10}$/) ? identifier : '',
+      email: identifier.includes('@') ? identifier : ''
+    };
 
-      if (!vehicleNo || !make) return toastr.warning("Please fill in Vehicle Number and Make!");
+    const btn = document.getElementById('createAccountBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Saving to Google Sheets...';
 
-      if (partQueue.length === 0) {
-        const currentPart = document.getElementById('partName').value.trim();
-        if (currentPart) addPartToQueue();
-        else return toastr.warning("Please enter at least one part name.");
+    try {
+      const res = await fetch(USERS_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ data: [newUserObj] })
+      });
+      if (res.ok) {
+        toastr.success(`User "${name}" (${role}) saved to Google Sheets!`, "Account Created");
+        document.getElementById('newUserName').value = '';
+        document.getElementById('newUserIdentifier').value = '';
+        document.getElementById('newUserPassword').value = '';
+        await fetchUsers();
+      } else {
+        toastr.error("Could not write user to Google Sheet. Check Sheet tab name 'Users'.");
       }
+    } catch (err) {
+      toastr.error("Network issue connecting to Users Sheet.");
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="bi bi-check-circle-fill me-1"></i> Register Account';
+    }
+  });
 
-      const rawDate = document.getElementById('dismentleDate').value;
-      const [y, m, d] = rawDate.split('-');
-      const formattedDate = `${d}-${m}-${y}`;
+  function renderUserTable() {
+    const tbody = document.getElementById('userTableBody');
+    document.getElementById('userCount').innerText = cachedUsers.length;
+    tbody.innerHTML = cachedUsers.map((u) => {
+      let roleBadge = 'bg-secondary';
+      if (u.role === 'SUPER_ADMIN') roleBadge = 'bg-danger';
+      else if (u.role === 'ADMIN') roleBadge = 'bg-primary';
+      const isSelf = currentUser && (currentUser.id === u.id);
+      return `
+        <tr>
+          <td class="fw-bold">${u.name} ${isSelf ? '<span class="badge bg-light text-dark border ms-1">You</span>' : ''}</td>
+          <td class="mono text-primary">${u.id}</td>
+          <td class="mono fw-bold text-dark">${u.pass}</td>
+          <td><span class="badge ${roleBadge}">${u.role.replace('_', ' ')}</span></td>
+          <td class="text-center">
+            <button class="btn btn-outline-primary btn-sm py-0 px-2 me-1" title="Edit Password" onclick="editPassword('${u.id}')"><i class="bi bi-key"></i></button>
+            ${isSelf ? '' : `<button class="btn btn-outline-danger btn-sm py-0 px-2" title="Delete User" onclick="deleteUser('${u.id}', '${u.name}')"><i class="bi bi-trash3"></i></button>`}
+          </td>
+        </tr>`;
+    }).join('');
+  }
 
-      const payload = {
-        data: partQueue.map(p => ({
-          "DISMENTLE DATE": formattedDate,
-          "VEHICLE NO": vehicleNo.toUpperCase(),
-          "MAKE": make.toUpperCase(),
-          "MODEL": model.toUpperCase(),
-          "YEAR": year,
-          "PART'S NAME": p.partName,
-          "QUANTITY": p.qty,
-          "IDENTIFICATION NUMBER": p.identNo || document.getElementById('identNo').value.toUpperCase().trim(),
-          "REMARKS": p.remarks
-        }))
-      };
-
-      const btn = document.getElementById('submitBtn');
-      btn.disabled = true;
-      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Saving to Database...';
-
+  async function editPassword(userId) {
+    const user = cachedUsers.find(u => u.id === userId);
+    if (!user) return;
+    const newPass = prompt(`Enter new password for ${user.name} (${user.id}):`, user.pass);
+    if (newPass && newPass.trim() !== "") {
       try {
-        const res = await fetch(API_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-
-        if (res.ok) {
-          toastr.success(`${partQueue.length} parts added to Google Sheets!`, "Success");
-          clearBatch();
-          document.getElementById('partName').value = '';
-          fetchRecords();
-        } else {
-          toastr.error("Could not write records. Verify SheetDB limits.", "Error");
-        }
-      } catch (err) {
-        toastr.error("Network issue while connecting with API.", "Network Error");
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = '<i class="bi bi-cloud-arrow-up-fill"></i> Save Entries to Google Sheet';
-      }
-    }
-
-    async function updateRowStatus(partName, newStatus) {
-      if (!partName) return;
-      try {
-        toastr.info(`Updating status to ${newStatus}...`);
-        const updateUrl = `${API_URL}/PART'S%20NAME/${encodeURIComponent(partName)}`;
+        toastr.info("Updating password in Google Sheet...");
+        const updateUrl = `${USERS_URL.split('?')[0]}/id/${encodeURIComponent(userId)}?sheet=Users`;
         const res = await fetch(updateUrl, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ data: { "REMARKS": newStatus } })
+          body: JSON.stringify({ data: { pass: newPass.trim() } })
         });
         if (res.ok) {
-          toastr.success(`Status updated to ${newStatus}`);
-          fetchRecords();
-        }
-      } catch (e) {
-        toastr.error('Failed to update status.');
-      }
-    }
-
-    async function deleteRow(partName) {
-      if (!confirm(`Are you sure you want to delete "${partName}"?`)) return;
-      try {
-        toastr.info(`Deleting ${partName}...`);
-        const deleteUrl = `${API_URL}/PART'S%20NAME/${encodeURIComponent(partName)}`;
-        const res = await fetch(deleteUrl, { method: 'DELETE' });
-        if (res.ok) {
-          toastr.success("Record deleted.");
-          fetchRecords();
+          toastr.success(`Password updated for ${user.name}`);
+          await fetchUsers();
         } else {
-          toastr.error("Error deleting row.");
+          toastr.warning("Could not sync password online.");
         }
       } catch (e) {
-        toastr.error('Error deleting row.');
+        toastr.error("Failed to connect to Google Sheet.");
       }
     }
+  }
 
-    function exportToCSV() {
-      if (!rawRecords.length) return toastr.warning("No data to export!");
-      let csv = "DISMENTLE DATE,VEHICLE NO,MAKE,MODEL,YEAR,PART'S NAME,QUANTITY,IDENTIFICATION NUMBER,REMARKS\n";
-      rawRecords.forEach(r => {
-        csv += `"${r['DISMENTLE DATE'] || ''}","${r['VEHICLE NO'] || ''}","${r['MAKE'] || ''}","${r['MODEL'] || ''}","${r['YEAR'] || ''}","${r["PART'S NAME"] || ''}","${r['QUANTITY'] || ''}","${r['IDENTIFICATION NUMBER'] || ''}","${r['REMARKS'] || ''}"\n`;
+  async function deleteUser(userId, name) {
+    if (!confirm(`Are you sure you want to remove ${name} (${userId})?`)) return;
+    try {
+      toastr.info(`Deleting user ${name}...`);
+      const deleteUrl = `${USERS_URL.split('?')[0]}/id/${encodeURIComponent(userId)}?sheet=Users`;
+      const res = await fetch(deleteUrl, { method: 'DELETE' });
+      if (res.ok) {
+        toastr.success(`User ${name} removed from Google Sheet.`);
+        await fetchUsers();
+      } else {
+        toastr.error("Could not remove user from sheet.");
+      }
+    } catch (e) {
+      toastr.error("Network issue.");
+    }
+  }
+
+  /* SHEETDB SYNC & RENDERING */
+  async function fetchRecords() {
+    try {
+      const res = await fetch(API_URL);
+      const data = await res.json();
+      rawRecords = data.map((r, i) => ({ ...r, _origIndex: i }));
+      const syncEl = document.getElementById('lastSyncTime');
+      if (syncEl) syncEl.innerText = `Last Synced: ${new Date().toLocaleTimeString()}`;
+      updateDashboardKPIs(rawRecords);
+      updateDashboardCharts(rawRecords);
+      renderRecentDashboardTable(rawRecords);
+      applyFilter();
+      renderCategoryStrip(rawRecords);
+      if (activeMakeFilter !== 'ALL') renderModelStrip(activeMakeFilter);
+      applyStoreFilter();
+    } catch (err) {
+      toastr.error('Failed to sync with SheetDB.', 'Network Error');
+    }
+  }
+
+  function updateDashboardKPIs(data) {
+    let totalParts = 0, availableCount = 0, soldCount = 0, availableValue = 0;
+    const uniqueVehicles = new Set();
+    data.forEach(item => {
+      const qty = parseInt(item['QUANTITY']) || 1;
+      const price = parseFloat(item['PRICE']) || 0;
+      totalParts += qty;
+      const rem = (item['REMARKS'] || '').toUpperCase();
+      if (rem.includes('AVAILABLE')) { availableCount += qty; availableValue += price * qty; }
+      else if (rem.includes('SOLD')) soldCount += qty;
+      if (item['VEHICLE NO']) uniqueVehicles.add(item['VEHICLE NO'].trim().toUpperCase());
+    });
+    document.getElementById('dashTotalParts').innerText = totalParts;
+    document.getElementById('dashAvailable').innerText = availableCount;
+    document.getElementById('dashStockValue').innerText = `≈ ${money(availableValue)} value`;
+    document.getElementById('dashSold').innerText = soldCount;
+    document.getElementById('dashVehicles').innerText = uniqueVehicles.size;
+
+    // Update Live Login Preview Side
+    const liveTotalPartsEl = document.getElementById('loginLiveTotalParts');
+    const liveAvailableEl = document.getElementById('loginLiveAvailable');
+    const liveStockPctEl = document.getElementById('loginLiveStockPct');
+    const liveRingEl = document.getElementById('loginLiveRing');
+    
+    if (liveTotalPartsEl) liveTotalPartsEl.innerText = totalParts;
+    if (liveAvailableEl) liveAvailableEl.innerText = availableCount;
+    
+    const pct = totalParts > 0 ? Math.round((availableCount / totalParts) * 100) : 0;
+    if (liveStockPctEl) liveStockPctEl.innerText = `${pct}%`;
+    if (liveRingEl) liveRingEl.setAttribute('stroke-dasharray', `${pct}, 100`);
+  }
+
+  function updateDashboardCharts(data) {
+    let available = 0, sold = 0, scrap = 0;
+    const vehicleCounts = {};
+    data.forEach(item => {
+      const qty = parseInt(item['QUANTITY']) || 1;
+      const rem = (item['REMARKS'] || '').toUpperCase();
+      if (rem.includes('AVAILABLE')) available += qty;
+      else if (rem.includes('SOLD')) sold += qty;
+      else scrap += qty;
+      const vKey = item['MAKE'] && item['MODEL'] ? `${item['MAKE']} ${item['MODEL']}` : (item['VEHICLE NO'] || 'Unknown');
+      vehicleCounts[vKey] = (vehicleCounts[vKey] || 0) + qty;
+    });
+
+    const ctxStatus = document.getElementById('statusChart').getContext('2d');
+    if (statusChartInstance) statusChartInstance.destroy();
+    statusChartInstance = new Chart(ctxStatus, {
+      type: 'doughnut',
+      data: { labels: ['Available', 'Sold', 'Scrap'], datasets: [{ data: [available, sold, scrap], backgroundColor: ['#10b981', '#00b884', '#ef4444'], borderWidth: 0 }] },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+    });
+
+    const topVehicles = Object.entries(vehicleCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
+    const ctxVehicle = document.getElementById('vehicleChart').getContext('2d');
+    if (vehicleChartInstance) vehicleChartInstance.destroy();
+    vehicleChartInstance = new Chart(ctxVehicle, {
+      type: 'bar',
+      data: { labels: topVehicles.map(v => v[0]), datasets: [{ label: 'Parts Dismantled', data: topVehicles.map(v => v[1]), backgroundColor: '#070d12', borderRadius: 8 }] },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+    });
+  }
+
+  function renderRecentDashboardTable(data) {
+    const tbody = document.getElementById('dashTableBody');
+    const recent = data.slice(-5).reverse();
+    if (!recent.length) { tbody.innerHTML = `<tr><td colspan="7" class="text-center py-3 text-muted">No records available</td></tr>`; return; }
+    tbody.innerHTML = recent.map(row => {
+      const remark = (row['REMARKS'] || 'AVAILABLE').toUpperCase();
+      const badgeClass = remark.includes('AVAILABLE') ? 'bg-success' : (remark.includes('SOLD') ? 'bg-primary' : (remark.includes('RESERVED') ? '' : 'bg-danger'));
+      const styleAttr = remark.includes('RESERVED') ? 'style="background:var(--gold-2);color:#fff;"' : '';
+      return `
+        <tr>
+          <td>${row['DISMENTLE DATE'] || '-'}</td>
+          <td class="fw-bold mono">${row['VEHICLE NO'] || '-'}</td>
+          <td>${row['MAKE'] || ''} ${row['MODEL'] || ''}</td>
+          <td class="fw-semibold text-dark">${row["PART'S NAME"] || '-'}</td>
+          <td>${row['QUANTITY'] || '1'}</td>
+          <td><span class="badge bg-light text-dark border mono">${row['IDENTIFICATION NUMBER'] || '-'}</span></td>
+          <td><span class="badge ${badgeClass}" ${styleAttr}>${remark}</span></td>
+        </tr>`;
+    }).join('');
+  }
+
+  function applyFilter() {
+    const qMake = document.getElementById('searchMake').value.toLowerCase().trim();
+    const qModel = document.getElementById('searchModel').value.toLowerCase().trim();
+    const qYear = document.getElementById('searchYear').value.toLowerCase().trim();
+    const qPart = document.getElementById('searchPart').value.toLowerCase().trim();
+    const qGen = document.getElementById('searchGeneral').value.toLowerCase().trim();
+    const status = document.getElementById('statusFilter').value;
+
+    const filtered = rawRecords.filter(row => {
+      const rowMake = (row['MAKE'] || '').toLowerCase();
+      const rowModel = (row['MODEL'] || '').toLowerCase();
+      const rowYear = String(row['YEAR'] || '').toLowerCase();
+      const rowPart = (row["PART'S NAME"] || '').toLowerCase();
+      const rowVehNo = (row['VEHICLE NO'] || '').toLowerCase();
+      const rowIdent = (row['IDENTIFICATION NUMBER'] || '').toLowerCase();
+
+      const matchMake = !qMake || rowMake.includes(qMake);
+      const matchModel = !qModel || rowModel.includes(qModel);
+      const matchYear = !qYear || rowYear.includes(qYear);
+      const matchPart = !qPart || rowPart.includes(qPart);
+      const matchGen = !qGen || (rowVehNo.includes(qGen) || rowIdent.includes(qGen));
+
+      const remarkUpper = (row['REMARKS'] || '').toUpperCase();
+      let matchStatus = true;
+      if (status === 'AVAILABLE') matchStatus = remarkUpper.includes('AVAILABLE');
+      else if (status === 'RESERVED') matchStatus = remarkUpper.includes('RESERVED');
+      else if (status === 'SOLD') matchStatus = remarkUpper.includes('SOLD');
+      else if (status === 'SCRAP') matchStatus = remarkUpper.includes('SCRAP');
+
+      return matchMake && matchModel && matchYear && matchPart && matchGen && matchStatus;
+    });
+    renderTable(filtered);
+  }
+
+  function resetFilters() {
+    document.getElementById('searchMake').value = '';
+    document.getElementById('searchModel').value = '';
+    document.getElementById('searchYear').value = '';
+    document.getElementById('searchPart').value = '';
+    document.getElementById('searchGeneral').value = '';
+    document.getElementById('statusFilter').value = 'ALL';
+    applyFilter();
+  }
+
+  function statusBadgeInfo(remarkUpper) {
+    if (remarkUpper.includes('AVAILABLE')) return { cls: 'bg-success', label: remarkUpper };
+    if (remarkUpper.includes('RESERVED')) return { cls: '', label: remarkUpper, style: 'background:var(--gold-2);color:#fff;' };
+    if (remarkUpper.includes('SOLD')) return { cls: 'bg-primary', label: remarkUpper };
+    return { cls: 'bg-danger', label: remarkUpper };
+  }
+
+  function renderTable(data) {
+    const tbody = document.getElementById('tableBody');
+    document.getElementById('filteredCount').innerText = data.length;
+    if (!data.length) { tbody.innerHTML = `<tr><td colspan="10" class="text-center py-5 text-muted">No records matching search criteria.</td></tr>`; return; }
+
+    const isSuperAdmin = currentUser && currentUser.role === 'SUPER_ADMIN';
+    const isAdmin = currentUser && (currentUser.role === 'SUPER_ADMIN' || currentUser.role === 'ADMIN');
+
+    tbody.innerHTML = data.map(row => {
+      const currentRemark = (row['REMARKS'] || 'AVAILABLE').toUpperCase();
+      const origIdx = row._origIndex;
+      let statusControl = '';
+      if (isAdmin) {
+        statusControl = `
+          <select class="form-select form-select-sm py-0 px-2 fw-semibold" onchange="updateRowStatus(${origIdx}, this.value)" style="font-size: 0.8rem; height: 30px;">
+            <option value="AVAILABLE" ${currentRemark.includes('AVAILABLE') ? 'selected' : ''}>🟢 AVAILABLE</option>
+            <option value="RESERVED" ${currentRemark.includes('RESERVED') ? 'selected' : ''}>🟠 RESERVED</option>
+            <option value="SOLD" ${currentRemark.includes('SOLD') ? 'selected' : ''}>🔵 SOLD</option>
+            <option value="SCRAP / DAMAGED" ${currentRemark.includes('SCRAP') ? 'selected' : ''}>🔴 SCRAP</option>
+          </select>`;
+      } else {
+        const info = statusBadgeInfo(currentRemark);
+        statusControl = `<span class="badge ${info.cls}" style="${info.style || ''}">${info.label}</span>`;
+      }
+
+      let actionCol = '';
+      if (isAdmin) {
+        actionCol = `
+          <td class="text-center text-nowrap">
+            <button class="btn btn-outline-dark btn-sm py-0 px-2 me-1" title="Edit Part" onclick="openEditModal(${origIdx})">
+              <i class="bi bi-pencil-square"></i> Edit
+            </button>
+            ${isSuperAdmin ? `<button class="btn btn-outline-danger btn-sm py-0 px-2" title="Delete Part" onclick="deleteRow(${origIdx})"><i class="bi bi-trash3"></i></button>` : ''}
+          </td>`;
+      }
+
+      const thumbUrl = (row['IMAGE URL'] || '').trim();
+      const thumb = thumbUrl
+        ? `<img src="${thumbUrl}" alt="" style="width:42px;height:42px;object-fit:cover;border-radius:8px;border:1px solid var(--line);" onerror="this.replaceWith(Object.assign(document.createElement('i'),{className:'bi bi-image text-muted fs-5'}))" />`
+        : `<i class="bi bi-image text-muted fs-5"></i>`;
+
+      return `
+        <tr>
+          <td>${thumb}</td>
+          <td class="text-nowrap text-secondary">${row['DISMENTLE DATE'] || '-'}</td>
+          <td class="fw-bold text-dark mono">${row['VEHICLE NO'] || '-'}</td>
+          <td><div class="fw-semibold">${row['MAKE'] || ''} ${row['MODEL'] || ''}</div><small class="text-muted">${row['YEAR'] ? 'Yr: ' + row['YEAR'] : ''}</small></td>
+          <td class="fw-bold text-dark">${row["PART'S NAME"] || '-'}</td>
+          <td class="text-center fw-bold">${row['QUANTITY'] || '1'}</td>
+          <td class="fw-semibold">${row['PRICE'] ? money(row['PRICE']) : '<span class="text-muted small">—</span>'}</td>
+          <td><span class="badge bg-light text-dark border mono">${row['IDENTIFICATION NUMBER'] || '-'}</span></td>
+          <td>${statusControl}</td>
+          ${actionCol}
+        </tr>`;
+    }).join('');
+  }
+
+  /* EDIT PART MODAL LOGIC */
+  function openEditModal(origIdx) {
+    const row = getPartByIndex(origIdx);
+    if (!row) return;
+
+    document.getElementById('editOriginalIndex').value = origIdx;
+    document.getElementById('editPartName').value = row["PART'S NAME"] || '';
+    document.getElementById('editImageUrl').value = row["IMAGE URL"] || '';
+    document.getElementById('editIdentNo').value = row["IDENTIFICATION NUMBER"] || '';
+    document.getElementById('editQuantity').value = row["QUANTITY"] || '1';
+    document.getElementById('editPrice').value = row["PRICE"] || '';
+    document.getElementById('editFileInput').value = '';
+    
+    const rem = (row["REMARKS"] || 'AVAILABLE').toUpperCase();
+    if (rem.includes('AVAILABLE')) document.getElementById('editRemarks').value = 'AVAILABLE';
+    else if (rem.includes('RESERVED')) document.getElementById('editRemarks').value = 'RESERVED';
+    else if (rem.includes('SOLD')) document.getElementById('editRemarks').value = 'SOLD';
+    else document.getElementById('editRemarks').value = 'SCRAP / DAMAGED';
+
+    previewEditImage();
+    document.getElementById('editModal').style.display = 'flex';
+  }
+
+  function closeEditModal() { document.getElementById('editModal').style.display = 'none'; }
+
+  function previewEditImage() {
+    const url = document.getElementById('editImageUrl').value.trim();
+    const previewDiv = document.getElementById('editImagePreview');
+    const previewImg = document.getElementById('editPreviewImg');
+    if (url) {
+      previewImg.src = url;
+      previewDiv.style.display = 'block';
+    } else {
+      previewDiv.style.display = 'none';
+    }
+  }
+
+  document.getElementById('editImageUrl').addEventListener('input', previewEditImage);
+
+  document.getElementById('editPartForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const origIdx = parseInt(document.getElementById('editOriginalIndex').value);
+    const row = getPartByIndex(origIdx);
+    if (!row) return;
+
+    const origName = row["PART'S NAME"];
+    const newName = document.getElementById('editPartName').value.trim().toUpperCase();
+    const newImageUrl = document.getElementById('editImageUrl').value.trim();
+    const newIdentNo = document.getElementById('editIdentNo').value.trim().toUpperCase();
+    const newQuantity = document.getElementById('editQuantity').value;
+    const newPrice = document.getElementById('editPrice').value;
+    const newRemarks = document.getElementById('editRemarks').value;
+
+    const payload = {
+      data: {
+        "PART'S NAME": newName,
+        "IMAGE URL": newImageUrl,
+        "IDENTIFICATION NUMBER": newIdentNo,
+        "QUANTITY": newQuantity,
+        "PRICE": newPrice,
+        "REMARKS": newRemarks
+      }
+    };
+
+    const btn = document.getElementById('editSaveBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Saving...';
+
+    try {
+      const updateUrl = `${API_URL}/PART'S%20NAME/${encodeURIComponent(origName)}`;
+      const res = await fetch(updateUrl, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
       });
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.setAttribute("download", `Retail_Sales_Inventory_${new Date().toISOString().slice(0,10)}.csv`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      if (res.ok) {
+        toastr.success('Part updated successfully!');
+        closeEditModal();
+        fetchRecords();
+      } else {
+        toastr.error('Could not update part. Verify column headers in your Google Sheet.');
+      }
+    } catch (err) {
+      toastr.error('Network issue while saving changes.');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="bi bi-check2-circle me-1"></i> Update &amp; Save Changes';
+    }
+  });
+
+  function addPartToQueue() {
+    const partName = document.getElementById('partName').value.trim();
+    const qty = document.getElementById('quantity').value;
+    const identNo = document.getElementById('identNo').value.trim();
+    const price = document.getElementById('partPrice').value.trim();
+    const imageUrl = document.getElementById('partImageUrl').value.trim();
+    const remarks = document.getElementById('remarks').value;
+    if (!partName) return toastr.warning("Please enter Part's Name!");
+    partQueue.push({ partName: partName.toUpperCase(), qty, identNo: identNo.toUpperCase(), price, imageUrl, remarks });
+    renderBatchList();
+    document.getElementById('partName').value = '';
+    document.getElementById('partPrice').value = '';
+    document.getElementById('partImageUrl').value = '';
+    document.getElementById('partFileInput').value = '';
+    document.getElementById('fileUploadStatus').innerText = 'Choose from phone/desktop storage';
+    document.getElementById('partName').focus();
+  }
+
+  function renderBatchList() {
+    const container = document.getElementById('batchList');
+    const section = document.getElementById('batchSection');
+    document.getElementById('queueCount').innerText = partQueue.length;
+    if (partQueue.length === 0) { section.style.display = 'none'; return; }
+    section.style.display = 'block';
+    container.innerHTML = partQueue.map((p, idx) => `
+      <div class="batch-item d-flex justify-content-between align-items-center">
+        <div><strong>${p.partName}</strong> (Qty: ${p.qty}) <small class="text-muted ms-2">${p.identNo ? `[${p.identNo}]` : ''} ${p.price ? '· ₹' + p.price : ''} - ${p.remarks}</small></div>
+        <button class="btn btn-link text-danger p-0 ms-2" onclick="removeBatchItem(${idx})"><i class="bi bi-x-circle"></i></button>
+      </div>`).join('');
+  }
+
+  function removeBatchItem(index) { partQueue.splice(index, 1); renderBatchList(); }
+  function clearBatch() { partQueue = []; renderBatchList(); }
+
+  async function submitBatchToSheet() {
+    const vehicleNo = document.getElementById('vehicleNo').value.trim();
+    const make = document.getElementById('make').value.trim();
+    const model = document.getElementById('model').value.trim();
+    const year = document.getElementById('year').value.trim();
+    if (!vehicleNo || !make) return toastr.warning("Please fill in Vehicle Number and Make!");
+
+    if (partQueue.length === 0) {
+      const currentPart = document.getElementById('partName').value.trim();
+      if (currentPart) addPartToQueue();
+      else return toastr.warning("Please enter at least one part name.");
     }
 
-    toastr.options = { positionClass: "toast-bottom-right", timeOut: 3000 };
-    checkSession();
-  </script>
+    const rawDate = document.getElementById('dismentleDate').value;
+    const [y, m, d] = rawDate.split('-');
+    const formattedDate = `${d}-${m}-${y}`;
+
+    const payload = {
+      data: partQueue.map(p => ({
+        "DISMENTLE DATE": formattedDate,
+        "VEHICLE NO": vehicleNo.toUpperCase(),
+        "MAKE": make.toUpperCase(),
+        "MODEL": model.toUpperCase(),
+        "YEAR": year,
+        "PART'S NAME": p.partName,
+        "QUANTITY": p.qty,
+        "PRICE": p.price || '',
+        "IMAGE URL": p.imageUrl || '',
+        "IDENTIFICATION NUMBER": p.identNo || document.getElementById('identNo').value.toUpperCase().trim(),
+        "REMARKS": p.remarks
+      }))
+    };
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Saving to Database...';
+
+    try {
+      const res = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+      if (res.ok) {
+        toastr.success(`${partQueue.length} parts added to Google Sheets!`, "Success");
+        clearBatch();
+        document.getElementById('partName').value = '';
+        fetchRecords();
+      } else {
+        toastr.error("Could not write records. Verify SheetDB columns.", "Error");
+      }
+    } catch (err) {
+      toastr.error("Network issue while connecting with API.", "Network Error");
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="bi bi-cloud-arrow-up-fill"></i> Save Entries to Google Sheet';
+    }
+  }
+
+  async function updateRowStatus(origIdx, newStatus) {
+    const row = getPartByIndex(origIdx);
+    if (!row) return;
+    try {
+      toastr.info(`Updating status to ${newStatus}...`);
+      const updateUrl = `${API_URL}/PART'S%20NAME/${encodeURIComponent(row["PART'S NAME"])}`;
+      const res = await fetch(updateUrl, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ data: { "REMARKS": newStatus } }) });
+      if (res.ok) { toastr.success(`Status updated to ${newStatus}`); fetchRecords(); }
+    } catch (e) { toastr.error('Failed to update status.'); }
+  }
+
+  async function deleteRow(origIdx) {
+    const row = getPartByIndex(origIdx);
+    if (!row) return;
+    const partName = row["PART'S NAME"];
+    const imageUrl = row["IMAGE URL"];
+    if (!confirm(`Are you sure you want to delete "${partName}"? (Its photo on GitHub will also be deleted)`)) return;
+    try {
+      toastr.info(`Deleting ${partName}...`);
+      if (imageUrl) await deleteImageFromGitHub(imageUrl);
+
+      const deleteUrl = `${API_URL}/PART'S%20NAME/${encodeURIComponent(partName)}`;
+      const res = await fetch(deleteUrl, { method: 'DELETE' });
+      if (res.ok) { toastr.success("Record and photo deleted."); fetchRecords(); }
+      else { toastr.error("Error deleting row from sheet."); }
+    } catch (e) { toastr.error('Error deleting row.'); }
+  }
+
+  function exportToCSV() {
+    if (!rawRecords.length) return toastr.warning("No data to export!");
+    let csv = "DISMENTLE DATE,VEHICLE NO,MAKE,MODEL,YEAR,PART'S NAME,QUANTITY,PRICE,IMAGE URL,IDENTIFICATION NUMBER,REMARKS\n";
+    rawRecords.forEach(r => {
+      csv += `"${r['DISMENTLE DATE'] || ''}","${r['VEHICLE NO'] || ''}","${r['MAKE'] || ''}","${r['MODEL'] || ''}","${r['YEAR'] || ''}","${r["PART'S NAME"] || ''}","${r['QUANTITY'] || ''}","${r['PRICE'] || ''}","${r['IMAGE URL'] || ''}","${r['IDENTIFICATION NUMBER'] || ''}","${r['REMARKS'] || ''}"\n`;
+    });
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.setAttribute("download", `ECCEL_Inventory_${new Date().toISOString().slice(0,10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  /* STOREFRONT */
+  function renderCategoryStrip(data) {
+    const makes = Array.from(new Set(data.map(r => (r['MAKE'] || '').trim().toUpperCase()).filter(Boolean))).sort();
+    const strip = document.getElementById('categoryStrip');
+    strip.innerHTML = `<span class="cat-chip ${activeMakeFilter === 'ALL' ? 'active' : ''}" data-make="ALL" onclick="filterByMake('ALL', this)">All Makes</span>` +
+      makes.map(m => `<span class="cat-chip ${activeMakeFilter === m ? 'active' : ''}" data-make="${m}" onclick="filterByMake('${m}', this)">${m}</span>`).join('');
+
+    document.getElementById('heroMakes').innerText = makes.length;
+    const uniqueVehicles = new Set(data.map(r => (r['VEHICLE NO'] || '').trim().toUpperCase()).filter(Boolean));
+    document.getElementById('heroVehicles').innerText = uniqueVehicles.size;
+  }
+
+  function filterByMake(make, el) {
+    activeMakeFilter = make;
+    activeModelFilter = 'ALL';
+    document.querySelectorAll('#categoryStrip .cat-chip').forEach(c => c.classList.remove('active'));
+    if (el) el.classList.add('active');
+    renderModelStrip(make);
+    applyStoreFilter();
+  }
+
+  function renderModelStrip(make) {
+    const modelStrip = document.getElementById('modelStrip');
+    if (make === 'ALL') { modelStrip.classList.add('d-none'); return; }
+
+    const models = Array.from(new Set(
+      rawRecords.filter(r => (r['MAKE'] || '').toUpperCase() === make)
+        .map(r => (r['MODEL'] || '').trim().toUpperCase())
+        .filter(Boolean)
+    )).sort();
+
+    if (!models.length) { modelStrip.classList.add('d-none'); return; }
+
+    modelStrip.innerHTML = `<span class="mono" style="font-size:0.75rem; color:#64748b; margin-right:10px; font-weight:600;">MODEL:</span>` +
+      `<span class="cat-chip ${activeModelFilter === 'ALL' ? 'active' : ''}" data-model="ALL" onclick="filterByModel('ALL', this)">All Models</span>` +
+      models.map(m => `<span class="cat-chip ${activeModelFilter === m ? 'active' : ''}" data-model="${m}" onclick="filterByModel('${m}', this)">${m}</span>`).join('');
+    modelStrip.classList.remove('d-none');
+  }
+
+  function filterByModel(model, el) {
+    activeModelFilter = model;
+    document.querySelectorAll('#modelStrip .cat-chip').forEach(c => c.classList.remove('active'));
+    if (el) el.classList.add('active');
+    applyStoreFilter();
+  }
+
+  function applyStoreFilter() {
+    const q = document.getElementById('storeSearch').value.toLowerCase().trim();
+    const sort = document.getElementById('storeSort').value;
+
+    let available = rawRecords.filter(r => (r['REMARKS'] || 'AVAILABLE').toUpperCase().includes('AVAILABLE'));
+
+    if (activeMakeFilter !== 'ALL') available = available.filter(r => (r['MAKE'] || '').toUpperCase() === activeMakeFilter);
+    if (activeModelFilter !== 'ALL') available = available.filter(r => (r['MODEL'] || '').toUpperCase() === activeModelFilter);
+
+    if (q) {
+      available = available.filter(r => {
+        const hay = [r['MAKE'], r['MODEL'], r["PART'S NAME"], r['IDENTIFICATION NUMBER'], r['VEHICLE NO']].join(' ').toLowerCase();
+        return hay.includes(q);
+      });
+    }
+
+    if (sort === 'price_asc') available = available.slice().sort((a,b) => (parseFloat(a['PRICE'])||0) - (parseFloat(b['PRICE'])||0));
+    else if (sort === 'price_desc') available = available.slice().sort((a,b) => (parseFloat(b['PRICE'])||0) - (parseFloat(a['PRICE'])||0));
+    else if (sort === 'name_asc') available = available.slice().sort((a,b) => (a["PART'S NAME"]||'').localeCompare(b["PART'S NAME"]||''));
+    else available = available.slice().reverse();
+
+    document.getElementById('heroAvailable').innerText = rawRecords.filter(r => (r['REMARKS'] || 'AVAILABLE').toUpperCase().includes('AVAILABLE')).length;
+    document.getElementById('storeResultCount').innerText = available.length;
+    renderStoreGrid(available);
+  }
+
+  function renderStoreGrid(data) {
+    const grid = document.getElementById('storeGrid');
+    if (!data.length) {
+      grid.innerHTML = `<div class="col-12 text-center py-5">
+        <i class="bi bi-inboxes display-6 text-muted"></i>
+        <p class="text-muted mt-3 mb-0">No parts match your search right now. Try a different make or keyword.</p>
+      </div>`;
+      return;
+    }
+    grid.innerHTML = data.map(row => {
+      const origIdx = row._origIndex;
+      const price = row['PRICE'] ? money(row['PRICE']) : null;
+      const inCart = cart.some(c => c.origIndex === origIdx);
+      const imgUrl = (row['IMAGE URL'] || '').trim();
+      const imageBlock = imgUrl
+        ? `<img src="${imgUrl}" alt="${row["PART'S NAME"] || 'Part photo'}" loading="lazy" onerror="this.parentElement.innerHTML='<i class=&quot;bi bi-image tag-image-fallback&quot;></i>'" />`
+        : `<i class="bi bi-image tag-image-fallback"></i>`;
+      return `
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          <div class="parts-tag">
+            <div class="tag-image-wrap">${imageBlock}</div>
+            <div class="tag-body">
+              <span class="tag-id mono">#${(row['IDENTIFICATION NUMBER'] || 'N/A')}</span>
+              <div class="tag-part-name">${row["PART'S NAME"] || 'Unnamed Part'}</div>
+              <div class="tag-vehicle">${row['MAKE'] || ''} ${row['MODEL'] || ''} ${row['YEAR'] ? '· ' + row['YEAR'] : ''}</div>
+              <div class="tag-divider"></div>
+              <div class="d-flex justify-content-between align-items-end mt-auto">
+                <div class="tag-price">${price ? price : '<span style="font-size:0.85rem;color:#8a8272;">Contact for price</span>'}${price ? '<br><small>incl. inspection</small>' : ''}</div>
+                <span class="status-pill status-available">In Stock</span>
+              </div>
+              <button class="btn ${inCart ? 'btn-outline-ink' : 'btn-amber'} btn-sm w-100 mt-3 fw-bold py-2" onclick="addToCart(${origIdx})" ${inCart ? 'disabled' : ''}>
+                <i class="bi ${inCart ? 'bi-check2' : 'bi-bag-plus'} me-1"></i>${inCart ? 'In Cart' : 'Add to Cart'}
+              </button>
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  /* CART LOGIC (INDEX ACCURATE) */
+  function loadCart() { try { cart = JSON.parse(localStorage.getItem('yb_cart') || '[]'); } catch(e) { cart = []; } }
+  function saveCart() { localStorage.setItem('yb_cart', JSON.stringify(cart)); }
+
+  function addToCart(origIdx) {
+    const row = getPartByIndex(origIdx);
+    if (!row) return;
+    if (cart.some(c => c.origIndex === origIdx)) return toastr.info('Already in your cart.');
+    cart.push({
+      origIndex: origIdx,
+      partName: row["PART'S NAME"] || 'Part',
+      vehicle: `${row['MAKE'] || ''} ${row['MODEL'] || ''}`.trim(),
+      identNo: row['IDENTIFICATION NUMBER'] || '',
+      price: parseFloat(row['PRICE']) || 0,
+      qty: 1
+    });
+    saveCart();
+    renderCart();
+    applyStoreFilter();
+    toastr.success(`${row["PART'S NAME"]} added to cart.`);
+  }
+
+  function changeCartQty(idx, delta) {
+    if (!cart[idx]) return;
+    cart[idx].qty = Math.max(1, cart[idx].qty + delta);
+    saveCart();
+    renderCart();
+  }
+
+  function removeFromCart(idx) {
+    cart.splice(idx, 1);
+    saveCart();
+    renderCart();
+    applyStoreFilter();
+  }
+
+  function cartTotal() { return cart.reduce((sum, c) => sum + (c.price * c.qty), 0); }
+
+  function renderCart() {
+    document.getElementById('cartCount').innerText = cart.length;
+    const wrap = document.getElementById('cartItemsWrap');
+    const btn = document.getElementById('cartCheckoutBtn');
+    if (!cart.length) {
+      wrap.innerHTML = `<p class="text-muted text-center py-5">Your cart is empty.<br>Browse the storefront to add parts.</p>`;
+      btn.disabled = true;
+    } else {
+      wrap.innerHTML = cart.map((c, idx) => `
+        <div class="cart-line">
+          <div class="d-flex justify-content-between">
+            <div>
+              <div class="fw-bold" style="font-size:0.92rem;">${c.partName}</div>
+              <div class="text-muted small">${c.vehicle} ${c.identNo ? '· #' + c.identNo : ''}</div>
+            </div>
+            <button class="btn btn-link text-danger p-0" onclick="removeFromCart(${idx})"><i class="bi bi-trash3"></i></button>
+          </div>
+          <div class="d-flex justify-content-between align-items-center mt-2">
+            <div class="d-flex align-items-center gap-2">
+              <button class="qty-btn" onclick="changeCartQty(${idx}, -1)">−</button>
+              <span class="fw-bold mono">${c.qty}</span>
+              <button class="qty-btn" onclick="changeCartQty(${idx}, 1)">+</button>
+            </div>
+            <span class="fw-bold">${money(c.price * c.qty)}</span>
+          </div>
+        </div>`).join('');
+      btn.disabled = false;
+    }
+    document.getElementById('cartSubtotal').innerText = money(cartTotal());
+  }
+
+  function openCart() { document.getElementById('cartOffcanvas').classList.add('open'); document.getElementById('cartOverlay').classList.add('open'); }
+  function closeCart() { document.getElementById('cartOffcanvas').classList.remove('open'); document.getElementById('cartOverlay').classList.remove('open'); }
+
+  /* CHECKOUT */
+  function openCheckout() {
+    if (!cart.length) return;
+    const inner = document.getElementById('checkoutCardInner');
+    inner.innerHTML = `
+      <div class="d-flex justify-content-between align-items-start mb-3">
+        <h5 class="fw-bold mb-0">Checkout</h5>
+        <button class="modal-close-btn position-static" onclick="closeCheckout()"><i class="bi bi-x-lg"></i></button>
+      </div>
+      <p class="text-muted small mb-3">Total for this order: <strong>${money(cartTotal())}</strong> (${cart.length} item${cart.length > 1 ? 's' : ''})</p>
+      <form id="checkoutForm">
+        <div class="mb-2"><label class="form-label small fw-semibold">Full Name</label><input class="form-control" id="custName" required /></div>
+        <div class="mb-2"><label class="form-label small fw-semibold">Mobile Number</label><input class="form-control" id="custPhone" required /></div>
+        <div class="mb-2"><label class="form-label small fw-semibold">Delivery / Workshop Address</label><textarea class="form-control" id="custAddress" rows="2" placeholder="Full address for shipping or local pickup point" required></textarea></div>
+        <div class="mb-3"><label class="form-label small fw-semibold">Delivery Notes (optional)</label><input class="form-control" id="custNotes" placeholder="Preferred delivery time, landmark, etc." /></div>
+        <button type="submit" class="btn btn-amber w-100 py-3 fw-bold" id="placeOrderBtn"><i class="bi bi-bag-check-fill me-1"></i> Place Order</button>
+      </form>
+    `;
+    document.getElementById('checkoutForm').addEventListener('submit', placeOrder);
+    document.getElementById('checkoutModal').style.display = 'flex';
+  }
+
+  function closeCheckout() { document.getElementById('checkoutModal').style.display = 'none'; }
+  function loadLocalOrders() { try { localOrders = JSON.parse(localStorage.getItem('yb_local_orders') || '[]'); } catch(e) { localOrders = []; } }
+  function saveLocalOrders() { localStorage.setItem('yb_local_orders', JSON.stringify(localOrders)); }
+
+  async function placeOrder(e) {
+    e.preventDefault();
+    const name = document.getElementById('custName').value.trim();
+    const phone = document.getElementById('custPhone').value.trim();
+    const address = document.getElementById('custAddress').value.trim();
+    const notes = document.getElementById('custNotes').value.trim();
+    if (!name || !phone || !address) return;
+
+    const refNum = 'EC' + Date.now().toString().slice(-8);
+    const itemsSummary = cart.map(c => `${c.partName} x${c.qty}`).join('; ');
+    const total = cartTotal();
+    const placedAt = new Date().toLocaleString();
+
+    const orderRecord = {
+      "ORDER REF": refNum, "PLACED AT": placedAt, "CUSTOMER NAME": name, "PHONE": phone,
+      "ADDRESS": address, "NOTES": notes, "ITEMS": itemsSummary, "TOTAL": total, "STATUS": "PENDING"
+    };
+
+    const btn = document.getElementById('placeOrderBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Placing Order...';
+
+    let savedOnline = false;
+    try {
+      const res = await fetch(ORDERS_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ data: [orderRecord] }) });
+      savedOnline = res.ok;
+    } catch (err) { savedOnline = false; }
+
+    if (!savedOnline) {
+      loadLocalOrders();
+      localOrders.push(orderRecord);
+      saveLocalOrders();
+    }
+
+    for (const c of cart) {
+      try {
+        const row = getPartByIndex(c.origIndex);
+        if (row) {
+          const updateUrl = `${API_URL}/PART'S%20NAME/${encodeURIComponent(row["PART'S NAME"])}`;
+          await fetch(updateUrl, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ data: { "REMARKS": "RESERVED" } }) });
+        }
+      } catch (err) { }
+    }
+
+    showOrderConfirmation(refNum, savedOnline);
+    cart = [];
+    saveCart();
+    renderCart();
+    fetchRecords();
+    fetchOrders();
+  }
+
+  function showOrderConfirmation(refNum, savedOnline) {
+    const inner = document.getElementById('checkoutCardInner');
+    inner.innerHTML = `
+      <div class="text-center py-3">
+        <div class="stat-icon bg-success-subtle text-success mx-auto mb-3" style="width:64px;height:64px;font-size:1.9rem;border-radius:18px;"><i class="bi bi-check2-circle"></i></div>
+        <h4 class="fw-bold mb-2">Order Placed!</h4>
+        <p class="text-muted small mb-3">Our team will confirm availability and reach out to arrange delivery or workshop pickup.</p>
+        <span class="receipt-num">${refNum}</span>
+        <button class="btn btn-outline-ink w-100 py-2 mt-3 fw-bold" onclick="closeCheckout(); closeCart();">Continue Browsing</button>
+      </div>`;
+  }
+
+  /* ORDERS TAB */
+  async function fetchOrders() {
+    let onlineOrders = [];
+    try {
+      const res = await fetch(ORDERS_URL);
+      if (res.ok) onlineOrders = await res.json();
+    } catch (e) { }
+    loadLocalOrders();
+    const combined = [...onlineOrders, ...localOrders];
+    renderOrdersTable(combined);
+
+    // Update Live Login Preview Side Orders
+    const liveOrdersEl = document.getElementById('loginLiveOrders');
+    const liveFulfilledEl = document.getElementById('loginLiveFulfilled');
+    if (liveOrdersEl) liveOrdersEl.innerText = combined.length;
+    if (liveFulfilledEl) liveFulfilledEl.innerText = combined.filter(o => (o['STATUS']||'').toUpperCase() === 'FULFILLED').length;
+  }
+
+  function renderOrdersTable(orders) {
+    const tbody = document.getElementById('ordersTableBody');
+    document.getElementById('orderCount').innerText = orders.length;
+    if (!orders.length) { tbody.innerHTML = `<tr><td colspan="8" class="text-center py-4 text-muted">No orders placed yet.</td></tr>`; return; }
+    
+    tbody.innerHTML = orders.slice().reverse().map(o => {
+      const status = (o['STATUS'] || 'PENDING').toUpperCase();
+      const badge = status === 'FULFILLED' ? 'bg-success' : (status === 'PENDING' ? '' : 'bg-secondary');
+      const style = status === 'PENDING' ? 'background:var(--gold-2);color:#fff;' : '';
+      
+      const phone = (o['PHONE'] || '').trim();
+      const phoneClean = phone.replace(/[^0-9]/g, '');
+      const waLink = phoneClean ? `<a href="https://wa.me/${phoneClean}" target="_blank" class="btn btn-sm btn-outline-success py-0 px-2 mt-1" style="font-size:0.75rem;"><i class="bi bi-whatsapp me-1"></i>Chat</a>` : '';
+
+      return `
+        <tr>
+          <td class="mono fw-bold text-nowrap">${o['ORDER REF'] || '-'}</td>
+          <td class="text-nowrap small text-muted">${o['PLACED AT'] || '-'}</td>
+          <td>
+            <div class="fw-bold text-dark">${o['CUSTOMER NAME'] || '-'}</div>
+            <div class="mono small text-secondary">${phone || '-'}</div>
+            ${waLink}
+          </td>
+          <td>
+            <div class="small fw-semibold text-dark mb-1"><i class="bi bi-geo-alt-fill text-danger me-1"></i>${o['ADDRESS'] || 'No address provided'}</div>
+            ${o['NOTES'] ? `<div class="small text-muted fst-italic"><i class="bi bi-chat-left-text me-1"></i>"${o['NOTES']}"</div>` : ''}
+          </td>
+          <td class="small">${o['ITEMS'] || '-'}</td>
+          <td class="fw-bold text-dark">${o['TOTAL'] ? money(o['TOTAL']) : '-'}</td>
+          <td><span class="badge ${badge}" style="${style}">${status}</span></td>
+          <td class="text-center text-nowrap">
+            ${status !== 'FULFILLED' ? `<button class="btn btn-outline-ink btn-sm py-1 px-3 fw-bold" onclick="markOrderFulfilled('${o['ORDER REF']}')"><i class="bi bi-check2"></i> Fulfil</button>` : '<span class="text-muted small fw-semibold"><i class="bi bi-check-all text-success fs-6 me-1"></i>Done</span>'}
+          </td>
+        </tr>`;
+    }).join('');
+  }
+
+  async function markOrderFulfilled(refNum) {
+    try {
+      const updateUrl = `${ORDERS_URL.split('?')[0]}/ORDER%20REF/${encodeURIComponent(refNum)}?sheet=Orders`;
+      const res = await fetch(updateUrl, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ data: { "STATUS": "FULFILLED" } }) });
+      if (!res.ok) throw new Error('online update failed');
+      toastr.success('Order marked fulfilled.');
+    } catch (e) {
+      loadLocalOrders();
+      const local = localOrders.find(o => o['ORDER REF'] === refNum);
+      if (local) { local['STATUS'] = 'FULFILLED'; saveLocalOrders(); toastr.success('Order marked fulfilled (local).'); }
+      else toastr.warning('Could not update order status online.');
+    }
+    fetchOrders();
+  }
+
+  toastr.options = { positionClass: "toast-bottom-right", timeOut: 3000 };
+  loadCart();
+  renderCart();
+  checkSession();
+  fetchRecords();
+  fetchOrders();
+  fetchUsers();
+</script>
 </body>
 </html>
