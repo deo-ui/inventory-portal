@@ -567,7 +567,7 @@
                 <div class="mb-2"><label class="form-label small fw-semibold">Part's Name</label><input type="text" class="form-control text-uppercase" id="partName" placeholder="HEAD LIGHT LH" /></div>
                 <div class="row g-2 mb-2">
                   <div class="col-4"><label class="form-label small fw-semibold">Qty</label><input type="number" class="form-control" id="quantity" value="1" min="1" /></div>
-                  <div class="col-8"><label class="form-label small fw-semibold">Identification Code</label><input type="text" class="form-control text-uppercase" id="identNo" placeholder="HY-EON" /></div>
+                  <div class="col-8"><label class="form-label small fw-semibold">Identification Code</label><input type="text" class="form-control text-uppercase" id="identNo" placeholder="HY-EON-001" /></div>
                 </div>
                 <div class="row g-2 mb-2">
                   <div class="col-6"><label class="form-label small fw-semibold">Price (₹)</label><input type="number" class="form-control" id="partPrice" placeholder="1500" min="0" /></div>
@@ -745,11 +745,11 @@
       </div>
       <div class="mb-2">
         <label class="form-label small fw-semibold">GitHub Username / Owner</label>
-        <input type="text" class="form-control" id="ghOwner" placeholder="e.g. your-github-username" required />
+        <input type="text" class="form-control" id="ghOwner" placeholder="e.g. deo-ui" required />
       </div>
       <div class="mb-2">
         <label class="form-label small fw-semibold">Repository Name</label>
-        <input type="text" class="form-control" id="ghRepo" placeholder="e.g. ECCEL-Used-Auto-Parts" required />
+        <input type="text" class="form-control" id="ghRepo" placeholder="e.g. eccel-parts-imag" required />
       </div>
       <div class="mb-3">
         <label class="form-label small fw-semibold">Branch</label>
@@ -974,7 +974,6 @@
 
   document.getElementById('yearNow').innerText = new Date().getFullYear();
 
-  // Bulletproof row indexing to prevent blank or duplicate key collisions
   function getPartByIndex(index) {
     const idx = parseInt(index);
     return rawRecords[idx] || null;
@@ -987,7 +986,7 @@
 
   /* GITHUB API HELPERS */
   function getGhConfig() {
-    return JSON.parse(localStorage.getItem('yb_gh_config') || '{"token":"","owner":"","repo":"","branch":"main"}');
+    return JSON.parse(localStorage.getItem('yb_gh_config') || '{"token":"","owner":"deo-ui","repo":"eccel-parts-imag","branch":"main"}');
   }
   function saveGhConfig(cfg) { localStorage.setItem('yb_gh_config', JSON.stringify(cfg)); }
 
@@ -1628,7 +1627,9 @@
     const row = getPartByIndex(origIdx);
     if (!row) return;
 
-    const origName = row["PART'S NAME"];
+    const origIdent = (row["IDENTIFICATION NUMBER"] || '').trim();
+    const origName = (row["PART'S NAME"] || '').trim();
+    
     const newName = document.getElementById('editPartName').value.trim().toUpperCase();
     const newImageUrl = document.getElementById('editImageUrl').value.trim();
     const newIdentNo = document.getElementById('editIdentNo').value.trim().toUpperCase();
@@ -1652,7 +1653,11 @@
     btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Saving...';
 
     try {
-      const updateUrl = `${API_URL}/PART'S%20NAME/${encodeURIComponent(origName)}`;
+      // Use IDENTIFICATION NUMBER for rock-solid targeting, fallback to PART'S NAME if ID was blank
+      const updateUrl = origIdent 
+        ? `${API_URL}/IDENTIFICATION%20NUMBER/${encodeURIComponent(origIdent)}`
+        : `${API_URL}/PART'S%20NAME/${encodeURIComponent(origName)}`;
+
       const res = await fetch(updateUrl, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -1765,9 +1770,14 @@
   async function updateRowStatus(origIdx, newStatus) {
     const row = getPartByIndex(origIdx);
     if (!row) return;
+    const origIdent = (row["IDENTIFICATION NUMBER"] || '').trim();
+    const origName = (row["PART'S NAME"] || '').trim();
     try {
       toastr.info(`Updating status to ${newStatus}...`);
-      const updateUrl = `${API_URL}/PART'S%20NAME/${encodeURIComponent(row["PART'S NAME"])}`;
+      const updateUrl = origIdent 
+        ? `${API_URL}/IDENTIFICATION%20NUMBER/${encodeURIComponent(origIdent)}`
+        : `${API_URL}/PART'S%20NAME/${encodeURIComponent(origName)}`;
+
       const res = await fetch(updateUrl, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ data: { "REMARKS": newStatus } }) });
       if (res.ok) { toastr.success(`Status updated to ${newStatus}`); fetchRecords(); }
     } catch (e) { toastr.error('Failed to update status.'); }
@@ -1776,6 +1786,7 @@
   async function deleteRow(origIdx) {
     const row = getPartByIndex(origIdx);
     if (!row) return;
+    const origIdent = (row["IDENTIFICATION NUMBER"] || '').trim();
     const partName = row["PART'S NAME"];
     const imageUrl = row["IMAGE URL"];
     if (!confirm(`Are you sure you want to delete "${partName}"? (Its photo on GitHub will also be deleted)`)) return;
@@ -1783,7 +1794,10 @@
       toastr.info(`Deleting ${partName}...`);
       if (imageUrl) await deleteImageFromGitHub(imageUrl);
 
-      const deleteUrl = `${API_URL}/PART'S%20NAME/${encodeURIComponent(partName)}`;
+      const deleteUrl = origIdent 
+        ? `${API_URL}/IDENTIFICATION%20NUMBER/${encodeURIComponent(origIdent)}`
+        : `${API_URL}/PART'S%20NAME/${encodeURIComponent(partName)}`;
+
       const res = await fetch(deleteUrl, { method: 'DELETE' });
       if (res.ok) { toastr.success("Record and photo deleted."); fetchRecords(); }
       else { toastr.error("Error deleting row from sheet."); }
@@ -2052,7 +2066,12 @@
       try {
         const row = getPartByIndex(c.origIndex);
         if (row) {
-          const updateUrl = `${API_URL}/PART'S%20NAME/${encodeURIComponent(row["PART'S NAME"])}`;
+          const origIdent = (row["IDENTIFICATION NUMBER"] || '').trim();
+          const origName = (row["PART'S NAME"] || '').trim();
+          const updateUrl = origIdent 
+            ? `${API_URL}/IDENTIFICATION%20NUMBER/${encodeURIComponent(origIdent)}`
+            : `${API_URL}/PART'S%20NAME/${encodeURIComponent(origName)}`;
+
           await fetch(updateUrl, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ data: { "REMARKS": "RESERVED" } }) });
         }
       } catch (err) { }
