@@ -284,7 +284,7 @@
   }
   .modal-close-btn { position: absolute; top: 16px; right: 18px; background: none; border: none; color: #94a3b8; font-size: 1.3rem; }
 
-  /* ECCEL TEAL DASHBOARD SPLIT LOGIN */
+  /* ECCEL TEAL LOGIN MODAL */
   #authOverlay {
     position: fixed; inset: 0; z-index: 99999; display: none; align-items: center; justify-content: center; padding: 24px;
     background: radial-gradient(circle at 10% 20%, #063935 0%, #05161b 50%, #030a0d 100%);
@@ -292,56 +292,31 @@
   }
 
   .eccel-login-wrapper {
-    position: relative; width: 100%; max-width: 1060px; background: #091319; border-radius: 24px;
+    position: relative; width: 100%; max-width: 520px; background: #091319; border-radius: 24px;
     border: 1px solid rgba(0, 229, 163, 0.14); box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 40px rgba(0, 229, 163, 0.08);
     overflow: hidden; animation: scaleIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
-  .eccel-top-bar { padding: 20px 32px 0; display: flex; align-items: center; justify-content: space-between; }
+  .eccel-top-bar { padding: 24px 32px 0; display: flex; align-items: center; justify-content: space-between; }
   .eccel-brand-logo { display: inline-flex; align-items: center; gap: 8px; color: #ffffff; font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 1.3rem; }
   .eccel-brand-logo i { color: #00e5a3; font-size: 1.4rem; }
   .eccel-close-btn { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
   .eccel-close-btn:hover { background: rgba(255,255,255,0.15); color: #fff; }
 
-  .eccel-grid { display: grid; grid-template-columns: 1.05fr 1.35fr; gap: 40px; padding: 30px 48px 48px; align-items: center; }
-  @media (max-width: 900px) { .eccel-grid { grid-template-columns: 1fr; padding: 24px; } .eccel-preview-side { display: none; } }
-
-  .eccel-form-side h2 { font-size: 2.2rem; font-weight: 700; color: #ffffff; margin-bottom: 6px; }
+  .eccel-form-side { padding: 24px 32px 36px; }
+  .eccel-form-side h2 { font-size: 2rem; font-weight: 700; color: #ffffff; margin-bottom: 6px; }
   .eccel-form-side h2 span { color: #00e5a3; }
-  .eccel-form-side .sub-lead { color: #64748b; font-size: 0.92rem; margin-bottom: 34px; }
+  .eccel-form-side .sub-lead { color: #64748b; font-size: 0.92rem; margin-bottom: 24px; }
 
-  .notched-input-group { position: relative; margin-bottom: 22px; }
+  .notched-input-group { position: relative; margin-bottom: 20px; }
   .notched-input-group fieldset { border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 12px; padding: 0 16px 8px; margin: 0; background: rgba(255, 255, 255, 0.02); }
   .notched-input-group fieldset:focus-within { border-color: #00e5a3; box-shadow: 0 0 18px rgba(0, 229, 163, 0.15); }
   .notched-input-group legend { float: none; width: auto; font-size: 0.76rem; color: #94a3b8; padding: 0 6px; margin: 0; font-weight: 600; }
   .notched-input-group input { width: 100%; background: transparent; border: none; color: #ffffff; font-size: 0.95rem; padding: 4px 0 6px; outline: none; }
   .notched-input-group input::placeholder { color: #475569; }
 
-  .eccel-form-footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem; color: #94a3b8; margin-bottom: 24px; }
-  .eccel-form-footer a { color: #94a3b8; font-weight: 500; }
-  .eccel-form-footer a:hover { color: #00e5a3; }
-
   .eccel-btn-primary { width: 100%; background: var(--primary-blue); color: #ffffff; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1rem; padding: 14px; border-radius: 12px; border: none; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35); transition: all 0.25s ease; }
   .eccel-btn-primary:hover { background: var(--primary-blue-hover); transform: translateY(-2px); box-shadow: 0 14px 30px rgba(37, 99, 235, 0.5); color: #fff; }
-
-  .eccel-preview-side { background: #060e13; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 18px; padding: 22px; box-shadow: inset 0 0 30px rgba(0,0,0,0.5); }
-  .preview-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.06); }
-  .preview-top .brand { font-size: 0.95rem; font-weight: 700; color: #fff; }
-  .preview-top .brand i { color: #00e5a3; }
-  .preview-heading { font-size: 1.1rem; font-weight: 700; color: #ffffff; margin-bottom: 16px; }
-  .preview-heading span { color: #00e5a3; }
-
-  .preview-stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 18px; }
-  .preview-stat-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; padding: 10px; }
-  .preview-stat-card .label { font-size: 0.64rem; color: #64748b; font-weight: 600; text-transform: uppercase; }
-  .preview-stat-card .val { font-size: 1.15rem; font-weight: 800; color: #ffffff; margin-top: 2px; }
-
-  .preview-charts-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 12px; }
-  .preview-chart-box { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 12px; }
-  .preview-chart-box .title { font-size: 0.72rem; color: #94a3b8; font-weight: 600; margin-bottom: 8px; }
-  .wave-chart-svg { width: 100%; height: 60px; }
-  .ring-chart-wrap { display: flex; align-items: center; justify-content: center; height: 70px; position: relative; }
-  .ring-chart-wrap .center-text { position: absolute; font-size: 0.75rem; font-weight: 800; color: #fff; }
 
   footer.site-footer { background: var(--ink); color: #64748b; padding: 40px 0; font-size: 0.88rem; border-top: 1px solid var(--slate-border); }
 </style>
@@ -380,7 +355,7 @@
     <div class="container-fluid px-4">
       <span class="eyebrow-tag"><i class="bi bi-shield-check"></i> 100% Inspected &amp; Tested Parts</span>
       <h1 class="mt-3 mb-3">Genuine used parts, pulled, tested and ready to ship.</h1>
-      <p class="lead mb-4">Search our live salvage inventory by vehicle, part name or ID tag[cite: 1].</p>
+      <p class="lead mb-4">Search our live salvage inventory by vehicle, part name or ID tag.</p>
 
       <div class="hero-search d-flex align-items-center gap-2">
         <i class="bi bi-search text-secondary ms-2"></i>
@@ -426,7 +401,7 @@
   <footer class="site-footer">
     <div class="container-fluid px-4 d-flex flex-wrap justify-content-between gap-2">
       <span>© <span id="yearNow"></span> ECCEL Used Auto Parts Exchange</span>
-      <span>Every part is tagged with a unique ID at the point of dismantling[cite: 1].</span>
+      <span>Every part is tagged with a unique ID at the point of dismantling.</span>
     </div>
   </footer>
 </div>
@@ -438,7 +413,7 @@
       <i class="bi bi-shield-lock-fill" style="color: #00e5a3;"></i>
     </div>
     <h3 class="fw-bold">ECCEL Staff Portal</h3>
-    <p class="text-muted mb-4">Sign in to manage inventory, inward entries and customer orders[cite: 1].</p>
+    <p class="text-muted mb-4">Sign in to manage inventory, inward entries and customer orders.</p>
     <button class="btn btn-amber px-5 py-3 fw-bold" onclick="openAuthModal()">Sign In to Dashboard</button>
   </div>
 </div>
@@ -570,11 +545,11 @@
                 </div>
                 <div class="row g-2 mb-2">
                   <div class="col-6"><label class="form-label small fw-semibold">Price (₹)</label><input type="number" class="form-control" id="partPrice" placeholder="1500" min="0" /></div>
-                  <div class="col-6"><label class="form-label small fw-semibold">Remarks</label>
+                  <div class="col-6"><label class="form-label small fw-semibold">Status</label>
                     <select class="form-select" id="remarks">
                       <option value="AVAILABLE" selected>AVAILABLE</option>
                       <option value="SOLD">SOLD</option>
-                      <option value="SCRAP">SCRAP / DAMAGED</option>
+                      <option value="SCRAP">SCRAP</option>
                     </select>
                   </div>
                 </div>
@@ -583,7 +558,7 @@
                   <label class="form-label small fw-semibold">Part Photo (Uploads to Supabase Storage)</label>
                   <input type="file" class="form-control" id="partFileInput" accept="image/*" />
                   <input type="hidden" id="partImageUrl" />
-                  <small class="text-muted d-block mt-1" id="fileUploadStatus">Choose from phone/desktop storage</small>
+                  <small class="text-muted d-block mt-1" id="fileUploadStatus">Choose file to upload</small>
                 </div>
 
                 <button type="button" class="btn btn-outline-ink btn-sm w-100 fw-bold" onclick="addPartToQueue()"><i class="bi bi-plus-lg me-1"></i> Add Part to Queue</button>
@@ -597,8 +572,8 @@
                 <div id="batchList" class="p-2 border rounded bg-light" style="max-height: 160px; overflow-y: auto;"></div>
               </div>
 
-              <button type="button" class="btn btn-amber w-100 py-3 d-flex align-items-center justify-content-center gap-2" id="submitBtn" onclick="submitBatchToSheet()">
-                <i class="bi bi-cloud-arrow-up-fill"></i> Save Entries to Google Sheet
+              <button type="button" class="btn btn-amber w-100 py-3 d-flex align-items-center justify-content-center gap-2" id="submitBtn" onclick="submitBatchToDatabase()">
+                <i class="bi bi-cloud-arrow-up-fill"></i> Save Entries to Supabase
               </button>
             </div>
           </div>
@@ -658,7 +633,7 @@
           <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
             <div>
               <h5 class="fw-bold mb-0">Customer Orders &amp; Delivery Management</h5>
-              <small class="text-muted"><span id="orderCount">0</span> orders placed from storefront — synced to <span class="mono">Orders</span> tab</small>
+              <small class="text-muted"><span id="orderCount">0</span> orders placed from storefront</small>
             </div>
             <button class="btn btn-sm btn-outline-ink fw-semibold" onclick="fetchOrders()"><i class="bi bi-arrow-clockwise me-1"></i> Refresh Orders</button>
           </div>
@@ -670,13 +645,12 @@
                   <th>Placed At</th>
                   <th>Customer Info</th>
                   <th>Delivery Address &amp; Notes</th>
-                  <th>Items Ordered</th>
                   <th>Total</th>
                   <th>Status</th>
                   <th class="text-center">Action</th>
                 </tr>
               </thead>
-              <tbody id="ordersTableBody"><tr><td colspan="8" class="text-center py-4 text-muted">No orders yet.</td></tr></tbody>
+              <tbody id="ordersTableBody"><tr><td colspan="7" class="text-center py-4 text-muted">No orders yet.</td></tr></tbody>
             </table>
           </div>
         </div>
@@ -691,11 +665,11 @@
                 <h5 class="fw-bold mb-0 text-dark"><i class="bi bi-person-plus-fill text-danger me-2"></i>Create Team Account</h5>
                 <span class="badge bg-danger-subtle text-danger border border-danger">Super Admin Only</span>
               </div>
-              <p class="text-muted small mb-3"><i class="bi bi-shield-lock-fill text-success me-1"></i>Creates a real Supabase Auth account — no plaintext passwords are stored.</p>
+              <p class="text-muted small mb-3"><i class="bi bi-shield-lock-fill text-success me-1"></i>Secure Supabase Authentication.</p>
               <form id="createUserForm">
                 <div class="mb-3"><label class="form-label small fw-semibold">Full Name</label><input type="text" class="form-control" id="newUserName" placeholder="e.g. Rahul Sharma" required /></div>
-                <div class="mb-3"><label class="form-label small fw-semibold">Email Address</label><input type="email" class="form-control" id="newUserIdentifier" placeholder="rahul@company.com" required /></div>
-                <div class="mb-3"><label class="form-label small fw-semibold">Temporary Password</label><input type="text" class="form-control" id="newUserPassword" placeholder="Set an initial password (staff can't change it themselves yet)" required minlength="6" /></div>
+                <div class="mb-3"><label class="form-label small fw-semibold">Email Address</label><input type="email" class="form-control" id="newUserEmail" placeholder="e.g. rahul@company.com" required /></div>
+                <div class="mb-3"><label class="form-label small fw-semibold">Password</label><input type="password" class="form-control" id="newUserPassword" placeholder="Minimum 6 characters" required /></div>
                 <div class="mb-4">
                   <label class="form-label small fw-semibold">Assigned Role</label>
                   <select class="form-select" id="newUserRole" required>
@@ -716,7 +690,7 @@
               </div>
               <div class="table-responsive border rounded">
                 <table class="table table-hover align-middle mb-0" style="font-size: 0.88rem;">
-                  <thead class="table-dark"><tr><th>User Name</th><th>Email</th><th>Role</th><th class="text-center">Action</th></tr></thead>
+                  <thead class="table-dark"><tr><th>User Name</th><th>Email</th><th>Role</th></tr></thead>
                   <tbody id="userTableBody"></tbody>
                 </table>
               </div>
@@ -744,9 +718,9 @@
       </div>
       
       <div class="mb-3">
-        <label class="form-label small fw-semibold">Replace Photo (Uploads to Supabase Storage)</label>
+        <label class="form-label small fw-semibold">Replace Photo (Supabase Storage)</label>
         <input type="file" class="form-control mb-2" id="editFileInput" accept="image/*" />
-        <input type="url" class="form-control" id="editImageUrl" placeholder="Or paste direct image URL" />
+        <input type="url" class="form-control" id="editImageUrl" placeholder="Or direct image URL" />
         <div id="editImagePreview" class="mt-2 text-center" style="display:none;">
           <img id="editPreviewImg" src="" alt="Preview" style="max-height: 120px; border-radius: 8px; border: 1px solid var(--line);" />
         </div>
@@ -768,12 +742,12 @@
           <input type="number" class="form-control" id="editPrice" min="0" />
         </div>
         <div class="col-6">
-          <label class="form-label small fw-semibold">Status / Remarks</label>
+          <label class="form-label small fw-semibold">Status</label>
           <select class="form-select" id="editRemarks">
             <option value="AVAILABLE">AVAILABLE</option>
             <option value="RESERVED">RESERVED</option>
             <option value="SOLD">SOLD</option>
-            <option value="SCRAP">SCRAP / DAMAGED</option>
+            <option value="SCRAP">SCRAP</option>
           </select>
         </div>
       </div>
@@ -782,7 +756,7 @@
   </div>
 </div>
 
-<!-- ECCEL TEAL DASHBOARD SPLIT LOGIN -->
+<!-- ECCEL LOGIN OVERLAY -->
 <div id="authOverlay">
   <div class="eccel-login-wrapper">
     <div class="eccel-top-bar">
@@ -793,101 +767,27 @@
       <button class="eccel-close-btn" onclick="closeAuthModal()"><i class="bi bi-x-lg"></i></button>
     </div>
 
-    <div class="eccel-grid">
-      <!-- Left: Form -->
-      <div class="eccel-form-side">
-        <h2><span>Admin</span> Login</h2>
-        <p class="sub-lead">Please enter your credentials to proceed.</p>
+    <div class="eccel-form-side">
+      <h2><span>Admin</span> Login</h2>
+      <p class="sub-lead">Sign in with your Supabase credentials.</p>
 
-        <form id="loginForm">
-          <div class="notched-input-group">
-            <fieldset>
-              <legend>Email Address</legend>
-              <input type="email" id="loginUsername" placeholder="you@company.com" required autocomplete="username" />
-            </fieldset>
-          </div>
-
-          <div class="notched-input-group">
-            <fieldset>
-              <legend>Password</legend>
-              <input type="password" id="loginPassword" placeholder="Enter password" required autocomplete="current-password" />
-            </fieldset>
-          </div>
-
-          <div class="eccel-form-footer">
-            <div class="d-flex align-items-center gap-2">
-              <input type="checkbox" id="rememberMe" style="accent-color: #00e5a3; cursor: pointer;" checked />
-              <label for="rememberMe" style="cursor: pointer; margin: 0;">Remember me</label>
-            </div>
-            <a href="#" onclick="toastr.info('Contact Super Admin to reset password.'); return false;">Forgot your password?</a>
-          </div>
-
-          <button type="submit" class="eccel-btn-primary" id="loginSubmitBtn">Sign in</button>
-        </form>
-      </div>
-
-      <!-- Right: Live Dashboard Preview -->
-      <div class="eccel-preview-side">
-        <div class="preview-top">
-          <span class="brand"><i class="bi bi-activity me-1"></i>ECCEL Live</span>
-          <div class="d-flex align-items-center gap-2">
-            <span class="badge bg-dark-subtle text-white-50 border border-secondary border-opacity-25" style="font-size:0.65rem;">Live Inventory</span>
-            <div class="rounded-circle bg-success" style="width:8px;height:8px;box-shadow:0 0 8px #10b981;"></div>
-          </div>
+      <form id="loginForm">
+        <div class="notched-input-group">
+          <fieldset>
+            <legend>Email Address</legend>
+            <input type="email" id="loginUsername" placeholder="Enter your email" required autocomplete="username" />
+          </fieldset>
         </div>
 
-        <div class="preview-heading"><span>Admin</span> Dashboard</div>
-
-        <div class="preview-stats-grid">
-          <div class="preview-stat-card">
-            <div class="label">Total Orders</div>
-            <div class="val" id="loginLiveOrders">0</div>
-          </div>
-          <div class="preview-stat-card">
-            <div class="label">Fulfilled</div>
-            <div class="val text-success" id="loginLiveFulfilled">0</div>
-          </div>
-          <div class="preview-stat-card">
-            <div class="label">Total Units</div>
-            <div class="val" style="color:#00e5a3;" id="loginLiveTotalParts">0</div>
-          </div>
-          <div class="preview-stat-card">
-            <div class="label">In Stock</div>
-            <div class="val text-info" id="loginLiveAvailable">0</div>
-          </div>
+        <div class="notched-input-group">
+          <fieldset>
+            <legend>Password</legend>
+            <input type="password" id="loginPassword" placeholder="Enter password" required autocomplete="current-password" />
+          </fieldset>
         </div>
 
-        <div class="preview-charts-grid">
-          <div class="preview-chart-box">
-            <div class="title d-flex justify-content-between">
-              <span>Inventory Inward Status</span>
-              <span class="text-success" style="font-size:0.65rem;" id="loginLiveInwardGrowth">Active</span>
-            </div>
-            <svg class="wave-chart-svg" viewBox="0 0 200 60" preserveAspectRatio="none">
-              <defs>
-                <linearGradient id="waveGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stop-color="#00e5a3" stop-opacity="0.4"/>
-                  <stop offset="100%" stop-color="#00e5a3" stop-opacity="0"/>
-                </linearGradient>
-              </defs>
-              <path d="M0,50 Q40,10 80,40 T160,20 T200,30 L200,60 L0,60 Z" fill="url(#waveGrad)"/>
-              <path d="M0,50 Q40,10 80,40 T160,20 T200,30" fill="none" stroke="#00e5a3" stroke-width="2.5"/>
-              <circle cx="160" cy="20" r="3.5" fill="#ffffff" stroke="#00e5a3" stroke-width="2"/>
-            </svg>
-          </div>
-
-          <div class="preview-chart-box text-center">
-            <div class="title text-start">Stock Ratio</div>
-            <div class="ring-chart-wrap">
-              <svg width="60" height="60" viewBox="0 0 36 36">
-                <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#162c36" stroke-width="3.8"/>
-                <path id="loginLiveRing" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831" fill="none" stroke="#00e5a3" stroke-width="3.8" stroke-dasharray="0, 100" stroke-linecap="round"/>
-              </svg>
-              <div class="center-text" id="loginLiveStockPct">0%</div>
-            </div>
-          </div>
-        </div>
-      </div>
+        <button type="submit" class="eccel-btn-primary" id="loginSubmitBtn">Sign in</button>
+      </form>
     </div>
   </div>
 </div>
@@ -922,19 +822,15 @@
 
 <script>
   /* ============================================================
-     CONFIG — fill these in after you create your Supabase project
-     and deploy the Edge Functions (see SETUP.md).
+     SUPABASE CONFIGURATION
      ============================================================ */
   const SUPABASE_URL = 'https://hmopkhvugvrcdiabvsyi.supabase.co';
   const SUPABASE_ANON_KEY = 'sb_publishable_WLdOTFKhQ92C4qMDcsg71g_TaLl41qH';
-  const RAZORPAY_KEY_ID_PLACEHOLDER = ''; // actual key comes from create-razorpay-order response
 
-  const FUNCTIONS_URL = `${SUPABASE_URL}/functions/v1`;
   const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   let cachedUsers = [];
-  let currentUser = null;       // { id, name, role, email }
-  let currentSession = null;    // supabase auth session (for access_token)
+  let currentUser = null; // { id, name, role, email }
   let rawRecords = [];
   let partQueue = [];
   let statusChartInstance = null;
@@ -955,51 +851,25 @@
     return '₹' + v.toLocaleString('en-IN', { maximumFractionDigits: 0 });
   }
 
-  // Maps a Supabase `parts` row onto the same field names the existing
-  // UI/rendering code already expects, so the render functions below
-  // didn't need to be rewritten.
-  function mapPart(r) {
-    return {
-      id: r.id,
-      'DISMENTLE DATE': r.dismantle_date,
-      'VEHICLE NO': r.vehicle_no,
-      'MAKE': r.make,
-      'MODEL': r.model,
-      'YEAR': r.year,
-      "PART'S NAME": r.part_name,
-      'QUANTITY': r.quantity,
-      'PRICE': r.price,
-      'IMAGE URL': r.image_url,
-      'IDENTIFICATION NUMBER': r.identification_number,
-      'REMARKS': r.status
-    };
-  }
-
-  async function authHeaders() {
-    const { data } = await sb.auth.getSession();
-    const token = data?.session?.access_token || SUPABASE_ANON_KEY;
-    return { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` };
-  }
-
   /* ============================================================
-     IMAGE UPLOAD (Supabase Storage — replaces the old GitHub PAT flow)
+     SUPABASE STORAGE HELPER (Upload Part Images)
      ============================================================ */
-  async function uploadImageToStorage(file, customPrefix = 'part') {
+  async function uploadImageToSupabase(file, customPrefix = 'part') {
     const ext = file.name.split('.').pop();
-    const cleanPrefix = (customPrefix || 'part').toLowerCase().replace(/[^a-z0-9]/g, '-');
+    const cleanPrefix = customPrefix.toLowerCase().replace(/[^a-z0-9]/g, '-');
     const fileName = `${cleanPrefix}-${Date.now()}.${ext}`;
-    const { error } = await sb.storage.from('part-images').upload(fileName, file);
-    if (error) throw new Error(error.message);
-    const { data } = sb.storage.from('part-images').getPublicUrl(fileName);
-    return data.publicUrl;
-  }
 
-  async function deleteImageFromStorage(imageUrl) {
-    if (!imageUrl || !imageUrl.includes('/part-images/')) return;
-    try {
-      const fileName = imageUrl.split('/part-images/')[1];
-      if (fileName) await sb.storage.from('part-images').remove([fileName]);
-    } catch (e) { /* non-fatal */ }
+    const { data, error } = await sb.storage
+      .from('part-images')
+      .upload(fileName, file, { cacheControl: '3600', upsert: false });
+
+    if (error) throw error;
+
+    const { data: publicUrlData } = sb.storage
+      .from('part-images')
+      .getPublicUrl(fileName);
+
+    return publicUrlData.publicUrl;
   }
 
   document.getElementById('partFileInput').addEventListener('change', async (e) => {
@@ -1007,12 +877,12 @@
     if (!file) return;
     const status = document.getElementById('fileUploadStatus');
     const pName = document.getElementById('partName').value.trim() || 'part';
-    status.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Uploading...';
+    status.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Uploading to Supabase Storage...';
     try {
-      const url = await uploadImageToStorage(file, pName);
+      const url = await uploadImageToSupabase(file, pName);
       document.getElementById('partImageUrl').value = url;
       status.innerHTML = `<span class="text-success"><i class="bi bi-check-circle-fill me-1"></i>Uploaded: ${file.name}</span>`;
-      toastr.success("Photo uploaded!");
+      toastr.success("Photo uploaded to part-images bucket!");
     } catch (err) {
       status.innerHTML = `<span class="text-danger"><i class="bi bi-x-circle me-1"></i>Upload failed: ${err.message}</span>`;
     }
@@ -1022,9 +892,9 @@
     const file = e.target.files[0];
     if (!file) return;
     const pName = document.getElementById('editPartName').value.trim() || 'part';
-    toastr.info("Uploading photo...");
+    toastr.info("Uploading photo to Supabase Storage...");
     try {
-      const url = await uploadImageToStorage(file, pName);
+      const url = await uploadImageToSupabase(file, pName);
       document.getElementById('editImageUrl').value = url;
       previewEditImage();
       toastr.success("Photo uploaded and attached to part!");
@@ -1033,7 +903,9 @@
     }
   });
 
-  /* NAV SWITCHING */
+  /* ============================================================
+     NAVIGATION & AUTHENTICATION
+     ============================================================ */
   function showStorefront() {
     document.getElementById('storefrontView').classList.remove('d-none');
     document.getElementById('staffLoginPrompt').classList.add('d-none');
@@ -1058,9 +930,6 @@
   function openAuthModal() { document.getElementById('authOverlay').style.display = 'flex'; }
   function closeAuthModal() { document.getElementById('authOverlay').style.display = 'none'; }
 
-  /* ============================================================
-     AUTH (Supabase Auth — replaces hardcoded plaintext user list)
-     ============================================================ */
   document.getElementById('loginForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = document.getElementById('loginSubmitBtn');
@@ -1068,27 +937,31 @@
     btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Signing in...';
 
     const email = document.getElementById('loginUsername').value.trim();
-    const pass = document.getElementById('loginPassword').value;
+    const password = document.getElementById('loginPassword').value.trim();
 
-    const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
+    const { data: authData, error: authError } = await sb.auth.signInWithPassword({ email, password });
 
     btn.disabled = false;
     btn.innerHTML = 'Sign in';
 
-    if (error) {
-      toastr.error("Invalid email or password!", "Access Denied");
+    if (authError || !authData.user) {
+      toastr.error(authError ? authError.message : "Invalid credentials", "Access Denied");
       return;
     }
 
-    currentSession = data.session;
-    const { data: profile, error: profileErr } = await sb.from('profiles').select('*').eq('id', data.user.id).single();
-    if (profileErr || !profile) {
-      toastr.error("Your account has no staff profile. Ask a Super Admin to set one up.", "Access Denied");
-      await sb.auth.signOut();
-      return;
-    }
+    const { data: profile } = await sb
+      .from('profiles')
+      .select('*')
+      .eq('id', authData.user.id)
+      .single();
 
-    currentUser = { id: profile.id, name: profile.name, role: profile.role, email: profile.email };
+    currentUser = {
+      id: authData.user.id,
+      email: authData.user.email,
+      name: profile ? profile.name : authData.user.email.split('@')[0],
+      role: profile ? profile.role : 'USER'
+    };
+
     toastr.success(`Welcome, ${currentUser.name}! (${currentUser.role.replace('_', ' ')})`, "Login Successful");
     closeAuthModal();
     initializeSession();
@@ -1097,7 +970,6 @@
   async function logout() {
     await sb.auth.signOut();
     currentUser = null;
-    currentSession = null;
     document.getElementById('staffGreeting').innerText = '';
     document.getElementById('loginPassword').value = '';
     toastr.info("Logged out safely.");
@@ -1105,12 +977,20 @@
   }
 
   async function checkSession() {
-    const { data } = await sb.auth.getSession();
-    if (!data?.session) return;
-    currentSession = data.session;
-    const { data: profile } = await sb.from('profiles').select('*').eq('id', data.session.user.id).single();
-    if (profile) {
-      currentUser = { id: profile.id, name: profile.name, role: profile.role, email: profile.email };
+    const { data: { session } } = await sb.auth.getSession();
+    if (session && session.user) {
+      const { data: profile } = await sb
+        .from('profiles')
+        .select('*')
+        .eq('id', session.user.id)
+        .single();
+
+      currentUser = {
+        id: session.user.id,
+        email: session.user.email,
+        name: profile ? profile.name : session.user.email.split('@')[0],
+        role: profile ? profile.role : 'USER'
+      };
       initializeSession(false);
     }
   }
@@ -1147,64 +1027,22 @@
     }
 
     document.getElementById('dismentleDate').valueAsDate = new Date();
-    if (switchToStaff) showStaffArea(); else if (!document.getElementById('appContainer').classList.contains('d-none') || document.getElementById('navStaffBtn').classList.contains('active')) showStaffArea();
+    if (switchToStaff) showStaffArea();
     fetchRecords();
     fetchOrders();
   }
 
   /* ============================================================
-     USER MANAGEMENT — all writes go through the admin-users Edge
-     Function (SUPER_ADMIN only, checked server-side). No plaintext
-     passwords ever touch the database or this page.
+     USER MANAGEMENT (PROFILES)
      ============================================================ */
-  async function callAdminUsers(action, payload = {}) {
-    const headers = await authHeaders();
-    const res = await fetch(`${FUNCTIONS_URL}/admin-users`, {
-      method: 'POST', headers, body: JSON.stringify({ action, ...payload })
-    });
-    const body = await res.json();
-    if (!res.ok) throw new Error(body.error || 'Request failed');
-    return body;
-  }
-
   async function fetchUsers() {
     if (!currentUser || currentUser.role !== 'SUPER_ADMIN') return;
-    try {
-      const { users } = await callAdminUsers('list');
-      cachedUsers = users || [];
-    } catch (e) {
-      cachedUsers = [];
-      toastr.error('Could not load staff list.');
+    const { data, error } = await sb.from('profiles').select('*').order('created_at', { ascending: false });
+    if (!error && data) {
+      cachedUsers = data;
+      renderUserTable();
     }
-    renderUserTable();
   }
-
-  document.getElementById('createUserForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    if (!currentUser || currentUser.role !== 'SUPER_ADMIN') return;
-    const name = document.getElementById('newUserName').value.trim();
-    const email = document.getElementById('newUserIdentifier').value.trim();
-    const pass = document.getElementById('newUserPassword').value.trim();
-    const role = document.getElementById('newUserRole').value;
-
-    const btn = document.getElementById('createAccountBtn');
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Creating account...';
-
-    try {
-      await callAdminUsers('create', { name, email, password: pass, role });
-      toastr.success(`User "${name}" (${role}) created!`, "Account Created");
-      document.getElementById('newUserName').value = '';
-      document.getElementById('newUserIdentifier').value = '';
-      document.getElementById('newUserPassword').value = '';
-      await fetchUsers();
-    } catch (err) {
-      toastr.error(err.message || 'Could not create account.');
-    } finally {
-      btn.disabled = false;
-      btn.innerHTML = '<i class="bi bi-check-circle-fill me-1"></i> Register Account';
-    }
-  });
 
   function renderUserTable() {
     const tbody = document.getElementById('userTableBody');
@@ -1219,47 +1057,43 @@
           <td class="fw-bold">${u.name} ${isSelf ? '<span class="badge bg-light text-dark border ms-1">You</span>' : ''}</td>
           <td class="mono text-primary">${u.email || '-'}</td>
           <td><span class="badge ${roleBadge}">${u.role.replace('_', ' ')}</span></td>
-          <td class="text-center">
-            <button class="btn btn-outline-primary btn-sm py-0 px-2 me-1" title="Reset Password" onclick="resetPassword('${u.id}', '${u.name}')"><i class="bi bi-key"></i></button>
-            ${isSelf ? '' : `<button class="btn btn-outline-danger btn-sm py-0 px-2" title="Delete User" onclick="deleteUser('${u.id}', '${u.name}')"><i class="bi bi-trash3"></i></button>`}
-          </td>
         </tr>`;
     }).join('');
   }
 
-  async function resetPassword(userId, name) {
-    const newPass = prompt(`Enter a new temporary password for ${name}:`);
-    if (!newPass || newPass.trim().length < 6) {
-      if (newPass !== null) toastr.warning('Password must be at least 6 characters.');
-      return;
-    }
-    try {
-      await callAdminUsers('reset-password', { user_id: userId, new_password: newPass.trim() });
-      toastr.success(`Password updated for ${name}. Share it with them securely.`);
-    } catch (e) {
-      toastr.error(e.message || 'Could not update password.');
-    }
-  }
-
-  async function deleteUser(userId, name) {
-    if (!confirm(`Are you sure you want to remove ${name}?`)) return;
-    try {
-      await callAdminUsers('delete', { user_id: userId });
-      toastr.success(`User ${name} removed.`);
-      await fetchUsers();
-    } catch (e) {
-      toastr.error(e.message || 'Could not remove user.');
-    }
-  }
+  document.getElementById('createUserForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    toastr.info("New team members should be added in Supabase Auth Dashboard > Users.");
+  });
 
   /* ============================================================
-     PARTS INVENTORY (Supabase table `parts`, RLS-protected)
+     PARTS DATABASE (FETCH & RENDER)
      ============================================================ */
   async function fetchRecords() {
     try {
-      const { data, error } = await sb.from('parts').select('*').order('created_at', { ascending: false });
+      const { data, error } = await sb
+        .from('parts')
+        .select('*')
+        .order('created_at', { ascending: false });
+
       if (error) throw error;
-      rawRecords = (data || []).map((r, i) => ({ ...mapPart(r), _origIndex: i }));
+
+      rawRecords = (data || []).map((r, i) => ({
+        ...r,
+        _origIndex: i,
+        "PART'S NAME": r.part_name,
+        "VEHICLE NO": r.vehicle_no,
+        "MAKE": r.make,
+        "MODEL": r.model,
+        "YEAR": r.year,
+        "QUANTITY": r.quantity,
+        "PRICE": r.price,
+        "IDENTIFICATION NUMBER": r.identification_number,
+        "REMARKS": r.status,
+        "IMAGE URL": r.image_url,
+        "DISMENTLE DATE": r.dismantle_date
+      }));
+
       const syncEl = document.getElementById('lastSyncTime');
       if (syncEl) syncEl.innerText = `Last Synced: ${new Date().toLocaleTimeString()}`;
       updateDashboardKPIs(rawRecords);
@@ -1270,7 +1104,7 @@
       if (activeMakeFilter !== 'ALL') renderModelStrip(activeMakeFilter);
       applyStoreFilter();
     } catch (err) {
-      toastr.error('Failed to sync with Supabase.', 'Network Error');
+      toastr.error(err.message || 'Failed to sync with Supabase.', 'Database Error');
     }
   }
 
@@ -1278,43 +1112,31 @@
     let totalParts = 0, availableCount = 0, soldCount = 0, availableValue = 0;
     const uniqueVehicles = new Set();
     data.forEach(item => {
-      const qty = parseInt(item['QUANTITY']) || 1;
-      const price = parseFloat(item['PRICE']) || 0;
+      const qty = parseInt(item.quantity) || 1;
+      const price = parseFloat(item.price) || 0;
       totalParts += qty;
-      const rem = (item['REMARKS'] || '').toUpperCase();
-      if (rem.includes('AVAILABLE')) { availableCount += qty; availableValue += price * qty; }
-      else if (rem.includes('SOLD')) soldCount += qty;
-      if (item['VEHICLE NO']) uniqueVehicles.add(item['VEHICLE NO'].trim().toUpperCase());
+      const rem = (item.status || '').toUpperCase();
+      if (rem === 'AVAILABLE') { availableCount += qty; availableValue += price * qty; }
+      else if (rem === 'SOLD') soldCount += qty;
+      if (item.vehicle_no) uniqueVehicles.add(item.vehicle_no.trim().toUpperCase());
     });
     document.getElementById('dashTotalParts').innerText = totalParts;
     document.getElementById('dashAvailable').innerText = availableCount;
     document.getElementById('dashStockValue').innerText = `≈ ${money(availableValue)} value`;
     document.getElementById('dashSold').innerText = soldCount;
     document.getElementById('dashVehicles').innerText = uniqueVehicles.size;
-
-    const liveTotalPartsEl = document.getElementById('loginLiveTotalParts');
-    const liveAvailableEl = document.getElementById('loginLiveAvailable');
-    const liveStockPctEl = document.getElementById('loginLiveStockPct');
-    const liveRingEl = document.getElementById('loginLiveRing');
-
-    if (liveTotalPartsEl) liveTotalPartsEl.innerText = totalParts;
-    if (liveAvailableEl) liveAvailableEl.innerText = availableCount;
-
-    const pct = totalParts > 0 ? Math.round((availableCount / totalParts) * 100) : 0;
-    if (liveStockPctEl) liveStockPctEl.innerText = `${pct}%`;
-    if (liveRingEl) liveRingEl.setAttribute('stroke-dasharray', `${pct}, 100`);
   }
 
   function updateDashboardCharts(data) {
     let available = 0, sold = 0, scrap = 0;
     const vehicleCounts = {};
     data.forEach(item => {
-      const qty = parseInt(item['QUANTITY']) || 1;
-      const rem = (item['REMARKS'] || '').toUpperCase();
-      if (rem.includes('AVAILABLE')) available += qty;
-      else if (rem.includes('SOLD')) sold += qty;
+      const qty = parseInt(item.quantity) || 1;
+      const rem = (item.status || '').toUpperCase();
+      if (rem === 'AVAILABLE') available += qty;
+      else if (rem === 'SOLD') sold += qty;
       else scrap += qty;
-      const vKey = item['MAKE'] && item['MODEL'] ? `${item['MAKE']} ${item['MODEL']}` : (item['VEHICLE NO'] || 'Unknown');
+      const vKey = item.make && item.model ? `${item.make} ${item.model}` : (item.vehicle_no || 'Unknown');
       vehicleCounts[vKey] = (vehicleCounts[vKey] || 0) + qty;
     });
 
@@ -1338,20 +1160,20 @@
 
   function renderRecentDashboardTable(data) {
     const tbody = document.getElementById('dashTableBody');
-    const recent = data.slice(-5).reverse();
+    const recent = data.slice(0, 5);
     if (!recent.length) { tbody.innerHTML = `<tr><td colspan="7" class="text-center py-3 text-muted">No records available</td></tr>`; return; }
     tbody.innerHTML = recent.map(row => {
-      const remark = (row['REMARKS'] || 'AVAILABLE').toUpperCase();
-      const badgeClass = remark.includes('AVAILABLE') ? 'bg-success' : (remark.includes('SOLD') ? 'bg-primary' : (remark.includes('RESERVED') ? '' : 'bg-danger'));
-      const styleAttr = remark.includes('RESERVED') ? 'style="background:var(--gold-2);color:#fff;"' : '';
+      const remark = (row.status || 'AVAILABLE').toUpperCase();
+      const badgeClass = remark === 'AVAILABLE' ? 'bg-success' : (remark === 'SOLD' ? 'bg-primary' : (remark === 'RESERVED' ? '' : 'bg-danger'));
+      const styleAttr = remark === 'RESERVED' ? 'style="background:var(--gold-2);color:#fff;"' : '';
       return `
         <tr>
-          <td>${row['DISMENTLE DATE'] || '-'}</td>
-          <td class="fw-bold mono">${row['VEHICLE NO'] || '-'}</td>
-          <td>${row['MAKE'] || ''} ${row['MODEL'] || ''}</td>
-          <td class="fw-semibold text-dark">${row["PART'S NAME"] || '-'}</td>
-          <td>${row['QUANTITY'] || '1'}</td>
-          <td><span class="badge bg-light text-dark border mono">${row['IDENTIFICATION NUMBER'] || '-'}</span></td>
+          <td>${row.dismantle_date || '-'}</td>
+          <td class="fw-bold mono">${row.vehicle_no || '-'}</td>
+          <td>${row.make || ''} ${row.model || ''}</td>
+          <td class="fw-semibold text-dark">${row.part_name || '-'}</td>
+          <td>${row.quantity || '1'}</td>
+          <td><span class="badge bg-light text-dark border mono">${row.identification_number || '-'}</span></td>
           <td><span class="badge ${badgeClass}" ${styleAttr}>${remark}</span></td>
         </tr>`;
     }).join('');
@@ -1366,12 +1188,12 @@
     const status = document.getElementById('statusFilter').value;
 
     const filtered = rawRecords.filter(row => {
-      const rowMake = (row['MAKE'] || '').toLowerCase();
-      const rowModel = (row['MODEL'] || '').toLowerCase();
-      const rowYear = String(row['YEAR'] || '').toLowerCase();
-      const rowPart = (row["PART'S NAME"] || '').toLowerCase();
-      const rowVehNo = (row['VEHICLE NO'] || '').toLowerCase();
-      const rowIdent = (row['IDENTIFICATION NUMBER'] || '').toLowerCase();
+      const rowMake = (row.make || '').toLowerCase();
+      const rowModel = (row.model || '').toLowerCase();
+      const rowYear = String(row.year || '').toLowerCase();
+      const rowPart = (row.part_name || '').toLowerCase();
+      const rowVehNo = (row.vehicle_no || '').toLowerCase();
+      const rowIdent = (row.identification_number || '').toLowerCase();
 
       const matchMake = !qMake || rowMake.includes(qMake);
       const matchModel = !qModel || rowModel.includes(qModel);
@@ -1379,12 +1201,8 @@
       const matchPart = !qPart || rowPart.includes(qPart);
       const matchGen = !qGen || (rowVehNo.includes(qGen) || rowIdent.includes(qGen));
 
-      const remarkUpper = (row['REMARKS'] || '').toUpperCase();
       let matchStatus = true;
-      if (status === 'AVAILABLE') matchStatus = remarkUpper.includes('AVAILABLE');
-      else if (status === 'RESERVED') matchStatus = remarkUpper.includes('RESERVED');
-      else if (status === 'SOLD') matchStatus = remarkUpper.includes('SOLD');
-      else if (status === 'SCRAP') matchStatus = remarkUpper.includes('SCRAP');
+      if (status !== 'ALL') matchStatus = (row.status === status);
 
       return matchMake && matchModel && matchYear && matchPart && matchGen && matchStatus;
     });
@@ -1401,13 +1219,6 @@
     applyFilter();
   }
 
-  function statusBadgeInfo(remarkUpper) {
-    if (remarkUpper.includes('AVAILABLE')) return { cls: 'bg-success', label: remarkUpper };
-    if (remarkUpper.includes('RESERVED')) return { cls: '', label: remarkUpper, style: 'background:var(--gold-2);color:#fff;' };
-    if (remarkUpper.includes('SOLD')) return { cls: 'bg-primary', label: remarkUpper };
-    return { cls: 'bg-danger', label: remarkUpper };
-  }
-
   function renderTable(data) {
     const tbody = document.getElementById('tableBody');
     document.getElementById('filteredCount').innerText = data.length;
@@ -1417,20 +1228,20 @@
     const isAdmin = currentUser && (currentUser.role === 'SUPER_ADMIN' || currentUser.role === 'ADMIN');
 
     tbody.innerHTML = data.map(row => {
-      const currentRemark = (row['REMARKS'] || 'AVAILABLE').toUpperCase();
+      const currentRemark = (row.status || 'AVAILABLE').toUpperCase();
       const origIdx = row._origIndex;
       let statusControl = '';
       if (isAdmin) {
         statusControl = `
-          <select class="form-select form-select-sm py-0 px-2 fw-semibold" onchange="updateRowStatus(${origIdx}, this.value)" style="font-size: 0.8rem; height: 30px;">
-            <option value="AVAILABLE" ${currentRemark.includes('AVAILABLE') ? 'selected' : ''}>🟢 AVAILABLE</option>
-            <option value="RESERVED" ${currentRemark.includes('RESERVED') ? 'selected' : ''}>🟠 RESERVED</option>
-            <option value="SOLD" ${currentRemark.includes('SOLD') ? 'selected' : ''}>🔵 SOLD</option>
-            <option value="SCRAP" ${currentRemark.includes('SCRAP') ? 'selected' : ''}>🔴 SCRAP</option>
+          <select class="form-select form-select-sm py-0 px-2 fw-semibold" onchange="updateRowStatus('${row.id}', this.value)" style="font-size: 0.8rem; height: 30px;">
+            <option value="AVAILABLE" ${currentRemark === 'AVAILABLE' ? 'selected' : ''}>🟢 AVAILABLE</option>
+            <option value="RESERVED" ${currentRemark === 'RESERVED' ? 'selected' : ''}>🟠 RESERVED</option>
+            <option value="SOLD" ${currentRemark === 'SOLD' ? 'selected' : ''}>🔵 SOLD</option>
+            <option value="SCRAP" ${currentRemark === 'SCRAP' ? 'selected' : ''}>🔴 SCRAP</option>
           </select>`;
       } else {
-        const info = statusBadgeInfo(currentRemark);
-        statusControl = `<span class="badge ${info.cls}" style="${info.style || ''}">${info.label}</span>`;
+        const cls = currentRemark === 'AVAILABLE' ? 'bg-success' : (currentRemark === 'SOLD' ? 'bg-primary' : (currentRemark === 'RESERVED' ? 'bg-warning text-dark' : 'bg-danger'));
+        statusControl = `<span class="badge ${cls}">${currentRemark}</span>`;
       }
 
       let actionCol = '';
@@ -1440,11 +1251,11 @@
             <button class="btn btn-outline-dark btn-sm py-0 px-2 me-1" title="Edit Part" onclick="openEditModal(${origIdx})">
               <i class="bi bi-pencil-square"></i> Edit
             </button>
-            ${isSuperAdmin ? `<button class="btn btn-outline-danger btn-sm py-0 px-2" title="Delete Part" onclick="deleteRow(${origIdx})"><i class="bi bi-trash3"></i></button>` : ''}
+            ${isSuperAdmin ? `<button class="btn btn-outline-danger btn-sm py-0 px-2" title="Delete Part" onclick="deleteRow('${row.id}', '${row.part_name}')"><i class="bi bi-trash3"></i></button>` : ''}
           </td>`;
       }
 
-      const thumbUrl = (row['IMAGE URL'] || '').trim();
+      const thumbUrl = (row.image_url || '').trim();
       const thumb = thumbUrl
         ? `<img src="${thumbUrl}" alt="" style="width:42px;height:42px;object-fit:cover;border-radius:8px;border:1px solid var(--line);" onerror="this.replaceWith(Object.assign(document.createElement('i'),{className:'bi bi-image text-muted fs-5'}))" />`
         : `<i class="bi bi-image text-muted fs-5"></i>`;
@@ -1452,33 +1263,35 @@
       return `
         <tr>
           <td>${thumb}</td>
-          <td class="text-nowrap text-secondary">${row['DISMENTLE DATE'] || '-'}</td>
-          <td class="fw-bold text-dark mono">${row['VEHICLE NO'] || '-'}</td>
-          <td><div class="fw-semibold">${row['MAKE'] || ''} ${row['MODEL'] || ''}</div><small class="text-muted">${row['YEAR'] ? 'Yr: ' + row['YEAR'] : ''}</small></td>
-          <td class="fw-bold text-dark">${row["PART'S NAME"] || '-'}</td>
-          <td class="text-center fw-bold">${row['QUANTITY'] || '1'}</td>
-          <td class="fw-semibold">${row['PRICE'] ? money(row['PRICE']) : '<span class="text-muted small">—</span>'}</td>
-          <td><span class="badge bg-light text-dark border mono">${row['IDENTIFICATION NUMBER'] || '-'}</span></td>
+          <td class="text-nowrap text-secondary">${row.dismantle_date || '-'}</td>
+          <td class="fw-bold text-dark mono">${row.vehicle_no || '-'}</td>
+          <td><div class="fw-semibold">${row.make || ''} ${row.model || ''}</div><small class="text-muted">${row.year ? 'Yr: ' + row.year : ''}</small></td>
+          <td class="fw-bold text-dark">${row.part_name || '-'}</td>
+          <td class="text-center fw-bold">${row.quantity || '1'}</td>
+          <td class="fw-semibold">${row.price ? money(row.price) : '<span class="text-muted small">—</span>'}</td>
+          <td><span class="badge bg-light text-dark border mono">${row.identification_number || '-'}</span></td>
           <td>${statusControl}</td>
           ${actionCol}
         </tr>`;
     }).join('');
   }
 
-  /* EDIT PART MODAL LOGIC */
+  /* ============================================================
+     EDIT PART MODAL (SANITIZED FOR POSTGRESQL)
+     ============================================================ */
   function openEditModal(origIdx) {
     const row = getPartByIndex(origIdx);
     if (!row) return;
 
-    document.getElementById('editOriginalIndex').value = origIdx;
-    document.getElementById('editPartName').value = row["PART'S NAME"] || '';
-    document.getElementById('editImageUrl').value = row["IMAGE URL"] || '';
-    document.getElementById('editIdentNo').value = row["IDENTIFICATION NUMBER"] || '';
-    document.getElementById('editQuantity').value = row["QUANTITY"] || '1';
-    document.getElementById('editPrice').value = row["PRICE"] || '';
+    document.getElementById('editOriginalIndex').value = row.id;
+    document.getElementById('editPartName').value = row.part_name || '';
+    document.getElementById('editImageUrl').value = row.image_url || '';
+    document.getElementById('editIdentNo').value = row.identification_number || '';
+    document.getElementById('editQuantity').value = row.quantity || 1;
+    document.getElementById('editPrice').value = row.price !== null && row.price !== undefined ? row.price : '';
     document.getElementById('editFileInput').value = '';
 
-    const rem = (row["REMARKS"] || 'AVAILABLE').toUpperCase();
+    const rem = (row.status || 'AVAILABLE').toUpperCase();
     if (rem.includes('AVAILABLE')) document.getElementById('editRemarks').value = 'AVAILABLE';
     else if (rem.includes('RESERVED')) document.getElementById('editRemarks').value = 'RESERVED';
     else if (rem.includes('SOLD')) document.getElementById('editRemarks').value = 'SOLD';
@@ -1506,37 +1319,60 @@
 
   document.getElementById('editPartForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-    const origIdx = parseInt(document.getElementById('editOriginalIndex').value);
-    const row = getPartByIndex(origIdx);
-    if (!row) return;
-
-    const payload = {
-      part_name: document.getElementById('editPartName').value.trim().toUpperCase(),
-      image_url: document.getElementById('editImageUrl').value.trim(),
-      identification_number: document.getElementById('editIdentNo').value.trim().toUpperCase(),
-      quantity: parseInt(document.getElementById('editQuantity').value) || 1,
-      price: document.getElementById('editPrice').value ? parseFloat(document.getElementById('editPrice').value) : null,
-      status: document.getElementById('editRemarks').value
-    };
+    const partId = document.getElementById('editOriginalIndex').value;
+    if (!partId) return;
 
     const btn = document.getElementById('editSaveBtn');
     btn.disabled = true;
-    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Saving...';
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Saving to Supabase...';
+
+    const rawName = document.getElementById('editPartName').value.trim().toUpperCase();
+    const rawIdent = document.getElementById('editIdentNo').value.trim().toUpperCase();
+    const rawQty = document.getElementById('editQuantity').value.trim();
+    const rawPrice = document.getElementById('editPrice').value.trim();
+    const rawImg = document.getElementById('editImageUrl').value.trim();
+    let rawStatus = document.getElementById('editRemarks').value.toUpperCase();
+
+    let sanitizedStatus = 'AVAILABLE';
+    if (rawStatus.includes('SOLD')) sanitizedStatus = 'SOLD';
+    else if (rawStatus.includes('RESERVED')) sanitizedStatus = 'RESERVED';
+    else if (rawStatus.includes('SCRAP')) sanitizedStatus = 'SCRAP';
+
+    const updates = {
+      part_name: rawName,
+      identification_number: rawIdent || null,
+      quantity: rawQty !== '' ? parseInt(rawQty, 10) : 1,
+      price: rawPrice !== '' ? parseFloat(rawPrice) : null,
+      status: sanitizedStatus,
+      image_url: rawImg || null
+    };
 
     try {
-      const { error } = await sb.from('parts').update(payload).eq('id', row.id);
-      if (error) throw error;
-      toastr.success('Part updated successfully!');
-      closeEditModal();
-      fetchRecords();
+      const { data, error } = await sb
+        .from('parts')
+        .update(updates)
+        .eq('id', partId);
+
+      if (error) {
+        console.error('Supabase update error:', error);
+        toastr.error(error.message || 'Could not update part.', 'Database Error');
+      } else {
+        toastr.success('Part updated successfully!');
+        closeEditModal();
+        await fetchRecords();
+      }
     } catch (err) {
-      toastr.error('Could not update part.');
+      console.error('Network error:', err);
+      toastr.error(err.message || 'Network error updating part.');
     } finally {
       btn.disabled = false;
       btn.innerHTML = '<i class="bi bi-check2-circle me-1"></i> Update &amp; Save Changes';
     }
   });
 
+  /* ============================================================
+     INWARD BATCH ENTRY
+     ============================================================ */
   function addPartToQueue() {
     const partName = document.getElementById('partName').value.trim();
     const qty = document.getElementById('quantity').value;
@@ -1545,13 +1381,13 @@
     const imageUrl = document.getElementById('partImageUrl').value.trim();
     const remarks = document.getElementById('remarks').value;
     if (!partName) return toastr.warning("Please enter Part's Name!");
-    partQueue.push({ partName: partName.toUpperCase(), qty, identNo: identNo.toUpperCase(), price, imageUrl, remarks });
+    partQueue.push({ partName: partName.toUpperCase(), qty: parseInt(qty) || 1, identNo: identNo.toUpperCase(), price: price ? parseFloat(price) : null, imageUrl, remarks });
     renderBatchList();
     document.getElementById('partName').value = '';
     document.getElementById('partPrice').value = '';
     document.getElementById('partImageUrl').value = '';
     document.getElementById('partFileInput').value = '';
-    document.getElementById('fileUploadStatus').innerText = 'Choose from phone/desktop storage';
+    document.getElementById('fileUploadStatus').innerText = 'Choose file to upload';
     document.getElementById('partName').focus();
   }
 
@@ -1571,7 +1407,7 @@
   function removeBatchItem(index) { partQueue.splice(index, 1); renderBatchList(); }
   function clearBatch() { partQueue = []; renderBatchList(); }
 
-  async function submitBatchToSheet() {
+  async function submitBatchToDatabase() {
     const vehicleNo = document.getElementById('vehicleNo').value.trim();
     const make = document.getElementById('make').value.trim();
     const model = document.getElementById('model').value.trim();
@@ -1585,96 +1421,90 @@
     }
 
     const rawDate = document.getElementById('dismentleDate').value;
-    const [y, m, d] = rawDate.split('-');
-    const formattedDate = `${d}-${m}-${y}`;
+    const [y, m, d] = rawDate ? rawDate.split('-') : ['', '', ''];
+    const formattedDate = rawDate ? `${d}-${m}-${y}` : null;
 
-    const rows = partQueue.map(p => ({
+    const payload = partQueue.map(p => ({
       dismantle_date: formattedDate,
       vehicle_no: vehicleNo.toUpperCase(),
       make: make.toUpperCase(),
       model: model.toUpperCase(),
-      year: year ? parseInt(year) : null,
+      year: year ? parseInt(year, 10) : null,
       part_name: p.partName,
-      quantity: parseInt(p.qty) || 1,
-      price: p.price ? parseFloat(p.price) : null,
+      quantity: p.qty,
+      price: p.price,
       image_url: p.imageUrl || null,
-      identification_number: p.identNo || document.getElementById('identNo').value.toUpperCase().trim() || null,
-      status: p.remarks
+      identification_number: p.identNo || null,
+      status: p.remarks || 'AVAILABLE'
     }));
 
     const btn = document.getElementById('submitBtn');
     btn.disabled = true;
-    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Saving to Database...';
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Saving to Supabase...';
 
     try {
-      const { error } = await sb.from('parts').insert(rows);
+      const { data, error } = await sb.from('parts').insert(payload);
       if (error) throw error;
-      toastr.success(`${partQueue.length} parts added!`, "Success");
+
+      toastr.success(`${partQueue.length} parts added to Supabase!`, "Success");
       clearBatch();
       document.getElementById('partName').value = '';
       fetchRecords();
     } catch (err) {
-      toastr.error("Could not write records.", "Error");
+      toastr.error(err.message || "Could not write records to database.", "Error");
     } finally {
       btn.disabled = false;
-      btn.innerHTML = '<i class="bi bi-cloud-arrow-up-fill"></i> Save Entries to Database';
+      btn.innerHTML = '<i class="bi bi-cloud-arrow-up-fill"></i> Save Entries to Supabase';
     }
   }
 
-  async function updateRowStatus(origIdx, newStatus) {
-    const row = getPartByIndex(origIdx);
-    if (!row) return;
+  async function updateRowStatus(partId, newStatus) {
     try {
       toastr.info(`Updating status to ${newStatus}...`);
-      const { error } = await sb.from('parts').update({ status: newStatus }).eq('id', row.id);
+      const { error } = await sb.from('parts').update({ status: newStatus }).eq('id', partId);
       if (error) throw error;
       toastr.success(`Status updated to ${newStatus}`);
       fetchRecords();
     } catch (e) { toastr.error('Failed to update status.'); }
   }
 
-  async function deleteRow(origIdx) {
-    const row = getPartByIndex(origIdx);
-    if (!row) return;
-    const partName = row["PART'S NAME"];
-    const imageUrl = row["IMAGE URL"];
-    if (!confirm(`Are you sure you want to delete "${partName}"? (Its photo will also be deleted)`)) return;
+  async function deleteRow(partId, partName) {
+    if (!confirm(`Are you sure you want to delete "${partName}"?`)) return;
     try {
       toastr.info(`Deleting ${partName}...`);
-      if (imageUrl) await deleteImageFromStorage(imageUrl);
-      const { error } = await sb.from('parts').delete().eq('id', row.id);
+      const { error } = await sb.from('parts').delete().eq('id', partId);
       if (error) throw error;
-      toastr.success("Record and photo deleted.");
+      toastr.success("Record deleted.");
       fetchRecords();
     } catch (e) { toastr.error('Error deleting row.'); }
   }
 
   function exportToCSV() {
     if (!rawRecords.length) return toastr.warning("No data to export!");
-    let csv = "DISMENTLE DATE,VEHICLE NO,MAKE,MODEL,YEAR,PART'S NAME,QUANTITY,PRICE,IMAGE URL,IDENTIFICATION NUMBER,REMARKS\n";
+    let csv = "dismantle_date,vehicle_no,make,model,year,part_name,quantity,price,image_url,identification_number,status\n";
     rawRecords.forEach(r => {
-      csv += [r['DISMENTLE DATE'], r['VEHICLE NO'], r['MAKE'], r['MODEL'], r['YEAR'], r["PART'S NAME"], r['QUANTITY'], r['PRICE'], r['IMAGE URL'], r['IDENTIFICATION NUMBER'], r['REMARKS']]
-        .map(v => `"${(v || '').toString().replace(/"/g, '""')}"`).join(',') + '\n';
+      csv += `"${r.dismantle_date || ''}","${r.vehicle_no || ''}","${r.make || ''}","${r.model || ''}","${r.year || ''}","${r.part_name || ''}","${r.quantity || ''}","${r.price || ''}","${r.image_url || ''}","${r.identification_number || ''}","${r.status || ''}"\n`;
     });
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const link = document.createElement('a');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = `eccel-inventory-${new Date().toISOString().slice(0,10)}.csv`;
+    link.setAttribute("download", `ECCEL_Inventory_${new Date().toISOString().slice(0,10)}.csv`);
+    document.body.appendChild(link);
     link.click();
+    document.body.removeChild(link);
   }
 
   /* ============================================================
-     STOREFRONT (unchanged UI, now reads from `rawRecords` sourced
-     from Supabase instead of SheetDB)
+     STOREFRONT
      ============================================================ */
   function renderCategoryStrip(data) {
-    const makes = Array.from(new Set(data.map(r => (r['MAKE'] || '').trim().toUpperCase()).filter(Boolean))).sort();
+    const makes = Array.from(new Set(data.map(r => (r.make || '').trim().toUpperCase()).filter(Boolean))).sort();
     const strip = document.getElementById('categoryStrip');
     strip.innerHTML = `<span class="cat-chip ${activeMakeFilter === 'ALL' ? 'active' : ''}" data-make="ALL" onclick="filterByMake('ALL', this)">All Makes</span>` +
       makes.map(m => `<span class="cat-chip ${activeMakeFilter === m ? 'active' : ''}" data-make="${m}" onclick="filterByMake('${m}', this)">${m}</span>`).join('');
 
     document.getElementById('heroMakes').innerText = makes.length;
-    const uniqueVehicles = new Set(data.map(r => (r['VEHICLE NO'] || '').trim().toUpperCase()).filter(Boolean));
+    const uniqueVehicles = new Set(data.map(r => (r.vehicle_no || '').trim().toUpperCase()).filter(Boolean));
     document.getElementById('heroVehicles').innerText = uniqueVehicles.size;
   }
 
@@ -1692,8 +1522,8 @@
     if (make === 'ALL') { modelStrip.classList.add('d-none'); return; }
 
     const models = Array.from(new Set(
-      rawRecords.filter(r => (r['MAKE'] || '').toUpperCase() === make)
-        .map(r => (r['MODEL'] || '').trim().toUpperCase())
+      rawRecords.filter(r => (r.make || '').toUpperCase() === make)
+        .map(r => (r.model || '').trim().toUpperCase())
         .filter(Boolean)
     )).sort();
 
@@ -1716,24 +1546,23 @@
     const q = document.getElementById('storeSearch').value.toLowerCase().trim();
     const sort = document.getElementById('storeSort').value;
 
-    let available = rawRecords.filter(r => (r['REMARKS'] || 'AVAILABLE').toUpperCase().includes('AVAILABLE'));
+    let available = rawRecords.filter(r => (r.status || 'AVAILABLE').toUpperCase() === 'AVAILABLE');
 
-    if (activeMakeFilter !== 'ALL') available = available.filter(r => (r['MAKE'] || '').toUpperCase() === activeMakeFilter);
-    if (activeModelFilter !== 'ALL') available = available.filter(r => (r['MODEL'] || '').toUpperCase() === activeModelFilter);
+    if (activeMakeFilter !== 'ALL') available = available.filter(r => (r.make || '').toUpperCase() === activeMakeFilter);
+    if (activeModelFilter !== 'ALL') available = available.filter(r => (r.model || '').toUpperCase() === activeModelFilter);
 
     if (q) {
       available = available.filter(r => {
-        const hay = [r['MAKE'], r['MODEL'], r["PART'S NAME"], r['IDENTIFICATION NUMBER'], r['VEHICLE NO']].join(' ').toLowerCase();
+        const hay = [r.make, r.model, r.part_name, r.identification_number, r.vehicle_no].join(' ').toLowerCase();
         return hay.includes(q);
       });
     }
 
-    if (sort === 'price_asc') available = available.slice().sort((a,b) => (parseFloat(a['PRICE'])||0) - (parseFloat(b['PRICE'])||0));
-    else if (sort === 'price_desc') available = available.slice().sort((a,b) => (parseFloat(b['PRICE'])||0) - (parseFloat(a['PRICE'])||0));
-    else if (sort === 'name_asc') available = available.slice().sort((a,b) => (a["PART'S NAME"]||'').localeCompare(b["PART'S NAME"]||''));
-    else available = available.slice().reverse();
+    if (sort === 'price_asc') available = available.slice().sort((a,b) => (parseFloat(a.price)||0) - (parseFloat(b.price)||0));
+    else if (sort === 'price_desc') available = available.slice().sort((a,b) => (parseFloat(b.price)||0) - (parseFloat(a.price)||0));
+    else if (sort === 'name_asc') available = available.slice().sort((a,b) => (a.part_name||'').localeCompare(b.part_name||''));
 
-    document.getElementById('heroAvailable').innerText = rawRecords.filter(r => (r['REMARKS'] || 'AVAILABLE').toUpperCase().includes('AVAILABLE')).length;
+    document.getElementById('heroAvailable').innerText = rawRecords.filter(r => (r.status || 'AVAILABLE').toUpperCase() === 'AVAILABLE').length;
     document.getElementById('storeResultCount').innerText = available.length;
     renderStoreGrid(available);
   }
@@ -1749,20 +1578,20 @@
     }
     grid.innerHTML = data.map(row => {
       const origIdx = row._origIndex;
-      const price = row['PRICE'] ? money(row['PRICE']) : null;
-      const inCart = cart.some(c => c.origIndex === origIdx);
-      const imgUrl = (row['IMAGE URL'] || '').trim();
+      const price = row.price ? money(row.price) : null;
+      const inCart = cart.some(c => c.partId === row.id);
+      const imgUrl = (row.image_url || '').trim();
       const imageBlock = imgUrl
-        ? `<img src="${imgUrl}" alt="${row["PART'S NAME"] || 'Part photo'}" loading="lazy" onerror="this.parentElement.innerHTML='<i class=&quot;bi bi-image tag-image-fallback&quot;></i>'" />`
+        ? `<img src="${imgUrl}" alt="${row.part_name || 'Part photo'}" loading="lazy" onerror="this.parentElement.innerHTML='<i class=&quot;bi bi-image tag-image-fallback&quot;></i>'" />`
         : `<i class="bi bi-image tag-image-fallback"></i>`;
       return `
         <div class="col-xl-3 col-lg-4 col-md-6">
           <div class="parts-tag">
             <div class="tag-image-wrap">${imageBlock}</div>
             <div class="tag-body">
-              <span class="tag-id mono">#${(row['IDENTIFICATION NUMBER'] || 'N/A')}</span>
-              <div class="tag-part-name">${row["PART'S NAME"] || 'Unnamed Part'}</div>
-              <div class="tag-vehicle">${row['MAKE'] || ''} ${row['MODEL'] || ''} ${row['YEAR'] ? '· ' + row['YEAR'] : ''}</div>
+              <span class="tag-id mono">#${(row.identification_number || 'N/A')}</span>
+              <div class="tag-part-name">${row.part_name || 'Unnamed Part'}</div>
+              <div class="tag-vehicle">${row.make || ''} ${row.model || ''} ${row.year ? '· ' + row.year : ''}</div>
               <div class="tag-divider"></div>
               <div class="d-flex justify-content-between align-items-end mt-auto">
                 <div class="tag-price">${price ? price : '<span style="font-size:0.85rem;color:#8a8272;">Contact for price</span>'}${price ? '<br><small>incl. inspection</small>' : ''}</div>
@@ -1777,27 +1606,28 @@
     }).join('');
   }
 
-  /* CART LOGIC — still local (localStorage) until checkout, unchanged */
+  /* ============================================================
+     CART & CHECKOUT
+     ============================================================ */
   function loadCart() { try { cart = JSON.parse(localStorage.getItem('yb_cart') || '[]'); } catch(e) { cart = []; } }
   function saveCart() { localStorage.setItem('yb_cart', JSON.stringify(cart)); }
 
   function addToCart(origIdx) {
     const row = getPartByIndex(origIdx);
     if (!row) return;
-    if (cart.some(c => c.origIndex === origIdx)) return toastr.info('Already in your cart.');
+    if (cart.some(c => c.partId === row.id)) return toastr.info('Already in your cart.');
     cart.push({
-      origIndex: origIdx,
       partId: row.id,
-      partName: row["PART'S NAME"] || 'Part',
-      vehicle: `${row['MAKE'] || ''} ${row['MODEL'] || ''}`.trim(),
-      identNo: row['IDENTIFICATION NUMBER'] || '',
-      price: parseFloat(row['PRICE']) || 0,
+      partName: row.part_name || 'Part',
+      vehicle: `${row.make || ''} ${row.model || ''}`.trim(),
+      identNo: row.identification_number || '',
+      price: parseFloat(row.price) || 0,
       qty: 1
     });
     saveCart();
     renderCart();
     applyStoreFilter();
-    toastr.success(`${row["PART'S NAME"]} added to cart.`);
+    toastr.success(`${row.part_name} added to cart.`);
   }
 
   function changeCartQty(idx, delta) {
@@ -1850,15 +1680,6 @@
   function openCart() { document.getElementById('cartOffcanvas').classList.add('open'); document.getElementById('cartOverlay').classList.add('open'); }
   function closeCart() { document.getElementById('cartOffcanvas').classList.remove('open'); document.getElementById('cartOverlay').classList.remove('open'); }
 
-  /* ============================================================
-     CHECKOUT + PAYMENT
-     1. create-razorpay-order Edge Function atomically reserves the
-        parts and opens a Razorpay order (server-side, key secret
-        never exposed).
-     2. Razorpay Checkout collects payment in the browser.
-     3. verify-razorpay-payment Edge Function checks the signature
-        server-side before marking anything paid/sold.
-     ============================================================ */
   function openCheckout() {
     if (!cart.length) return;
     const inner = document.getElementById('checkoutCardInner');
@@ -1867,149 +1688,82 @@
         <h5 class="fw-bold mb-0">Checkout</h5>
         <button class="modal-close-btn position-static" onclick="closeCheckout()"><i class="bi bi-x-lg"></i></button>
       </div>
-      <p class="text-muted small mb-3">Total for this order: <strong>${money(cartTotal())}</strong> (${cart.length} item${cart.length > 1 ? 's' : ''})</p>
+      <p class="text-muted small mb-3">Total: <strong>${money(cartTotal())}</strong> (${cart.length} item${cart.length > 1 ? 's' : ''})</p>
       <form id="checkoutForm">
         <div class="mb-2"><label class="form-label small fw-semibold">Full Name</label><input class="form-control" id="custName" required /></div>
         <div class="mb-2"><label class="form-label small fw-semibold">Mobile Number</label><input class="form-control" id="custPhone" required /></div>
-        <div class="mb-2"><label class="form-label small fw-semibold">Delivery / Workshop Address</label><textarea class="form-control" id="custAddress" rows="2" placeholder="Full address for shipping or local pickup point" required></textarea></div>
-        <div class="mb-3"><label class="form-label small fw-semibold">Delivery Notes (optional)</label><input class="form-control" id="custNotes" placeholder="Preferred delivery time, landmark, etc." /></div>
-        <button type="submit" class="btn btn-amber w-100 py-3 fw-bold" id="placeOrderBtn"><i class="bi bi-shield-lock-fill me-1"></i> Pay ${money(cartTotal())} Securely</button>
+        <div class="mb-2"><label class="form-label small fw-semibold">Delivery / Workshop Address</label><textarea class="form-control" id="custAddress" rows="2" placeholder="Full address for delivery" required></textarea></div>
+        <div class="mb-3"><label class="form-label small fw-semibold">Delivery Notes (optional)</label><input class="form-control" id="custNotes" placeholder="Preferred timing, landmark..." /></div>
+        <button type="submit" class="btn btn-amber w-100 py-3 fw-bold" id="placeOrderBtn"><i class="bi bi-bag-check-fill me-1"></i> Reserve Parts &amp; Pay</button>
       </form>
     `;
-    document.getElementById('checkoutForm').addEventListener('submit', placeOrder);
+    document.getElementById('checkoutForm').addEventListener('submit', handleCheckout);
     document.getElementById('checkoutModal').style.display = 'flex';
   }
 
   function closeCheckout() { document.getElementById('checkoutModal').style.display = 'none'; }
 
-  async function placeOrder(e) {
+  async function handleCheckout(e) {
     e.preventDefault();
-    const name = document.getElementById('custName').value.trim();
-    const phone = document.getElementById('custPhone').value.trim();
-    const address = document.getElementById('custAddress').value.trim();
-    const notes = document.getElementById('custNotes').value.trim();
-    if (!name || !phone || !address) return;
-
     const btn = document.getElementById('placeOrderBtn');
     btn.disabled = true;
-    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Reserving your items...';
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Reserving parts...';
+
+    const customer = {
+      name: document.getElementById('custName').value.trim(),
+      phone: document.getElementById('custPhone').value.trim(),
+      address: document.getElementById('custAddress').value.trim(),
+      notes: document.getElementById('custNotes').value.trim()
+    };
+
+    const items = cart.map(c => ({ part_id: c.partId, qty: c.qty }));
 
     try {
-      const res = await fetch(`${FUNCTIONS_URL}/create-razorpay-order`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          items: cart.map(c => ({ part_id: c.partId, qty: c.qty })),
-          customer: { name, phone, address, notes }
-        })
+      const { data, error } = await sb.rpc('reserve_parts_and_create_order', {
+        p_items: items,
+        p_customer: customer
       });
-      const order = await res.json();
-      if (!res.ok) {
-        toastr.error(order.error || 'Could not start checkout.');
-        btn.disabled = false;
-        btn.innerHTML = `<i class="bi bi-shield-lock-fill me-1"></i> Pay ${money(cartTotal())} Securely`;
-        if (res.status === 409) fetchRecords(); // parts changed under us — refresh
-        return;
-      }
 
-      const rzp = new Razorpay({
-        key: order.key_id,
-        amount: order.amount,
-        currency: order.currency,
-        name: 'ECCEL',
-        description: `Order ${order.order_ref}`,
-        order_id: order.razorpay_order_id,
-        prefill: { name, contact: phone },
-        theme: { color: '#00b884' },
-        handler: async function (response) {
-          btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Verifying payment...';
-          try {
-            const verifyRes = await fetch(`${FUNCTIONS_URL}/verify-razorpay-payment`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                order_id: order.order_id,
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature
-              })
-            });
-            const verify = await verifyRes.json();
-            if (verify.success) {
-              showOrderConfirmation(verify.order_ref);
-              cart = [];
-              saveCart();
-              renderCart();
-              fetchRecords();
-              fetchOrders();
-            } else {
-              toastr.error('Payment could not be verified. Please contact us with your payment ID.');
-            }
-          } catch (err) {
-            toastr.error('Network issue while verifying payment.');
-          }
-        },
-        modal: {
-          ondismiss: function () {
-            fetch(`${FUNCTIONS_URL}/cancel-order`, {
-              method: 'POST', headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ order_id: order.order_id })
-            }).catch(() => {});
-            btn.disabled = false;
-            btn.innerHTML = `<i class="bi bi-shield-lock-fill me-1"></i> Pay ${money(cartTotal())} Securely`;
-            toastr.info('Checkout cancelled — items released back to stock.');
-          }
-        }
-      });
-      rzp.open();
+      if (error) throw error;
+
+      const order = data[0];
+      toastr.success(`Order reserved: ${order.order_ref}`);
+      
+      cart = [];
+      saveCart();
+      renderCart();
+      closeCheckout();
+      closeCart();
+      fetchRecords();
+      fetchOrders();
     } catch (err) {
-      toastr.error('Network issue while starting checkout.');
+      console.error(err);
+      toastr.error(err.message || 'Checkout failed. An item may already be sold.');
+    } finally {
       btn.disabled = false;
-      btn.innerHTML = `<i class="bi bi-shield-lock-fill me-1"></i> Pay ${money(cartTotal())} Securely`;
+      btn.innerHTML = '<i class="bi bi-bag-check-fill me-1"></i> Reserve Parts &amp; Pay';
     }
   }
 
-  function showOrderConfirmation(refNum) {
-    const inner = document.getElementById('checkoutCardInner');
-    inner.innerHTML = `
-      <div class="text-center py-3">
-        <div class="stat-icon bg-success-subtle text-success mx-auto mb-3" style="width:64px;height:64px;font-size:1.9rem;border-radius:18px;"><i class="bi bi-check2-circle"></i></div>
-        <h4 class="fw-bold mb-2">Payment Successful!</h4>
-        <p class="text-muted small mb-3">Our team will confirm your order and reach out to arrange delivery or workshop pickup.</p>
-        <span class="receipt-num">${refNum}</span>
-        <button class="btn btn-outline-ink w-100 py-2 mt-3 fw-bold" onclick="closeCheckout(); closeCart();">Continue Browsing</button>
-      </div>`;
-  }
-
-  /* ORDERS TAB — staff-only, read directly from Supabase (RLS-protected) */
+  /* ============================================================
+     ORDERS TAB
+     ============================================================ */
   async function fetchOrders() {
-    let orders = [];
-    try {
-      const { data, error } = await sb.from('orders').select('*, order_items(part_name, qty, price)').order('created_at', { ascending: false });
-      if (error) throw error;
-      orders = (data || []).map(o => ({
-        ...o,
-        itemsSummary: (o.order_items || []).map(i => `${i.part_name} x${i.qty}`).join('; ')
-      }));
-    } catch (e) { /* not logged in yet, or RLS denied — fine, table just empty */ }
-    renderOrdersTable(orders);
-
-    const liveOrdersEl = document.getElementById('loginLiveOrders');
-    const liveFulfilledEl = document.getElementById('loginLiveFulfilled');
-    if (liveOrdersEl) liveOrdersEl.innerText = orders.length;
-    if (liveFulfilledEl) liveFulfilledEl.innerText = orders.filter(o => o.status === 'FULFILLED').length;
+    if (!currentUser) return;
+    const { data, error } = await sb.from('orders').select('*').order('created_at', { ascending: false });
+    if (!error && data) {
+      renderOrdersTable(data);
+    }
   }
 
   function renderOrdersTable(orders) {
     const tbody = document.getElementById('ordersTableBody');
     document.getElementById('orderCount').innerText = orders.length;
-    if (!orders.length) { tbody.innerHTML = `<tr><td colspan="8" class="text-center py-4 text-muted">No orders placed yet.</td></tr>`; return; }
-
+    if (!orders.length) { tbody.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-muted">No orders placed yet.</td></tr>`; return; }
+    
     tbody.innerHTML = orders.map(o => {
-      const status = o.status || 'AWAITING_PAYMENT';
-      const badge = status === 'FULFILLED' ? 'bg-success' : (status === 'PAID' ? 'bg-primary' : (status === 'FAILED' || status === 'CANCELLED' ? 'bg-danger' : ''));
-      const style = status === 'PAID' || status === 'AWAITING_PAYMENT' ? 'background:var(--gold-2);color:#fff;' : '';
-
+      const status = (o.status || 'AWAITING_PAYMENT').toUpperCase();
+      const badge = status === 'PAID' ? 'bg-success' : (status === 'AWAITING_PAYMENT' ? 'bg-warning text-dark' : 'bg-secondary');
       const phone = (o.customer_phone || '').trim();
       const phoneClean = phone.replace(/[^0-9]/g, '');
       const waLink = phoneClean ? `<a href="https://wa.me/${phoneClean}" target="_blank" class="btn btn-sm btn-outline-success py-0 px-2 mt-1" style="font-size:0.75rem;"><i class="bi bi-whatsapp me-1"></i>Chat</a>` : '';
@@ -2017,21 +1771,20 @@
       return `
         <tr>
           <td class="mono fw-bold text-nowrap">${o.order_ref || '-'}</td>
-          <td class="text-nowrap small text-muted">${new Date(o.created_at).toLocaleString()}</td>
+          <td class="text-nowrap small text-muted">${new Date(o.created_at).toLocaleDateString()}</td>
           <td>
             <div class="fw-bold text-dark">${o.customer_name || '-'}</div>
             <div class="mono small text-secondary">${phone || '-'}</div>
             ${waLink}
           </td>
           <td>
-            <div class="small fw-semibold text-dark mb-1"><i class="bi bi-geo-alt-fill text-danger me-1"></i>${o.customer_address || 'No address provided'}</div>
+            <div class="small fw-semibold text-dark mb-1"><i class="bi bi-geo-alt-fill text-danger me-1"></i>${o.customer_address || 'No address'}</div>
             ${o.customer_notes ? `<div class="small text-muted fst-italic"><i class="bi bi-chat-left-text me-1"></i>"${o.customer_notes}"</div>` : ''}
           </td>
-          <td class="small">${o.itemsSummary || '-'}</td>
-          <td class="fw-bold text-dark">${o.total ? money(o.total) : '-'}</td>
-          <td><span class="badge ${badge}" style="${style}">${status}</span></td>
+          <td class="fw-bold text-dark">${money(o.total)}</td>
+          <td><span class="badge ${badge}">${status}</span></td>
           <td class="text-center text-nowrap">
-            ${status === 'PAID' ? `<button class="btn btn-outline-ink btn-sm py-1 px-3 fw-bold" onclick="markOrderFulfilled('${o.id}')"><i class="bi bi-check2"></i> Fulfil</button>` : (status === 'FULFILLED' ? '<span class="text-muted small fw-semibold"><i class="bi bi-check-all text-success fs-6 me-1"></i>Done</span>' : '<span class="text-muted small">—</span>')}
+            ${status !== 'FULFILLED' ? `<button class="btn btn-outline-ink btn-sm py-1 px-3 fw-bold" onclick="markOrderFulfilled('${o.id}')"><i class="bi bi-check2"></i> Fulfil</button>` : '<span class="text-muted small fw-semibold"><i class="bi bi-check-all text-success fs-6 me-1"></i>Done</span>'}
           </td>
         </tr>`;
     }).join('');
@@ -2042,10 +1795,10 @@
       const { error } = await sb.from('orders').update({ status: 'FULFILLED' }).eq('id', orderId);
       if (error) throw error;
       toastr.success('Order marked fulfilled.');
+      fetchOrders();
     } catch (e) {
-      toastr.warning('Could not update order status.');
+      toastr.error('Could not update order status.');
     }
-    fetchOrders();
   }
 
   toastr.options = { positionClass: "toast-bottom-right", timeOut: 3000 };
@@ -2053,7 +1806,6 @@
   renderCart();
   checkSession();
   fetchRecords();
-  fetchOrders();
 </script>
 </body>
 </html>
