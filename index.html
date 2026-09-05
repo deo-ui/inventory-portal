@@ -273,7 +273,7 @@
   .nav-tabs .nav-link.active { background: var(--ink); color: var(--gold-1); }
 
   /* Modals */
-  #editModal, #checkoutModal, #ghConfigModal {
+  #editModal, #checkoutModal {
     position: fixed; inset: 0; background: rgba(7, 13, 18, 0.85);
     backdrop-filter: blur(8px); z-index: 9999; display: none; align-items: center; justify-content: center; padding: 16px;
   }
@@ -452,7 +452,6 @@
         <span class="badge bg-warning text-dark fw-bold px-2 py-1 ms-2" id="userRoleBadge">SUPER ADMIN</span>
       </div>
       <div class="d-flex align-items-center gap-2">
-        <button class="btn btn-sm btn-outline-warning fw-semibold" onclick="openGhConfigModal()"><i class="bi bi-github me-1"></i> GitHub API</button>
         <span class="text-white-50 small d-none d-md-inline mono" id="lastSyncTime">Syncing...</span>
         <button class="btn btn-sm btn-outline-light fw-semibold" onclick="fetchRecords()"><i class="bi bi-arrow-clockwise me-1"></i> Sync</button>
         <button class="btn btn-sm btn-danger fw-semibold" onclick="logout()"><i class="bi bi-box-arrow-right me-1"></i> Logout</button>
@@ -575,13 +574,13 @@
                     <select class="form-select" id="remarks">
                       <option value="AVAILABLE" selected>AVAILABLE</option>
                       <option value="SOLD">SOLD</option>
-                      <option value="SCRAP / DAMAGED">SCRAP / DAMAGED</option>
+                      <option value="SCRAP">SCRAP / DAMAGED</option>
                     </select>
                   </div>
                 </div>
                 
                 <div class="mb-3">
-                  <label class="form-label small fw-semibold">Part Photo (Uploads to GitHub)</label>
+                  <label class="form-label small fw-semibold">Part Photo (Uploads to Supabase Storage)</label>
                   <input type="file" class="form-control" id="partFileInput" accept="image/*" />
                   <input type="hidden" id="partImageUrl" />
                   <small class="text-muted d-block mt-1" id="fileUploadStatus">Choose from phone/desktop storage</small>
@@ -692,11 +691,11 @@
                 <h5 class="fw-bold mb-0 text-dark"><i class="bi bi-person-plus-fill text-danger me-2"></i>Create Team Account</h5>
                 <span class="badge bg-danger-subtle text-danger border border-danger">Super Admin Only</span>
               </div>
-              <p class="text-muted small mb-3"><i class="bi bi-cloud-check-fill text-success me-1"></i>Saved in Google Sheet (<span class="mono">?sheet=Users</span>)[cite: 1].</p>
+              <p class="text-muted small mb-3"><i class="bi bi-shield-lock-fill text-success me-1"></i>Creates a real Supabase Auth account — no plaintext passwords are stored.</p>
               <form id="createUserForm">
                 <div class="mb-3"><label class="form-label small fw-semibold">Full Name</label><input type="text" class="form-control" id="newUserName" placeholder="e.g. Rahul Sharma" required /></div>
-                <div class="mb-3"><label class="form-label small fw-semibold">Login ID (Username / Email / Mobile)</label><input type="text" class="form-control" id="newUserIdentifier" placeholder="e.g. rahul or 9876543210" required /></div>
-                <div class="mb-3"><label class="form-label small fw-semibold">Password</label><input type="text" class="form-control" id="newUserPassword" placeholder="Set user password" required /></div>
+                <div class="mb-3"><label class="form-label small fw-semibold">Email Address</label><input type="email" class="form-control" id="newUserIdentifier" placeholder="rahul@company.com" required /></div>
+                <div class="mb-3"><label class="form-label small fw-semibold">Temporary Password</label><input type="text" class="form-control" id="newUserPassword" placeholder="Set an initial password (staff can't change it themselves yet)" required minlength="6" /></div>
                 <div class="mb-4">
                   <label class="form-label small fw-semibold">Assigned Role</label>
                   <select class="form-select" id="newUserRole" required>
@@ -717,7 +716,7 @@
               </div>
               <div class="table-responsive border rounded">
                 <table class="table table-hover align-middle mb-0" style="font-size: 0.88rem;">
-                  <thead class="table-dark"><tr><th>User Name</th><th>Login ID</th><th>Password</th><th>Role</th><th class="text-center">Action</th></tr></thead>
+                  <thead class="table-dark"><tr><th>User Name</th><th>Email</th><th>Role</th><th class="text-center">Action</th></tr></thead>
                   <tbody id="userTableBody"></tbody>
                 </table>
               </div>
@@ -726,37 +725,6 @@
         </div>
       </div>
     </div>
-  </div>
-</div>
-
-<!-- GITHUB CONFIG MODAL -->
-<div id="ghConfigModal">
-  <div class="modal-box-card">
-    <button class="modal-close-btn" onclick="closeGhConfigModal()"><i class="bi bi-x-lg"></i></button>
-    <div class="d-flex align-items-center gap-2 mb-3">
-      <div class="stat-icon bg-dark text-white" style="width:40px;height:40px;font-size:1.2rem;border-radius:10px;"><i class="bi bi-github"></i></div>
-      <h5 class="fw-bold mb-0">GitHub Storage Settings</h5>
-    </div>
-    <p class="text-muted small mb-3">Connect your repository so photos automatically upload when you select files on your phone/PC.</p>
-    <form id="ghConfigForm">
-      <div class="mb-2">
-        <label class="form-label small fw-semibold">GitHub Personal Access Token (PAT)</label>
-        <input type="password" class="form-control mono" id="ghToken" placeholder="ghp_xxxxxxxxxxxx" required />
-      </div>
-      <div class="mb-2">
-        <label class="form-label small fw-semibold">GitHub Username / Owner</label>
-        <input type="text" class="form-control" id="ghOwner" placeholder="e.g. deo-ui" required />
-      </div>
-      <div class="mb-2">
-        <label class="form-label small fw-semibold">Repository Name</label>
-        <input type="text" class="form-control" id="ghRepo" placeholder="e.g. eccel-parts-imag" required />
-      </div>
-      <div class="mb-3">
-        <label class="form-label small fw-semibold">Branch</label>
-        <input type="text" class="form-control" id="ghBranch" value="main" required />
-      </div>
-      <button type="submit" class="btn btn-amber w-100 py-2 fw-bold"><i class="bi bi-save me-1"></i> Save Configuration</button>
-    </form>
   </div>
 </div>
 
@@ -776,7 +744,7 @@
       </div>
       
       <div class="mb-3">
-        <label class="form-label small fw-semibold">Replace Photo (Uploads to GitHub)</label>
+        <label class="form-label small fw-semibold">Replace Photo (Uploads to Supabase Storage)</label>
         <input type="file" class="form-control mb-2" id="editFileInput" accept="image/*" />
         <input type="url" class="form-control" id="editImageUrl" placeholder="Or paste direct image URL" />
         <div id="editImagePreview" class="mt-2 text-center" style="display:none;">
@@ -805,7 +773,7 @@
             <option value="AVAILABLE">AVAILABLE</option>
             <option value="RESERVED">RESERVED</option>
             <option value="SOLD">SOLD</option>
-            <option value="SCRAP / DAMAGED">SCRAP / DAMAGED</option>
+            <option value="SCRAP">SCRAP / DAMAGED</option>
           </select>
         </div>
       </div>
@@ -834,8 +802,8 @@
         <form id="loginForm">
           <div class="notched-input-group">
             <fieldset>
-              <legend>Email Address / Username</legend>
-              <input type="text" id="loginUsername" placeholder="Enter your email or ID" required autocomplete="username" />
+              <legend>Email Address</legend>
+              <input type="email" id="loginUsername" placeholder="you@company.com" required autocomplete="username" />
             </fieldset>
           </div>
 
@@ -949,20 +917,24 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <script>
-  const API_URL = 'https://sheetdb.io/api/v1/44fh043d8a3ki';
-  const ORDERS_URL = API_URL + '?sheet=Orders';
-  const USERS_URL = API_URL + '?sheet=Users';
+  /* ============================================================
+     CONFIG — fill these in after you create your Supabase project
+     and deploy the Edge Functions (see SETUP.md).
+     ============================================================ */
+  const SUPABASE_URL = 'https://hmopkhvugvrcdiabvsyi.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_WLdOTFKhQ92C4qMDcsg71g_TaLl41qH';
+  const RAZORPAY_KEY_ID_PLACEHOLDER = ''; // actual key comes from create-razorpay-order response
 
-  const DEFAULT_USERS = [
-    { id: 'admin', mobile: '7044416516', email: 'rg9319808@gmail.com', name: 'Super Admin', pass: '123', role: 'SUPER_ADMIN' },
-    { id: 'operator', mobile: '9876543211', email: 'operator@gmail.com', name: 'Operations Lead', pass: '123', role: 'ADMIN' },
-    { id: 'user', mobile: '9876543212', email: 'user@gmail.com', name: 'Staff Viewer', pass: '123', role: 'USER' }
-  ];
+  const FUNCTIONS_URL = `${SUPABASE_URL}/functions/v1`;
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   let cachedUsers = [];
-  let currentUser = null;
+  let currentUser = null;       // { id, name, role, email }
+  let currentSession = null;    // supabase auth session (for access_token)
   let rawRecords = [];
   let partQueue = [];
   let statusChartInstance = null;
@@ -970,7 +942,6 @@
   let activeMakeFilter = 'ALL';
   let activeModelFilter = 'ALL';
   let cart = [];
-  let localOrders = [];
 
   document.getElementById('yearNow').innerText = new Date().getFullYear();
 
@@ -984,119 +955,64 @@
     return '₹' + v.toLocaleString('en-IN', { maximumFractionDigits: 0 });
   }
 
-  /* GITHUB API HELPERS */
-  function getGhConfig() {
-    return JSON.parse(localStorage.getItem('yb_gh_config') || '{"token":"","owner":"deo-ui","repo":"eccel-parts-imag","branch":"main"}');
+  // Maps a Supabase `parts` row onto the same field names the existing
+  // UI/rendering code already expects, so the render functions below
+  // didn't need to be rewritten.
+  function mapPart(r) {
+    return {
+      id: r.id,
+      'DISMENTLE DATE': r.dismantle_date,
+      'VEHICLE NO': r.vehicle_no,
+      'MAKE': r.make,
+      'MODEL': r.model,
+      'YEAR': r.year,
+      "PART'S NAME": r.part_name,
+      'QUANTITY': r.quantity,
+      'PRICE': r.price,
+      'IMAGE URL': r.image_url,
+      'IDENTIFICATION NUMBER': r.identification_number,
+      'REMARKS': r.status
+    };
   }
-  function saveGhConfig(cfg) { localStorage.setItem('yb_gh_config', JSON.stringify(cfg)); }
 
-  function openGhConfigModal() {
-    const cfg = getGhConfig();
-    document.getElementById('ghToken').value = cfg.token || '';
-    document.getElementById('ghOwner').value = cfg.owner || '';
-    document.getElementById('ghRepo').value = cfg.repo || '';
-    document.getElementById('ghBranch').value = cfg.branch || 'main';
-    document.getElementById('ghConfigModal').style.display = 'flex';
+  async function authHeaders() {
+    const { data } = await sb.auth.getSession();
+    const token = data?.session?.access_token || SUPABASE_ANON_KEY;
+    return { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` };
   }
-  function closeGhConfigModal() { document.getElementById('ghConfigModal').style.display = 'none'; }
 
-  document.getElementById('ghConfigForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    saveGhConfig({
-      token: document.getElementById('ghToken').value.trim(),
-      owner: document.getElementById('ghOwner').value.trim(),
-      repo: document.getElementById('ghRepo').value.trim(),
-      branch: document.getElementById('ghBranch').value.trim() || 'main'
-    });
-    toastr.success("GitHub API settings saved!");
-    closeGhConfigModal();
-  });
-
-  async function uploadImageToGitHub(file, customPrefix = 'part') {
-    const cfg = getGhConfig();
-    if (!cfg.token || !cfg.owner || !cfg.repo) {
-      toastr.warning("Please configure your GitHub API Token under Staff Portal top bar!");
-      openGhConfigModal();
-      throw new Error("Missing GitHub Configuration");
-    }
-
+  /* ============================================================
+     IMAGE UPLOAD (Supabase Storage — replaces the old GitHub PAT flow)
+     ============================================================ */
+  async function uploadImageToStorage(file, customPrefix = 'part') {
     const ext = file.name.split('.').pop();
-    const cleanPrefix = customPrefix.toLowerCase().replace(/[^a-z0-9]/g, '-');
+    const cleanPrefix = (customPrefix || 'part').toLowerCase().replace(/[^a-z0-9]/g, '-');
     const fileName = `${cleanPrefix}-${Date.now()}.${ext}`;
-    const path = `images/${fileName}`;
-
-    const base64Content = await new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result.split(',')[1]);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-
-    const apiUrl = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}`;
-    const response = await fetch(apiUrl, {
-      method: 'PUT',
-      headers: {
-        'Authorization': `Bearer ${cfg.token}`,
-        'Content-Type': 'application/json',
-        'Accept': 'application/vnd.github.v3+json'
-      },
-      body: JSON.stringify({
-        message: `Upload image: ${fileName}`,
-        content: base64Content,
-        branch: cfg.branch || 'main'
-      })
-    });
-
-    if (!response.ok) {
-      const err = await response.json();
-      throw new Error(err.message || 'GitHub Upload Failed');
-    }
-
-    return `https://raw.githubusercontent.com/${cfg.owner}/${cfg.repo}/${cfg.branch || 'main'}/${path}`;
+    const { error } = await sb.storage.from('part-images').upload(fileName, file);
+    if (error) throw new Error(error.message);
+    const { data } = sb.storage.from('part-images').getPublicUrl(fileName);
+    return data.publicUrl;
   }
 
-  async function deleteImageFromGitHub(imageUrl) {
-    if (!imageUrl || !imageUrl.includes('githubusercontent.com')) return;
-    const cfg = getGhConfig();
-    if (!cfg.token || !cfg.owner || !cfg.repo) return;
-
+  async function deleteImageFromStorage(imageUrl) {
+    if (!imageUrl || !imageUrl.includes('/part-images/')) return;
     try {
-      const parts = imageUrl.split('/');
-      const fileName = parts.pop();
-      const path = `images/${fileName}`;
-
-      const getFileUrl = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}?ref=${cfg.branch || 'main'}`;
-      const getRes = await fetch(getFileUrl, {
-        headers: { 'Authorization': `Bearer ${cfg.token}`, 'Accept': 'application/vnd.github.v3+json' }
-      });
-      if (!getRes.ok) return;
-      const fileData = await getRes.json();
-
-      const deleteUrl = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}`;
-      await fetch(deleteUrl, {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${cfg.token}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          message: `Delete image: ${fileName}`,
-          sha: fileData.sha,
-          branch: cfg.branch || 'main'
-        })
-      });
-    } catch (e) { }
+      const fileName = imageUrl.split('/part-images/')[1];
+      if (fileName) await sb.storage.from('part-images').remove([fileName]);
+    } catch (e) { /* non-fatal */ }
   }
 
-  /* FILE PICKER HANDLERS */
   document.getElementById('partFileInput').addEventListener('change', async (e) => {
     const file = e.target.files[0];
     if (!file) return;
     const status = document.getElementById('fileUploadStatus');
     const pName = document.getElementById('partName').value.trim() || 'part';
-    status.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Uploading to GitHub...';
+    status.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Uploading...';
     try {
-      const url = await uploadImageToGitHub(file, pName);
+      const url = await uploadImageToStorage(file, pName);
       document.getElementById('partImageUrl').value = url;
-      status.innerHTML = `<span class="text-success"><i class="bi bi-check-circle-fill me-1"></i>Uploaded to GitHub: ${file.name}</span>`;
-      toastr.success("Photo uploaded to GitHub images folder!");
+      status.innerHTML = `<span class="text-success"><i class="bi bi-check-circle-fill me-1"></i>Uploaded: ${file.name}</span>`;
+      toastr.success("Photo uploaded!");
     } catch (err) {
       status.innerHTML = `<span class="text-danger"><i class="bi bi-x-circle me-1"></i>Upload failed: ${err.message}</span>`;
     }
@@ -1106,9 +1022,9 @@
     const file = e.target.files[0];
     if (!file) return;
     const pName = document.getElementById('editPartName').value.trim() || 'part';
-    toastr.info("Uploading photo to GitHub...");
+    toastr.info("Uploading photo...");
     try {
-      const url = await uploadImageToGitHub(file, pName);
+      const url = await uploadImageToStorage(file, pName);
       document.getElementById('editImageUrl').value = url;
       previewEditImage();
       toastr.success("Photo uploaded and attached to part!");
@@ -1142,81 +1058,61 @@
   function openAuthModal() { document.getElementById('authOverlay').style.display = 'flex'; }
   function closeAuthModal() { document.getElementById('authOverlay').style.display = 'none'; }
 
-  /* AUTH */
-  async function fetchUsers() {
-    try {
-      const res = await fetch(USERS_URL);
-      if (res.ok) {
-        const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) {
-          const map = new Map();
-          DEFAULT_USERS.forEach(u => map.set(u.id.toLowerCase(), u));
-          data.forEach(u => {
-            if (u.id) map.set(u.id.toLowerCase(), {
-              id: u.id,
-              name: u.name || u.id,
-              pass: u.pass || '123',
-              role: u.role || 'USER',
-              mobile: u.mobile || '',
-              email: u.email || ''
-            });
-          });
-          cachedUsers = Array.from(map.values());
-        } else {
-          cachedUsers = DEFAULT_USERS;
-        }
-      } else {
-        cachedUsers = DEFAULT_USERS;
-      }
-    } catch (e) {
-      cachedUsers = DEFAULT_USERS;
-    }
-    renderUserTable();
-    return cachedUsers;
-  }
-
+  /* ============================================================
+     AUTH (Supabase Auth — replaces hardcoded plaintext user list)
+     ============================================================ */
   document.getElementById('loginForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = document.getElementById('loginSubmitBtn');
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Signing in...';
 
-    const loginId = document.getElementById('loginUsername').value.trim().toLowerCase();
-    const pass = document.getElementById('loginPassword').value.trim();
-    
-    await fetchUsers();
+    const email = document.getElementById('loginUsername').value.trim();
+    const pass = document.getElementById('loginPassword').value;
+
+    const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
+
     btn.disabled = false;
     btn.innerHTML = 'Sign in';
 
-    const account = cachedUsers.find(u =>
-      (u.id.toLowerCase() === loginId || (u.mobile && u.mobile === loginId) || (u.email && u.email.toLowerCase() === loginId)) &&
-      String(u.pass) === pass
-    );
-
-    if (!account) { 
-      toastr.error("Invalid Username/ID or Password!", "Access Denied"); 
-      return; 
+    if (error) {
+      toastr.error("Invalid email or password!", "Access Denied");
+      return;
     }
 
-    currentUser = account;
-    sessionStorage.setItem('auth_user_session', JSON.stringify(currentUser));
+    currentSession = data.session;
+    const { data: profile, error: profileErr } = await sb.from('profiles').select('*').eq('id', data.user.id).single();
+    if (profileErr || !profile) {
+      toastr.error("Your account has no staff profile. Ask a Super Admin to set one up.", "Access Denied");
+      await sb.auth.signOut();
+      return;
+    }
+
+    currentUser = { id: profile.id, name: profile.name, role: profile.role, email: profile.email };
     toastr.success(`Welcome, ${currentUser.name}! (${currentUser.role.replace('_', ' ')})`, "Login Successful");
     closeAuthModal();
     initializeSession();
   });
 
-  function logout() {
-    sessionStorage.removeItem('auth_user_session');
+  async function logout() {
+    await sb.auth.signOut();
     currentUser = null;
+    currentSession = null;
     document.getElementById('staffGreeting').innerText = '';
     document.getElementById('loginPassword').value = '';
     toastr.info("Logged out safely.");
     showStaffArea();
   }
 
-  function checkSession() {
-    const stored = sessionStorage.getItem('auth_user_session');
-    if (stored) { try { currentUser = JSON.parse(stored); initializeSession(false); } catch(e) {} }
+  async function checkSession() {
+    const { data } = await sb.auth.getSession();
+    if (!data?.session) return;
+    currentSession = data.session;
+    const { data: profile } = await sb.from('profiles').select('*').eq('id', data.session.user.id).single();
+    if (profile) {
+      currentUser = { id: profile.id, name: profile.name, role: profile.role, email: profile.email };
+      initializeSession(false);
+    }
   }
 
   function initializeSession(switchToStaff = true) {
@@ -1256,50 +1152,54 @@
     fetchOrders();
   }
 
-  /* USER MANAGEMENT */
+  /* ============================================================
+     USER MANAGEMENT — all writes go through the admin-users Edge
+     Function (SUPER_ADMIN only, checked server-side). No plaintext
+     passwords ever touch the database or this page.
+     ============================================================ */
+  async function callAdminUsers(action, payload = {}) {
+    const headers = await authHeaders();
+    const res = await fetch(`${FUNCTIONS_URL}/admin-users`, {
+      method: 'POST', headers, body: JSON.stringify({ action, ...payload })
+    });
+    const body = await res.json();
+    if (!res.ok) throw new Error(body.error || 'Request failed');
+    return body;
+  }
+
+  async function fetchUsers() {
+    if (!currentUser || currentUser.role !== 'SUPER_ADMIN') return;
+    try {
+      const { users } = await callAdminUsers('list');
+      cachedUsers = users || [];
+    } catch (e) {
+      cachedUsers = [];
+      toastr.error('Could not load staff list.');
+    }
+    renderUserTable();
+  }
+
   document.getElementById('createUserForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     if (!currentUser || currentUser.role !== 'SUPER_ADMIN') return;
     const name = document.getElementById('newUserName').value.trim();
-    const identifier = document.getElementById('newUserIdentifier').value.trim();
+    const email = document.getElementById('newUserIdentifier').value.trim();
     const pass = document.getElementById('newUserPassword').value.trim();
     const role = document.getElementById('newUserRole').value;
 
-    if (cachedUsers.some(u => u.id.toLowerCase() === identifier.toLowerCase())) { 
-      toastr.warning(`This Login ID already exists!`); 
-      return; 
-    }
-
-    const newUserObj = {
-      id: identifier,
-      name: name,
-      pass: pass,
-      role: role,
-      mobile: identifier.match(/^\d{10}$/) ? identifier : '',
-      email: identifier.includes('@') ? identifier : ''
-    };
-
     const btn = document.getElementById('createAccountBtn');
     btn.disabled = true;
-    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Saving to Google Sheets...';
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Creating account...';
 
     try {
-      const res = await fetch(USERS_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ data: [newUserObj] })
-      });
-      if (res.ok) {
-        toastr.success(`User "${name}" (${role}) saved to Google Sheets!`, "Account Created");
-        document.getElementById('newUserName').value = '';
-        document.getElementById('newUserIdentifier').value = '';
-        document.getElementById('newUserPassword').value = '';
-        await fetchUsers();
-      } else {
-        toastr.error("Could not write user to Google Sheet. Check Sheet tab name 'Users'.");
-      }
+      await callAdminUsers('create', { name, email, password: pass, role });
+      toastr.success(`User "${name}" (${role}) created!`, "Account Created");
+      document.getElementById('newUserName').value = '';
+      document.getElementById('newUserIdentifier').value = '';
+      document.getElementById('newUserPassword').value = '';
+      await fetchUsers();
     } catch (err) {
-      toastr.error("Network issue connecting to Users Sheet.");
+      toastr.error(err.message || 'Could not create account.');
     } finally {
       btn.disabled = false;
       btn.innerHTML = '<i class="bi bi-check-circle-fill me-1"></i> Register Account';
@@ -1317,65 +1217,49 @@
       return `
         <tr>
           <td class="fw-bold">${u.name} ${isSelf ? '<span class="badge bg-light text-dark border ms-1">You</span>' : ''}</td>
-          <td class="mono text-primary">${u.id}</td>
-          <td class="mono fw-bold text-dark">${u.pass}</td>
+          <td class="mono text-primary">${u.email || '-'}</td>
           <td><span class="badge ${roleBadge}">${u.role.replace('_', ' ')}</span></td>
           <td class="text-center">
-            <button class="btn btn-outline-primary btn-sm py-0 px-2 me-1" title="Edit Password" onclick="editPassword('${u.id}')"><i class="bi bi-key"></i></button>
+            <button class="btn btn-outline-primary btn-sm py-0 px-2 me-1" title="Reset Password" onclick="resetPassword('${u.id}', '${u.name}')"><i class="bi bi-key"></i></button>
             ${isSelf ? '' : `<button class="btn btn-outline-danger btn-sm py-0 px-2" title="Delete User" onclick="deleteUser('${u.id}', '${u.name}')"><i class="bi bi-trash3"></i></button>`}
           </td>
         </tr>`;
     }).join('');
   }
 
-  async function editPassword(userId) {
-    const user = cachedUsers.find(u => u.id === userId);
-    if (!user) return;
-    const newPass = prompt(`Enter new password for ${user.name} (${user.id}):`, user.pass);
-    if (newPass && newPass.trim() !== "") {
-      try {
-        toastr.info("Updating password in Google Sheet...");
-        const updateUrl = `${USERS_URL.split('?')[0]}/id/${encodeURIComponent(userId)}?sheet=Users`;
-        const res = await fetch(updateUrl, {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ data: { pass: newPass.trim() } })
-        });
-        if (res.ok) {
-          toastr.success(`Password updated for ${user.name}`);
-          await fetchUsers();
-        } else {
-          toastr.warning("Could not sync password online.");
-        }
-      } catch (e) {
-        toastr.error("Failed to connect to Google Sheet.");
-      }
+  async function resetPassword(userId, name) {
+    const newPass = prompt(`Enter a new temporary password for ${name}:`);
+    if (!newPass || newPass.trim().length < 6) {
+      if (newPass !== null) toastr.warning('Password must be at least 6 characters.');
+      return;
+    }
+    try {
+      await callAdminUsers('reset-password', { user_id: userId, new_password: newPass.trim() });
+      toastr.success(`Password updated for ${name}. Share it with them securely.`);
+    } catch (e) {
+      toastr.error(e.message || 'Could not update password.');
     }
   }
 
   async function deleteUser(userId, name) {
-    if (!confirm(`Are you sure you want to remove ${name} (${userId})?`)) return;
+    if (!confirm(`Are you sure you want to remove ${name}?`)) return;
     try {
-      toastr.info(`Deleting user ${name}...`);
-      const deleteUrl = `${USERS_URL.split('?')[0]}/id/${encodeURIComponent(userId)}?sheet=Users`;
-      const res = await fetch(deleteUrl, { method: 'DELETE' });
-      if (res.ok) {
-        toastr.success(`User ${name} removed from Google Sheet.`);
-        await fetchUsers();
-      } else {
-        toastr.error("Could not remove user from sheet.");
-      }
+      await callAdminUsers('delete', { user_id: userId });
+      toastr.success(`User ${name} removed.`);
+      await fetchUsers();
     } catch (e) {
-      toastr.error("Network issue.");
+      toastr.error(e.message || 'Could not remove user.');
     }
   }
 
-  /* SHEETDB SYNC & RENDERING */
+  /* ============================================================
+     PARTS INVENTORY (Supabase table `parts`, RLS-protected)
+     ============================================================ */
   async function fetchRecords() {
     try {
-      const res = await fetch(API_URL);
-      const data = await res.json();
-      rawRecords = data.map((r, i) => ({ ...r, _origIndex: i }));
+      const { data, error } = await sb.from('parts').select('*').order('created_at', { ascending: false });
+      if (error) throw error;
+      rawRecords = (data || []).map((r, i) => ({ ...mapPart(r), _origIndex: i }));
       const syncEl = document.getElementById('lastSyncTime');
       if (syncEl) syncEl.innerText = `Last Synced: ${new Date().toLocaleTimeString()}`;
       updateDashboardKPIs(rawRecords);
@@ -1386,7 +1270,7 @@
       if (activeMakeFilter !== 'ALL') renderModelStrip(activeMakeFilter);
       applyStoreFilter();
     } catch (err) {
-      toastr.error('Failed to sync with SheetDB.', 'Network Error');
+      toastr.error('Failed to sync with Supabase.', 'Network Error');
     }
   }
 
@@ -1408,15 +1292,14 @@
     document.getElementById('dashSold').innerText = soldCount;
     document.getElementById('dashVehicles').innerText = uniqueVehicles.size;
 
-    // Update Live Login Preview Side
     const liveTotalPartsEl = document.getElementById('loginLiveTotalParts');
     const liveAvailableEl = document.getElementById('loginLiveAvailable');
     const liveStockPctEl = document.getElementById('loginLiveStockPct');
     const liveRingEl = document.getElementById('loginLiveRing');
-    
+
     if (liveTotalPartsEl) liveTotalPartsEl.innerText = totalParts;
     if (liveAvailableEl) liveAvailableEl.innerText = availableCount;
-    
+
     const pct = totalParts > 0 ? Math.round((availableCount / totalParts) * 100) : 0;
     if (liveStockPctEl) liveStockPctEl.innerText = `${pct}%`;
     if (liveRingEl) liveRingEl.setAttribute('stroke-dasharray', `${pct}, 100`);
@@ -1543,7 +1426,7 @@
             <option value="AVAILABLE" ${currentRemark.includes('AVAILABLE') ? 'selected' : ''}>🟢 AVAILABLE</option>
             <option value="RESERVED" ${currentRemark.includes('RESERVED') ? 'selected' : ''}>🟠 RESERVED</option>
             <option value="SOLD" ${currentRemark.includes('SOLD') ? 'selected' : ''}>🔵 SOLD</option>
-            <option value="SCRAP / DAMAGED" ${currentRemark.includes('SCRAP') ? 'selected' : ''}>🔴 SCRAP</option>
+            <option value="SCRAP" ${currentRemark.includes('SCRAP') ? 'selected' : ''}>🔴 SCRAP</option>
           </select>`;
       } else {
         const info = statusBadgeInfo(currentRemark);
@@ -1594,12 +1477,12 @@
     document.getElementById('editQuantity').value = row["QUANTITY"] || '1';
     document.getElementById('editPrice').value = row["PRICE"] || '';
     document.getElementById('editFileInput').value = '';
-    
+
     const rem = (row["REMARKS"] || 'AVAILABLE').toUpperCase();
     if (rem.includes('AVAILABLE')) document.getElementById('editRemarks').value = 'AVAILABLE';
     else if (rem.includes('RESERVED')) document.getElementById('editRemarks').value = 'RESERVED';
     else if (rem.includes('SOLD')) document.getElementById('editRemarks').value = 'SOLD';
-    else document.getElementById('editRemarks').value = 'SCRAP / DAMAGED';
+    else document.getElementById('editRemarks').value = 'SCRAP';
 
     previewEditImage();
     document.getElementById('editModal').style.display = 'flex';
@@ -1627,25 +1510,13 @@
     const row = getPartByIndex(origIdx);
     if (!row) return;
 
-    const origIdent = (row["IDENTIFICATION NUMBER"] || '').trim();
-    const origName = (row["PART'S NAME"] || '').trim();
-    
-    const newName = document.getElementById('editPartName').value.trim().toUpperCase();
-    const newImageUrl = document.getElementById('editImageUrl').value.trim();
-    const newIdentNo = document.getElementById('editIdentNo').value.trim().toUpperCase();
-    const newQuantity = document.getElementById('editQuantity').value;
-    const newPrice = document.getElementById('editPrice').value;
-    const newRemarks = document.getElementById('editRemarks').value;
-
     const payload = {
-      data: {
-        "PART'S NAME": newName,
-        "IMAGE URL": newImageUrl,
-        "IDENTIFICATION NUMBER": newIdentNo,
-        "QUANTITY": newQuantity,
-        "PRICE": newPrice,
-        "REMARKS": newRemarks
-      }
+      part_name: document.getElementById('editPartName').value.trim().toUpperCase(),
+      image_url: document.getElementById('editImageUrl').value.trim(),
+      identification_number: document.getElementById('editIdentNo').value.trim().toUpperCase(),
+      quantity: parseInt(document.getElementById('editQuantity').value) || 1,
+      price: document.getElementById('editPrice').value ? parseFloat(document.getElementById('editPrice').value) : null,
+      status: document.getElementById('editRemarks').value
     };
 
     const btn = document.getElementById('editSaveBtn');
@@ -1653,25 +1524,13 @@
     btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Saving...';
 
     try {
-      // Use IDENTIFICATION NUMBER for rock-solid targeting, fallback to PART'S NAME if ID was blank
-      const updateUrl = origIdent 
-        ? `${API_URL}/IDENTIFICATION%20NUMBER/${encodeURIComponent(origIdent)}`
-        : `${API_URL}/PART'S%20NAME/${encodeURIComponent(origName)}`;
-
-      const res = await fetch(updateUrl, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      if (res.ok) {
-        toastr.success('Part updated successfully!');
-        closeEditModal();
-        fetchRecords();
-      } else {
-        toastr.error('Could not update part. Verify column headers in your Google Sheet.');
-      }
+      const { error } = await sb.from('parts').update(payload).eq('id', row.id);
+      if (error) throw error;
+      toastr.success('Part updated successfully!');
+      closeEditModal();
+      fetchRecords();
     } catch (err) {
-      toastr.error('Network issue while saving changes.');
+      toastr.error('Could not update part.');
     } finally {
       btn.disabled = false;
       btn.innerHTML = '<i class="bi bi-check2-circle me-1"></i> Update &amp; Save Changes';
@@ -1729,78 +1588,64 @@
     const [y, m, d] = rawDate.split('-');
     const formattedDate = `${d}-${m}-${y}`;
 
-    const payload = {
-      data: partQueue.map(p => ({
-        "DISMENTLE DATE": formattedDate,
-        "VEHICLE NO": vehicleNo.toUpperCase(),
-        "MAKE": make.toUpperCase(),
-        "MODEL": model.toUpperCase(),
-        "YEAR": year,
-        "PART'S NAME": p.partName,
-        "QUANTITY": p.qty,
-        "PRICE": p.price || '',
-        "IMAGE URL": p.imageUrl || '',
-        "IDENTIFICATION NUMBER": p.identNo || document.getElementById('identNo').value.toUpperCase().trim(),
-        "REMARKS": p.remarks
-      }))
-    };
+    const rows = partQueue.map(p => ({
+      dismantle_date: formattedDate,
+      vehicle_no: vehicleNo.toUpperCase(),
+      make: make.toUpperCase(),
+      model: model.toUpperCase(),
+      year: year ? parseInt(year) : null,
+      part_name: p.partName,
+      quantity: parseInt(p.qty) || 1,
+      price: p.price ? parseFloat(p.price) : null,
+      image_url: p.imageUrl || null,
+      identification_number: p.identNo || document.getElementById('identNo').value.toUpperCase().trim() || null,
+      status: p.remarks
+    }));
 
     const btn = document.getElementById('submitBtn');
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Saving to Database...';
 
     try {
-      const res = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-      if (res.ok) {
-        toastr.success(`${partQueue.length} parts added to Google Sheets!`, "Success");
-        clearBatch();
-        document.getElementById('partName').value = '';
-        fetchRecords();
-      } else {
-        toastr.error("Could not write records. Verify SheetDB columns.", "Error");
-      }
+      const { error } = await sb.from('parts').insert(rows);
+      if (error) throw error;
+      toastr.success(`${partQueue.length} parts added!`, "Success");
+      clearBatch();
+      document.getElementById('partName').value = '';
+      fetchRecords();
     } catch (err) {
-      toastr.error("Network issue while connecting with API.", "Network Error");
+      toastr.error("Could not write records.", "Error");
     } finally {
       btn.disabled = false;
-      btn.innerHTML = '<i class="bi bi-cloud-arrow-up-fill"></i> Save Entries to Google Sheet';
+      btn.innerHTML = '<i class="bi bi-cloud-arrow-up-fill"></i> Save Entries to Database';
     }
   }
 
   async function updateRowStatus(origIdx, newStatus) {
     const row = getPartByIndex(origIdx);
     if (!row) return;
-    const origIdent = (row["IDENTIFICATION NUMBER"] || '').trim();
-    const origName = (row["PART'S NAME"] || '').trim();
     try {
       toastr.info(`Updating status to ${newStatus}...`);
-      const updateUrl = origIdent 
-        ? `${API_URL}/IDENTIFICATION%20NUMBER/${encodeURIComponent(origIdent)}`
-        : `${API_URL}/PART'S%20NAME/${encodeURIComponent(origName)}`;
-
-      const res = await fetch(updateUrl, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ data: { "REMARKS": newStatus } }) });
-      if (res.ok) { toastr.success(`Status updated to ${newStatus}`); fetchRecords(); }
+      const { error } = await sb.from('parts').update({ status: newStatus }).eq('id', row.id);
+      if (error) throw error;
+      toastr.success(`Status updated to ${newStatus}`);
+      fetchRecords();
     } catch (e) { toastr.error('Failed to update status.'); }
   }
 
   async function deleteRow(origIdx) {
     const row = getPartByIndex(origIdx);
     if (!row) return;
-    const origIdent = (row["IDENTIFICATION NUMBER"] || '').trim();
     const partName = row["PART'S NAME"];
     const imageUrl = row["IMAGE URL"];
-    if (!confirm(`Are you sure you want to delete "${partName}"? (Its photo on GitHub will also be deleted)`)) return;
+    if (!confirm(`Are you sure you want to delete "${partName}"? (Its photo will also be deleted)`)) return;
     try {
       toastr.info(`Deleting ${partName}...`);
-      if (imageUrl) await deleteImageFromGitHub(imageUrl);
-
-      const deleteUrl = origIdent 
-        ? `${API_URL}/IDENTIFICATION%20NUMBER/${encodeURIComponent(origIdent)}`
-        : `${API_URL}/PART'S%20NAME/${encodeURIComponent(partName)}`;
-
-      const res = await fetch(deleteUrl, { method: 'DELETE' });
-      if (res.ok) { toastr.success("Record and photo deleted."); fetchRecords(); }
-      else { toastr.error("Error deleting row from sheet."); }
+      if (imageUrl) await deleteImageFromStorage(imageUrl);
+      const { error } = await sb.from('parts').delete().eq('id', row.id);
+      if (error) throw error;
+      toastr.success("Record and photo deleted.");
+      fetchRecords();
     } catch (e) { toastr.error('Error deleting row.'); }
   }
 
@@ -1808,18 +1653,20 @@
     if (!rawRecords.length) return toastr.warning("No data to export!");
     let csv = "DISMENTLE DATE,VEHICLE NO,MAKE,MODEL,YEAR,PART'S NAME,QUANTITY,PRICE,IMAGE URL,IDENTIFICATION NUMBER,REMARKS\n";
     rawRecords.forEach(r => {
-      csv += `"${r['DISMENTLE DATE'] || ''}","${r['VEHICLE NO'] || ''}","${r['MAKE'] || ''}","${r['MODEL'] || ''}","${r['YEAR'] || ''}","${r["PART'S NAME"] || ''}","${r['QUANTITY'] || ''}","${r['PRICE'] || ''}","${r['IMAGE URL'] || ''}","${r['IDENTIFICATION NUMBER'] || ''}","${r['REMARKS'] || ''}"\n`;
+      csv += [r['DISMENTLE DATE'], r['VEHICLE NO'], r['MAKE'], r['MODEL'], r['YEAR'], r["PART'S NAME"], r['QUANTITY'], r['PRICE'], r['IMAGE URL'], r['IDENTIFICATION NUMBER'], r['REMARKS']]
+        .map(v => `"${(v || '').toString().replace(/"/g, '""')}"`).join(',') + '\n';
     });
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement("a");
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.setAttribute("download", `ECCEL_Inventory_${new Date().toISOString().slice(0,10)}.csv`);
-    document.body.appendChild(link);
+    link.download = `eccel-inventory-${new Date().toISOString().slice(0,10)}.csv`;
     link.click();
-    document.body.removeChild(link);
   }
 
-  /* STOREFRONT */
+  /* ============================================================
+     STOREFRONT (unchanged UI, now reads from `rawRecords` sourced
+     from Supabase instead of SheetDB)
+     ============================================================ */
   function renderCategoryStrip(data) {
     const makes = Array.from(new Set(data.map(r => (r['MAKE'] || '').trim().toUpperCase()).filter(Boolean))).sort();
     const strip = document.getElementById('categoryStrip');
@@ -1930,7 +1777,7 @@
     }).join('');
   }
 
-  /* CART LOGIC (INDEX ACCURATE) */
+  /* CART LOGIC — still local (localStorage) until checkout, unchanged */
   function loadCart() { try { cart = JSON.parse(localStorage.getItem('yb_cart') || '[]'); } catch(e) { cart = []; } }
   function saveCart() { localStorage.setItem('yb_cart', JSON.stringify(cart)); }
 
@@ -1940,6 +1787,7 @@
     if (cart.some(c => c.origIndex === origIdx)) return toastr.info('Already in your cart.');
     cart.push({
       origIndex: origIdx,
+      partId: row.id,
       partName: row["PART'S NAME"] || 'Part',
       vehicle: `${row['MAKE'] || ''} ${row['MODEL'] || ''}`.trim(),
       identNo: row['IDENTIFICATION NUMBER'] || '',
@@ -2002,7 +1850,15 @@
   function openCart() { document.getElementById('cartOffcanvas').classList.add('open'); document.getElementById('cartOverlay').classList.add('open'); }
   function closeCart() { document.getElementById('cartOffcanvas').classList.remove('open'); document.getElementById('cartOverlay').classList.remove('open'); }
 
-  /* CHECKOUT */
+  /* ============================================================
+     CHECKOUT + PAYMENT
+     1. create-razorpay-order Edge Function atomically reserves the
+        parts and opens a Razorpay order (server-side, key secret
+        never exposed).
+     2. Razorpay Checkout collects payment in the browser.
+     3. verify-razorpay-payment Edge Function checks the signature
+        server-side before marking anything paid/sold.
+     ============================================================ */
   function openCheckout() {
     if (!cart.length) return;
     const inner = document.getElementById('checkoutCardInner');
@@ -2017,7 +1873,7 @@
         <div class="mb-2"><label class="form-label small fw-semibold">Mobile Number</label><input class="form-control" id="custPhone" required /></div>
         <div class="mb-2"><label class="form-label small fw-semibold">Delivery / Workshop Address</label><textarea class="form-control" id="custAddress" rows="2" placeholder="Full address for shipping or local pickup point" required></textarea></div>
         <div class="mb-3"><label class="form-label small fw-semibold">Delivery Notes (optional)</label><input class="form-control" id="custNotes" placeholder="Preferred delivery time, landmark, etc." /></div>
-        <button type="submit" class="btn btn-amber w-100 py-3 fw-bold" id="placeOrderBtn"><i class="bi bi-bag-check-fill me-1"></i> Place Order</button>
+        <button type="submit" class="btn btn-amber w-100 py-3 fw-bold" id="placeOrderBtn"><i class="bi bi-shield-lock-fill me-1"></i> Pay ${money(cartTotal())} Securely</button>
       </form>
     `;
     document.getElementById('checkoutForm').addEventListener('submit', placeOrder);
@@ -2025,8 +1881,6 @@
   }
 
   function closeCheckout() { document.getElementById('checkoutModal').style.display = 'none'; }
-  function loadLocalOrders() { try { localOrders = JSON.parse(localStorage.getItem('yb_local_orders') || '[]'); } catch(e) { localOrders = []; } }
-  function saveLocalOrders() { localStorage.setItem('yb_local_orders', JSON.stringify(localOrders)); }
 
   async function placeOrder(e) {
     e.preventDefault();
@@ -2036,133 +1890,160 @@
     const notes = document.getElementById('custNotes').value.trim();
     if (!name || !phone || !address) return;
 
-    const refNum = 'EC' + Date.now().toString().slice(-8);
-    const itemsSummary = cart.map(c => `${c.partName} x${c.qty}`).join('; ');
-    const total = cartTotal();
-    const placedAt = new Date().toLocaleString();
-
-    const orderRecord = {
-      "ORDER REF": refNum, "PLACED AT": placedAt, "CUSTOMER NAME": name, "PHONE": phone,
-      "ADDRESS": address, "NOTES": notes, "ITEMS": itemsSummary, "TOTAL": total, "STATUS": "PENDING"
-    };
-
     const btn = document.getElementById('placeOrderBtn');
     btn.disabled = true;
-    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Placing Order...';
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Reserving your items...';
 
-    let savedOnline = false;
     try {
-      const res = await fetch(ORDERS_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ data: [orderRecord] }) });
-      savedOnline = res.ok;
-    } catch (err) { savedOnline = false; }
+      const res = await fetch(`${FUNCTIONS_URL}/create-razorpay-order`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          items: cart.map(c => ({ part_id: c.partId, qty: c.qty })),
+          customer: { name, phone, address, notes }
+        })
+      });
+      const order = await res.json();
+      if (!res.ok) {
+        toastr.error(order.error || 'Could not start checkout.');
+        btn.disabled = false;
+        btn.innerHTML = `<i class="bi bi-shield-lock-fill me-1"></i> Pay ${money(cartTotal())} Securely`;
+        if (res.status === 409) fetchRecords(); // parts changed under us — refresh
+        return;
+      }
 
-    if (!savedOnline) {
-      loadLocalOrders();
-      localOrders.push(orderRecord);
-      saveLocalOrders();
-    }
-
-    for (const c of cart) {
-      try {
-        const row = getPartByIndex(c.origIndex);
-        if (row) {
-          const origIdent = (row["IDENTIFICATION NUMBER"] || '').trim();
-          const origName = (row["PART'S NAME"] || '').trim();
-          const updateUrl = origIdent 
-            ? `${API_URL}/IDENTIFICATION%20NUMBER/${encodeURIComponent(origIdent)}`
-            : `${API_URL}/PART'S%20NAME/${encodeURIComponent(origName)}`;
-
-          await fetch(updateUrl, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ data: { "REMARKS": "RESERVED" } }) });
+      const rzp = new Razorpay({
+        key: order.key_id,
+        amount: order.amount,
+        currency: order.currency,
+        name: 'ECCEL',
+        description: `Order ${order.order_ref}`,
+        order_id: order.razorpay_order_id,
+        prefill: { name, contact: phone },
+        theme: { color: '#00b884' },
+        handler: async function (response) {
+          btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Verifying payment...';
+          try {
+            const verifyRes = await fetch(`${FUNCTIONS_URL}/verify-razorpay-payment`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                order_id: order.order_id,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature
+              })
+            });
+            const verify = await verifyRes.json();
+            if (verify.success) {
+              showOrderConfirmation(verify.order_ref);
+              cart = [];
+              saveCart();
+              renderCart();
+              fetchRecords();
+              fetchOrders();
+            } else {
+              toastr.error('Payment could not be verified. Please contact us with your payment ID.');
+            }
+          } catch (err) {
+            toastr.error('Network issue while verifying payment.');
+          }
+        },
+        modal: {
+          ondismiss: function () {
+            fetch(`${FUNCTIONS_URL}/cancel-order`, {
+              method: 'POST', headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ order_id: order.order_id })
+            }).catch(() => {});
+            btn.disabled = false;
+            btn.innerHTML = `<i class="bi bi-shield-lock-fill me-1"></i> Pay ${money(cartTotal())} Securely`;
+            toastr.info('Checkout cancelled — items released back to stock.');
+          }
         }
-      } catch (err) { }
+      });
+      rzp.open();
+    } catch (err) {
+      toastr.error('Network issue while starting checkout.');
+      btn.disabled = false;
+      btn.innerHTML = `<i class="bi bi-shield-lock-fill me-1"></i> Pay ${money(cartTotal())} Securely`;
     }
-
-    showOrderConfirmation(refNum, savedOnline);
-    cart = [];
-    saveCart();
-    renderCart();
-    fetchRecords();
-    fetchOrders();
   }
 
-  function showOrderConfirmation(refNum, savedOnline) {
+  function showOrderConfirmation(refNum) {
     const inner = document.getElementById('checkoutCardInner');
     inner.innerHTML = `
       <div class="text-center py-3">
         <div class="stat-icon bg-success-subtle text-success mx-auto mb-3" style="width:64px;height:64px;font-size:1.9rem;border-radius:18px;"><i class="bi bi-check2-circle"></i></div>
-        <h4 class="fw-bold mb-2">Order Placed!</h4>
-        <p class="text-muted small mb-3">Our team will confirm availability and reach out to arrange delivery or workshop pickup.</p>
+        <h4 class="fw-bold mb-2">Payment Successful!</h4>
+        <p class="text-muted small mb-3">Our team will confirm your order and reach out to arrange delivery or workshop pickup.</p>
         <span class="receipt-num">${refNum}</span>
         <button class="btn btn-outline-ink w-100 py-2 mt-3 fw-bold" onclick="closeCheckout(); closeCart();">Continue Browsing</button>
       </div>`;
   }
 
-  /* ORDERS TAB */
+  /* ORDERS TAB — staff-only, read directly from Supabase (RLS-protected) */
   async function fetchOrders() {
-    let onlineOrders = [];
+    let orders = [];
     try {
-      const res = await fetch(ORDERS_URL);
-      if (res.ok) onlineOrders = await res.json();
-    } catch (e) { }
-    loadLocalOrders();
-    const combined = [...onlineOrders, ...localOrders];
-    renderOrdersTable(combined);
+      const { data, error } = await sb.from('orders').select('*, order_items(part_name, qty, price)').order('created_at', { ascending: false });
+      if (error) throw error;
+      orders = (data || []).map(o => ({
+        ...o,
+        itemsSummary: (o.order_items || []).map(i => `${i.part_name} x${i.qty}`).join('; ')
+      }));
+    } catch (e) { /* not logged in yet, or RLS denied — fine, table just empty */ }
+    renderOrdersTable(orders);
 
-    // Update Live Login Preview Side Orders
     const liveOrdersEl = document.getElementById('loginLiveOrders');
     const liveFulfilledEl = document.getElementById('loginLiveFulfilled');
-    if (liveOrdersEl) liveOrdersEl.innerText = combined.length;
-    if (liveFulfilledEl) liveFulfilledEl.innerText = combined.filter(o => (o['STATUS']||'').toUpperCase() === 'FULFILLED').length;
+    if (liveOrdersEl) liveOrdersEl.innerText = orders.length;
+    if (liveFulfilledEl) liveFulfilledEl.innerText = orders.filter(o => o.status === 'FULFILLED').length;
   }
 
   function renderOrdersTable(orders) {
     const tbody = document.getElementById('ordersTableBody');
     document.getElementById('orderCount').innerText = orders.length;
     if (!orders.length) { tbody.innerHTML = `<tr><td colspan="8" class="text-center py-4 text-muted">No orders placed yet.</td></tr>`; return; }
-    
-    tbody.innerHTML = orders.slice().reverse().map(o => {
-      const status = (o['STATUS'] || 'PENDING').toUpperCase();
-      const badge = status === 'FULFILLED' ? 'bg-success' : (status === 'PENDING' ? '' : 'bg-secondary');
-      const style = status === 'PENDING' ? 'background:var(--gold-2);color:#fff;' : '';
-      
-      const phone = (o['PHONE'] || '').trim();
+
+    tbody.innerHTML = orders.map(o => {
+      const status = o.status || 'AWAITING_PAYMENT';
+      const badge = status === 'FULFILLED' ? 'bg-success' : (status === 'PAID' ? 'bg-primary' : (status === 'FAILED' || status === 'CANCELLED' ? 'bg-danger' : ''));
+      const style = status === 'PAID' || status === 'AWAITING_PAYMENT' ? 'background:var(--gold-2);color:#fff;' : '';
+
+      const phone = (o.customer_phone || '').trim();
       const phoneClean = phone.replace(/[^0-9]/g, '');
       const waLink = phoneClean ? `<a href="https://wa.me/${phoneClean}" target="_blank" class="btn btn-sm btn-outline-success py-0 px-2 mt-1" style="font-size:0.75rem;"><i class="bi bi-whatsapp me-1"></i>Chat</a>` : '';
 
       return `
         <tr>
-          <td class="mono fw-bold text-nowrap">${o['ORDER REF'] || '-'}</td>
-          <td class="text-nowrap small text-muted">${o['PLACED AT'] || '-'}</td>
+          <td class="mono fw-bold text-nowrap">${o.order_ref || '-'}</td>
+          <td class="text-nowrap small text-muted">${new Date(o.created_at).toLocaleString()}</td>
           <td>
-            <div class="fw-bold text-dark">${o['CUSTOMER NAME'] || '-'}</div>
+            <div class="fw-bold text-dark">${o.customer_name || '-'}</div>
             <div class="mono small text-secondary">${phone || '-'}</div>
             ${waLink}
           </td>
           <td>
-            <div class="small fw-semibold text-dark mb-1"><i class="bi bi-geo-alt-fill text-danger me-1"></i>${o['ADDRESS'] || 'No address provided'}</div>
-            ${o['NOTES'] ? `<div class="small text-muted fst-italic"><i class="bi bi-chat-left-text me-1"></i>"${o['NOTES']}"</div>` : ''}
+            <div class="small fw-semibold text-dark mb-1"><i class="bi bi-geo-alt-fill text-danger me-1"></i>${o.customer_address || 'No address provided'}</div>
+            ${o.customer_notes ? `<div class="small text-muted fst-italic"><i class="bi bi-chat-left-text me-1"></i>"${o.customer_notes}"</div>` : ''}
           </td>
-          <td class="small">${o['ITEMS'] || '-'}</td>
-          <td class="fw-bold text-dark">${o['TOTAL'] ? money(o['TOTAL']) : '-'}</td>
+          <td class="small">${o.itemsSummary || '-'}</td>
+          <td class="fw-bold text-dark">${o.total ? money(o.total) : '-'}</td>
           <td><span class="badge ${badge}" style="${style}">${status}</span></td>
           <td class="text-center text-nowrap">
-            ${status !== 'FULFILLED' ? `<button class="btn btn-outline-ink btn-sm py-1 px-3 fw-bold" onclick="markOrderFulfilled('${o['ORDER REF']}')"><i class="bi bi-check2"></i> Fulfil</button>` : '<span class="text-muted small fw-semibold"><i class="bi bi-check-all text-success fs-6 me-1"></i>Done</span>'}
+            ${status === 'PAID' ? `<button class="btn btn-outline-ink btn-sm py-1 px-3 fw-bold" onclick="markOrderFulfilled('${o.id}')"><i class="bi bi-check2"></i> Fulfil</button>` : (status === 'FULFILLED' ? '<span class="text-muted small fw-semibold"><i class="bi bi-check-all text-success fs-6 me-1"></i>Done</span>' : '<span class="text-muted small">—</span>')}
           </td>
         </tr>`;
     }).join('');
   }
 
-  async function markOrderFulfilled(refNum) {
+  async function markOrderFulfilled(orderId) {
     try {
-      const updateUrl = `${ORDERS_URL.split('?')[0]}/ORDER%20REF/${encodeURIComponent(refNum)}?sheet=Orders`;
-      const res = await fetch(updateUrl, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ data: { "STATUS": "FULFILLED" } }) });
-      if (!res.ok) throw new Error('online update failed');
+      const { error } = await sb.from('orders').update({ status: 'FULFILLED' }).eq('id', orderId);
+      if (error) throw error;
       toastr.success('Order marked fulfilled.');
     } catch (e) {
-      loadLocalOrders();
-      const local = localOrders.find(o => o['ORDER REF'] === refNum);
-      if (local) { local['STATUS'] = 'FULFILLED'; saveLocalOrders(); toastr.success('Order marked fulfilled (local).'); }
-      else toastr.warning('Could not update order status online.');
+      toastr.warning('Could not update order status.');
     }
     fetchOrders();
   }
@@ -2173,7 +2054,6 @@
   checkSession();
   fetchRecords();
   fetchOrders();
-  fetchUsers();
 </script>
 </body>
 </html>
